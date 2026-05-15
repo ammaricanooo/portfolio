@@ -3,6 +3,8 @@
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { scramble } from "../lib/scramble";
+import TransitionLink from "./TransitionLink";
+import { useLoader } from "../lib/loaderContext";
 
 interface HeaderProps {
   activePage?: "about" | "work" | "";
@@ -10,15 +12,22 @@ interface HeaderProps {
 
 export default function Header({ activePage = "" }: HeaderProps) {
   const labsBtnRef = useRef<HTMLDivElement>(null);
-  const nameRef    = useRef<HTMLAnchorElement>(null);
+  const nameRef    = useRef<HTMLSpanElement>(null);
+  const { ready }  = useLoader();
+
+  // Fade in saat ready, reset opacity-0 dulu setiap kali re-mount
+  useEffect(() => {
+    gsap.set(".header-anim", { opacity: 0 });
+  }, []);
 
   useEffect(() => {
-    gsap.to(".header-anim", { opacity: 1, duration: 0.6, delay: 0.1 });
-    // Lock the name link width so scramble characters never push layout
+    if (!ready) return;
+    // Lock width sebelum animate
     if (nameRef.current) {
       nameRef.current.style.width = `${nameRef.current.offsetWidth}px`;
     }
-  }, []);
+    gsap.to(".header-anim", { opacity: 1, duration: 0.5, ease: "power3.out", delay: 0.1 });
+  }, [ready]);
 
   const onHover = (e: React.MouseEvent<HTMLAnchorElement>, text: string) => {
     scramble(e.currentTarget.querySelector<HTMLElement>(".sc"), text, 0.4, true);
@@ -39,14 +48,13 @@ export default function Header({ activePage = "" }: HeaderProps) {
   return (
     <header className="header-anim fixed inset-x-0 top-0 z-50 py-6 opacity-0 mix-blend-difference text-white tracking-wide">
       <div className="mx-auto flex items-center justify-between px-4 md:px-16">
-        <a
-          ref={nameRef}
+        <TransitionLink
           href="/"
           className="font-mono text-sm uppercase mr-8"
           onMouseEnter={(e) => onHover(e, "Ammar Abdul Malik")}
         >
-          <span className="sc">Ammar Abdul Malik</span>
-        </a>
+          <span ref={nameRef} className="sc">Ammar Abdul Malik</span>
+        </TransitionLink>
 
         <ul className="flex items-center gap-8 md:gap-12">
           {(["About", "Work"] as const).map((item) => {
@@ -58,14 +66,14 @@ export default function Header({ activePage = "" }: HeaderProps) {
                     {item}
                   </span>
                 ) : (
-                  <a
+                  <TransitionLink
                     href={`/${item.toLowerCase()}`}
                     className="group relative font-mono text-sm uppercase"
                     onMouseEnter={(e) => onHover(e, item)}
                   >
                     <span className="sc">{item}</span>
                     <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-current transition-all duration-300 group-hover:w-full" />
-                  </a>
+                  </TransitionLink>
                 )}
               </li>
             );

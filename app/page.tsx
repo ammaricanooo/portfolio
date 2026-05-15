@@ -153,6 +153,67 @@ export default function Home() {
         ease: "none",
       });
 
+      // Hero bottom bar
+      gsap.fromTo(".hero-bottom",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.6, ease: "power3.out", stagger: 0.1, delay: 1.2 }
+      );
+
+      // Circle section — label + logos
+      gsap.fromTo(".circle-label",
+        { opacity: 0 },
+        {
+          opacity: 1, duration: 0.6, ease: "power3.out",
+          scrollTrigger: { trigger: ".circle-label", start: "top 85%", once: true },
+        }
+      );
+      gsap.fromTo(".tech-logo",
+        { opacity: 0 },
+        {
+          opacity: 0.4, duration: 0.5, ease: "power3.out", stagger: 0.08,
+          scrollTrigger: { trigger: ".circle-label", start: "top 80%", once: true },
+        }
+      );
+
+      // Work section — heading + label
+      gsap.fromTo(".work-heading",
+        { opacity: 0 },
+        {
+          opacity: 1, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: ".work-section", start: "top 50%", once: true },
+        }
+      );
+      gsap.fromTo(".work-label",
+        { opacity: 0 },
+        {
+          opacity: 0.4, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: ".work-section", start: "top 50%", once: true },
+        }
+      );
+
+      // Contact section — heading + paragraph + button + bottom info
+      gsap.fromTo(".contact-heading",
+        { opacity: 0 },
+        {
+          opacity: 1, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: ".contact-section", start: "top 50%", once: true },
+        }
+      );
+      gsap.fromTo(".contact-body",
+        { opacity: 0 },
+        {
+          opacity: 1, duration: 1, ease: "power3.out", stagger: 0.12,
+          scrollTrigger: { trigger: ".contact-section", start: "top 50%", once: true },
+        }
+      );
+      gsap.fromTo(".contact-bottom",
+        { opacity: 0 },
+        {
+          opacity: 0.3, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: ".contact-section", start: "top 50%", once: true },
+        }
+      );
+
     }, containerRef);
     return () => ctx.revert();
   }, [ready]);
@@ -191,11 +252,11 @@ export default function Home() {
             </p>
           </div>
           <div className="absolute bottom-6 inset-x-0 px-8 md:px-16 flex items-end justify-between">
-            <span className="font-mono text-[10px] font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
+            <span className="hero-bottom font-mono text-[10px] font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-600 opacity-0">
               Bogor, Indonesia
             </span>
-            <div className="c-scrolldown" />
-            <span className="font-mono text-[10px] font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
+            <div className="hero-bottom c-scrolldown opacity-0" />
+            <span className="hero-bottom font-mono text-[10px] font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-600 opacity-0">
               {time || "00:00 AM"}<span className="hidden md:inline"> (GMT +7)</span>
             </span>
           </div>
@@ -255,7 +316,7 @@ export default function Home() {
               </div>
             </div>
             <div className="mt-16 text-center">
-              <p className="mb-8 font-mono text-[10px] font-semibold uppercase tracking-widest opacity-40">
+              <p className="circle-label mb-8 font-mono text-[10px] font-semibold uppercase tracking-widest opacity-0">
                 Most Favorite Tech
               </p>
               <div className="group/logos flex flex-wrap items-center justify-center gap-10 md:gap-16">
@@ -264,7 +325,7 @@ export default function Home() {
                     key={t.alt}
                     src={t.src}
                     alt={t.alt}
-                    className="h-7 w-auto object-contain grayscale opacity-40 transition-all duration-500 hover:grayscale-0 hover:opacity-100! group-hover/logos:opacity-20 md:gap-16"
+                    className="tech-logo h-7 w-auto object-contain grayscale opacity-0 transition-[filter] duration-500 hover:grayscale-0 hover:opacity-100! group-hover/logos:opacity-20 md:gap-16"
                   />
                 ))}
               </div>
@@ -275,10 +336,10 @@ export default function Home() {
         {/* ══ WORK ════════════════════════════════════════════════════════════ */}
         <section className="border-t border-zinc-200 px-8 py-24 dark:border-zinc-800 md:px-16 work-section">
           <div className="mb-10 flex items-end justify-between">
-            <h2 className="font-serif text-2xl uppercase leading-none tracking-tighter md:text-4xl">
+            <h2 className="work-heading opacity-0 font-serif text-2xl uppercase leading-none tracking-tighter md:text-4xl">
               Selected <em className="not-italic font-bold blink-word-2">Work</em>
             </h2>
-            <span className="mb-1 font-mono text-[10px] uppercase tracking-widest opacity-40">
+            <span className="work-label mb-1 font-mono text-[10px] uppercase tracking-widest opacity-0">
               (Projects / '23–'26)
             </span>
           </div>
@@ -287,20 +348,20 @@ export default function Home() {
 
         {/* ══ CONTACT ══════════════════════════════════════════════════════════ */}
         <section className="border-t border-zinc-200 px-8 py-24 dark:border-zinc-800 md:px-16 contact-section">
-          <h2 className="mb-6 font-sans text-4xl font-semibold uppercase leading-none tracking-tighter md:text-6xl">
+          <h2 className="contact-heading opacity-0 mb-6 font-sans text-4xl font-semibold uppercase leading-none tracking-tighter md:text-6xl">
             <span className="font-serif italic">Let's Have</span> <span className="blink-word-3">a Chat</span>
           </h2>
-          <p className="mb-10 max-w-xs font-mono text-sm uppercase leading-relaxed opacity-60">
+          <p className="contact-body mb-10 max-w-xs font-mono text-sm uppercase leading-relaxed opacity-0">
             Whether it's an idea or just a hello<br />— my inbox is open.
           </p>
           <a
             href="mailto:ammarithm@gmail.com"
-            className="group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-black px-8 py-3 font-mono text-xs uppercase tracking-widest transition-all duration-500 dark:border-white"
+            className="contact-body opacity-0 group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-black px-8 py-3 font-mono text-xs uppercase tracking-widest transition-all duration-500 dark:border-white"
           >
             <span className="absolute inset-0 translate-y-full bg-black transition-transform duration-500 group-hover:translate-y-0" />
             <span className="relative mix-blend-difference text-white">Get in Touch</span>
           </a>
-          <div className="mt-20 flex flex-col items-end gap-1 font-mono text-[10px] uppercase tracking-widest opacity-30">
+          <div className="contact-bottom mt-20 flex flex-col items-end gap-1 font-mono text-[10px] uppercase tracking-widest opacity-0">
             <span>Based in Indonesia</span>
             <span>{time || "00:00 AM"} (GMT +7)</span>
           </div>

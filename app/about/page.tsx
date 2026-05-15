@@ -165,8 +165,8 @@ export default function AboutPage() {
 
       // Tags fade in
       gsap.fromTo(".about-hero-tag",
-        { opacity: 0, y: 8 },
-        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", stagger: 0.1, delay: 0.3 }
+        { opacity: 0 },
+        { opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.1, delay: 0.3 }
       );
 
       // Clip reveal untuk gambar Ammar dari atas ke bawah
@@ -188,56 +188,76 @@ export default function AboutPage() {
 
       // Journey
       gsap.fromTo(".journey-heading",
-        { opacity: 0, y: 20 },
+        { opacity: 0 },
         {
-          opacity: 1, y: 0, duration: 0.6, ease: "power3.out",
-          scrollTrigger: { trigger: ".journey-section", start: "top 80%", once: true },
+          opacity: 1, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: ".journey-section", start: "top 55%", once: true },
         }
       );
       gsap.utils.toArray<HTMLElement>(".journey-word").forEach((word) => {
         gsap.fromTo(word,
           { opacity: 0.08 },
-          { opacity: 1, scrollTrigger: { trigger: word, start: "top 88%", end: "top 65%", scrub: 0.4 } }
+          { opacity: 1, scrollTrigger: { trigger: word, start: "top 70%", end: "top 55%", scrub: 0.6 } }
         );
       });
 
       // Tech
       gsap.fromTo(".tech-heading",
-        { opacity: 0, y: 20 },
+        { opacity: 0 },
         {
-          opacity: 1, y: 0, duration: 0.6, ease: "power3.out",
-          scrollTrigger: { trigger: ".tech-section", start: "top 80%", once: true },
+          opacity: 1, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: ".tech-section", start: "top 50%", once: true },
         }
       );
       gsap.fromTo(".tech-accordion",
-        { opacity: 0, y: 15 },
+        { opacity: 0 },
         {
-          opacity: 1, y: 0, duration: 0.5, ease: "power3.out",
-          scrollTrigger: { trigger: ".tech-section", start: "top 75%", once: true },
+          opacity: 1, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: ".tech-section", start: "top 15%", once: true },
         }
       );
 
+      // Section labels (/00-2, /00-3, /00-4)
+      gsap.utils.toArray<HTMLElement>(".section-label").forEach((el) => {
+        gsap.fromTo(el,
+          { opacity: 0 },
+          {
+            opacity: 1, duration: 1, ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 68%", once: true },
+          }
+        );
+      });
+
       // Interest
       gsap.fromTo(".interest-heading",
-        { opacity: 0, y: 20 },
+        { opacity: 0 },
         {
-          opacity: 1, y: 0, duration: 0.6, ease: "power3.out",
-          scrollTrigger: { trigger: ".interest-section", start: "top 80%", once: true },
+          opacity: 1, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: ".interest-section", start: "top 50%", once: true },
         }
       );
       gsap.utils.toArray<HTMLElement>(".interest-word").forEach((word) => {
         gsap.fromTo(word,
           { opacity: 0.08 },
-          { opacity: 1, scrollTrigger: { trigger: word, start: "top 88%", end: "top 65%", scrub: 0.4 } }
+          { opacity: 1, scrollTrigger: { trigger: word, start: "top 68%", end: "top 65%", scrub: 0.4 } }
         );
       });
 
+      // Interest image fade-in
+      gsap.fromTo(".interest-img",
+        { opacity: 0 },
+        {
+          opacity: 1, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: ".interest-img", start: "top 55%", once: true },
+        }
+      );
+
       // CTA
       gsap.fromTo(".cta-section",
-        { opacity: 0, y: 30 },
+        { opacity: 0 },
         {
-          opacity: 1, y: 0, duration: 0.8, ease: "power3.out",
-          scrollTrigger: { trigger: ".cta-section", start: "top 80%", once: true },
+          opacity: 1, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: ".cta-section", start: "top 50%", once: true },
         }
       );
 
@@ -255,7 +275,7 @@ export default function AboutPage() {
       <main className="w-full">
 
         {/* ══ HERO ══════════════════════════════════════════════════════════════ */}
-        <section className="relative flex min-h-screen flex-col justify-start px-8 pt-[20vh] md:pt-[32vh] pb-10 md:px-16">
+        <section className="relative flex flex-col justify-start px-8 pt-[20vh] md:pt-[32vh] md:px-16">
 
           {/* Tags — kiri & kanan, sama posisi dengan bottom bar homepage */}
           <div className="mb-6 flex items-center justify-between">
@@ -282,7 +302,7 @@ export default function AboutPage() {
           </div>
 
           {/* Photo — pojok kanan */}
-          <div className="about-hero-img opacity-0 mt-auto flex justify-end mb-8">
+          <div className="about-hero-img opacity-0 mt-6 flex justify-end mb-8">
             <div className="overflow-hidden ammar-clip"
               style={{
                 width: "clamp(140px, 22vw, 320px)",
@@ -297,8 +317,11 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Journey — langsung di bawah foto, dalam hero section */}
-          <div className="journey-section grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-16 pb-8">
+        </section>
+
+        {/* ══ JOURNEY ═══════════════════════════════════════════════════════════ */}
+        <section className="journey-section px-8 pb-16 md:px-16 md:py-24">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-7">
               <h3 className="journey-heading opacity-0 font-serif text-2xl uppercase leading-tight md:text-4xl">
                 A Journey of Progression
@@ -320,9 +343,8 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ══ TECH STACK ════════════════════════════════════════════════════════ */}
         <section className="tech-section border-t border-zinc-200 dark:border-zinc-800 px-8 py-16 md:px-16 md:py-24">
-          <p className="mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
+          <p className="section-label opacity-0 mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
             /00-2
           </p>
 
@@ -341,7 +363,7 @@ export default function AboutPage() {
 
         {/* ══ PERSONAL INTEREST ═════════════════════════════════════════════════ */}
         <section className="interest-section border-t border-zinc-200 dark:border-zinc-800 px-8 py-16 md:px-16 md:py-24">
-          <p className="mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
+          <p className="section-label opacity-0 mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
             /00-3
           </p>
 
@@ -366,7 +388,7 @@ export default function AboutPage() {
               </div>
 
               {/* Image dengan efek zoom + parallax */}
-              <div className="aspect-video w-full overflow-hidden bg-zinc-200 dark:bg-zinc-800">
+              <div className="interest-img opacity-0 aspect-video w-full overflow-hidden bg-zinc-200 dark:bg-zinc-800">
                 <img
                   src="music.png"
                   alt=""
@@ -379,7 +401,7 @@ export default function AboutPage() {
                 <p>
                   {INTEREST_P2.split(" ").map((word, i) => (
                     <Fragment key={i}>
-                      <span className="interest-word inline-block">{word}</span>{" "}
+                      <span className="interest-word inline-block opacity-10">{word}</span>{" "}
                     </Fragment>
                   ))}
                 </p>
@@ -408,7 +430,7 @@ export default function AboutPage() {
 
             {/* Right: CTA */}
             <div className="md:col-span-5">
-              <p className="mb-4 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
+              <p className="section-label opacity-0 mb-4 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
                 /00-4
               </p>
               <h2 className="mb-6 text-3xl font-medium uppercase leading-tight">

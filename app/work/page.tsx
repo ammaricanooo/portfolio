@@ -36,15 +36,15 @@ export default function WorkPage() {
     if (!ready) return;
     const ctx = gsap.context(() => {
 
-      // Hero entrance
+      // Hero entrance — pure opacity
       gsap.timeline()
         .fromTo(".work-hero-label",
-          { opacity: 0, y: 8 },
-          { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }
+          { opacity: 0 },
+          { opacity: 1, duration: 0.4, ease: "power3.out" }
         )
         .fromTo(".work-hero-title",
-          { opacity: 0, y: 40 },
-          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+          { opacity: 0 },
+          { opacity: 1, duration: 0.5, ease: "power3.out" },
           "-=0.2"
         )
         .fromTo(".work-hero-meta",
@@ -52,6 +52,28 @@ export default function WorkPage() {
           { opacity: 1, duration: 0.5 },
           "-=0.3"
         );
+
+      // Fade in work-list section border
+      gsap.fromTo(".work-list-section",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.5, ease: "power3.out", delay: 0.3 }
+      );
+
+      // Scroll sections
+      gsap.fromTo(".work-count",
+        { opacity: 0 },
+        {
+          opacity: 1, duration: 0.6, ease: "power3.out",
+          scrollTrigger: { trigger: ".work-count", start: "top 80%", once: true },
+        }
+      );
+      gsap.fromTo(".work-cta",
+        { opacity: 0 },
+        {
+          opacity: 1, duration: 0.6, ease: "power3.out",
+          scrollTrigger: { trigger: ".work-cta", start: "top 80%", once: true },
+        }
+      );
 
     }, containerRef);
     return () => ctx.revert();
@@ -90,12 +112,12 @@ export default function WorkPage() {
         </section>
 
         {/* ══ WORK LIST ═══════════════════════════════════════════════════ */}
-        <section className="work-list border-t border-zinc-200 dark:border-zinc-800 px-8 md:px-16">
+        <section className="border-t border-zinc-200 dark:border-zinc-800 px-8 md:px-16 opacity-0 work-list-section">
           <WorkList projects={WORK_PROJECTS} />
         </section>
 
         {/* ══ PROJECT COUNT ═══════════════════════════════════════════════ */}
-        <section className="border-t border-zinc-200 dark:border-zinc-800 px-8 py-16 md:px-16 bg-white dark:bg-zinc-950">
+        <section className="border-t border-zinc-200 dark:border-zinc-800 px-8 py-16 md:px-16 bg-white dark:bg-zinc-950 opacity-0 work-count">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-widest opacity-40 mb-2">Total Projects</p>
@@ -112,7 +134,7 @@ export default function WorkPage() {
         </section>
 
         {/* ══ CTA ═════════════════════════════════════════════════════════ */}
-        <section className="border-t border-zinc-200 dark:border-zinc-800 px-8 py-24 md:px-16 md:py-32">
+        <section className="border-t border-zinc-200 dark:border-zinc-800 px-8 py-24 md:px-16 md:py-32 opacity-0 work-cta">
           <h2 className="mb-10 font-serif text-4xl uppercase leading-none tracking-tight md:text-6xl">
             Have a Project<br />in Mind?
           </h2>

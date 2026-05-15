@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Manrope, Playfair_Display } from "next/font/google";
+import { JetBrains_Mono, Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import PageLoader from "./components/PageLoader";
 import SmoothScroll from "./components/SmoothScroll";
 import { LoaderProvider } from "./lib/loaderContext";
 import "./globals.css";
 
-const manrope = Manrope({
-  variable: "--font-manrope",
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plusjakartasans",
   subsets: ["latin"],
   display: "swap",
 });
@@ -17,8 +17,8 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   display: "swap",
 });
@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${manrope.variable} ${playfair.variable} ${geistMono.variable} antialiased`}
+        className={`${plusJakartaSans.variable} ${playfair.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <LoaderProvider>
           <PageLoader />

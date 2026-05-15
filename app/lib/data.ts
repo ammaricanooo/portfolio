@@ -4,7 +4,7 @@ export const SOCIALS = [
   { label: "LinkedIn",    href: "https://linkedin.com/in/ammaricano" },
   { label: "GitHub",      href: "https://github.com/ammaricanooo" },
   { label: "Instagram",   href: "https://instagram.com/ammaricano" },
-  { label: "X (Twitter)", href: "#" },
+  { label: "Threads", href: "https://threads.com/@ammaricano" },
 ];
 
 export const WORK_PROJECTS = [

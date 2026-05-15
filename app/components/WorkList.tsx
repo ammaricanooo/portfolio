@@ -23,10 +23,7 @@ export default function WorkList({ projects }: WorkListProps) {
   const { ready } = useLoader();
 
   // Hide rows immediately on mount — no flash
-  useEffect(() => {
-    if (!listRef.current) return;
-    gsap.set(".work-row", { opacity: 0, x: -40 });
-  }, []);
+  // (opacity-0 sudah di-set via class di JSX, useEffect ini tidak diperlukan)
 
   // Entrance animation — left to right, then scramble text
   useEffect(() => {
@@ -94,7 +91,7 @@ export default function WorkList({ projects }: WorkListProps) {
           onMouseEnter={handleWorkEnter}
           onMouseLeave={handleWorkLeave}
           className={
-            "work-row group relative overflow-hidden px-2 py-5 md:py-12" +
+            "work-row opacity-0 group relative overflow-hidden px-2 py-5 md:py-12" +
             (i !== 0 ? " border-t border-zinc-200 dark:border-zinc-800" : "")
           }
         >

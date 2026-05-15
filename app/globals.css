@@ -18,15 +18,15 @@
   --color-foreground: var(--foreground);
 
   /* Font families */
-  --font-sans:  var(--font-manrope);
+  --font-sans:  var(--font-plusjakartasans);
   --font-serif: var(--font-playfair);
-  --font-mono:  var(--font-geist-mono);
+  --font-mono:  var(--font-jetbrains-mono);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-family: var(--font-plusjakartasans), system-ui, sans-serif;
 }
 
 /* ─── Scroll indicator ───────────────────────────────────── */
