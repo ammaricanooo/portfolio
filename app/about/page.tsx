@@ -160,13 +160,13 @@ export default function AboutPage() {
         )
         .set(".reveal-content", { opacity: 1 })
         .to(".reveal-block",
-          { scaleX: 0, transformOrigin: "right", duration: 0.7, ease: "power4.inOut" }
+          { scaleX: 0, transformOrigin: "right", duration: 0.7, ease: "power4.inOut", delay: 0.5 }
         );
 
       // Tags fade in
       gsap.fromTo(".about-hero-tag",
         { opacity: 0 },
-        { opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.1, delay: 0.3 }
+        { opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.1 }
       );
 
       // Clip reveal untuk gambar Ammar dari atas ke bawah
@@ -190,8 +190,15 @@ export default function AboutPage() {
       gsap.fromTo(".journey-heading",
         { opacity: 0 },
         {
-          opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".journey-section", start: "top 55%", once: true },
+          opacity: 1, duration: 1, ease: "power3.out", delay: 1,
+          scrollTrigger: { trigger: ".journey-section", start: "top 100%", once: true },
+        }
+      );
+      gsap.fromTo(".journey-word-section",
+        { opacity: 0 },
+        {
+          opacity: 1, duration: 1, ease: "power3.out", delay: 1.2,
+          scrollTrigger: { trigger: ".journey-word-section", start: "top 100%", once: true },
         }
       );
       gsap.utils.toArray<HTMLElement>(".journey-word").forEach((word) => {
@@ -206,14 +213,14 @@ export default function AboutPage() {
         { opacity: 0 },
         {
           opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".tech-section", start: "top 50%", once: true },
+          scrollTrigger: { trigger: ".tech-section", start: "top 60%", once: true },
         }
       );
       gsap.fromTo(".tech-accordion",
         { opacity: 0 },
         {
           opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".tech-section", start: "top 15%", once: true },
+          scrollTrigger: { trigger: ".tech-section", start: "top 40%", once: true },
         }
       );
 
@@ -328,7 +335,7 @@ export default function AboutPage() {
               </h3>
             </div>
             <div className="md:col-span-5">
-              <div className="space-y-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base">
+              <div className="journey-word-section opacity-0 space-y-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base">
                 {JOURNEY_PARAGRAPHS.map((para, pi) => (
                   <p key={pi}>
                     {para.split(" ").map((word, i) => (

@@ -9,7 +9,7 @@ interface FooterProps {
 export default function Footer({ time }: FooterProps) {
   return (
     <footer className="border-t border-zinc-200 px-8 py-8 dark:border-zinc-800 md:px-16">
-      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
           <span className="font-mono text-[10px] uppercase tracking-widest opacity-30">
             © 2026 — Ammar Abdul Malik
@@ -20,7 +20,12 @@ export default function Footer({ time }: FooterProps) {
             </span>
           )}
         </div>
-        <ul className="flex flex-wrap gap-6">
+        <div className="w-full flex justify-center overflow-hidden">
+          <h1 className="font-serif font-bold text-[14vw] leading-none">
+            ammaricano
+          </h1>
+        </div>
+        <ul className="flex flex-wrap justify-end gap-6">
           {SOCIALS.map((s) => (
             <li key={s.label}>
               <a

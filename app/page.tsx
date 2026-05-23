@@ -111,7 +111,7 @@ export default function Home() {
 
       // Blink words — sekali saja
       gsap.to(".blink-word", {
-        scrollTrigger: { trigger: ".circle-section", start: "top 30%", once: true },
+        scrollTrigger: { trigger: ".circle-section", start: "top 50%", once: true },
         keyframes: [
           { opacity: 1, duration: 0.1 },
           { opacity: 0.2, duration: 0.1 },
@@ -125,7 +125,7 @@ export default function Home() {
         ease: "none",
       });
       gsap.to(".blink-word-2", {
-        scrollTrigger: { trigger: ".work-section", start: "top 60%", once: true },
+        scrollTrigger: { trigger: ".work-section", start: "top 70%", once: true },
         keyframes: [
           { opacity: 1, duration: 0.1 },
           { opacity: 0.2, duration: 0.1 },
@@ -136,10 +136,11 @@ export default function Home() {
           { opacity: 1, duration: 0.3 },
         ],
         stagger: 0.25,
+        delay: 0.3,
         ease: "none",
       });
       gsap.to(".blink-word-3", {
-        scrollTrigger: { trigger: ".contact-section", start: "top 60%", once: true },
+        scrollTrigger: { trigger: ".contact-section", start: "top 70%", once: true },
         keyframes: [
           { opacity: 1, duration: 0.1 },
           { opacity: 0.2, duration: 0.1 },
@@ -150,6 +151,7 @@ export default function Home() {
           { opacity: 1, duration: 0.3 },
         ],
         stagger: 0.25,
+        delay: 0.3,
         ease: "none",
       });
 
@@ -180,14 +182,21 @@ export default function Home() {
         { opacity: 0 },
         {
           opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".work-section", start: "top 50%", once: true },
+          scrollTrigger: { trigger: ".work-section", start: "top 70%", once: true },
         }
       );
       gsap.fromTo(".work-label",
         { opacity: 0 },
         {
           opacity: 0.4, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".work-section", start: "top 50%", once: true },
+          scrollTrigger: { trigger: ".work-section", start: "top 70%", once: true },
+        }
+      );
+      gsap.fromTo(".work-list",
+        { opacity: 0 },
+        {
+          opacity: 1, duration: 1, ease: "power3.out", delay: 0.5,
+          scrollTrigger: { trigger: ".work-section", start: "top 70%", once: true },
         }
       );
 
@@ -196,21 +205,21 @@ export default function Home() {
         { opacity: 0 },
         {
           opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".contact-section", start: "top 50%", once: true },
+          scrollTrigger: { trigger: ".contact-section", start: "top 70%", once: true },
         }
       );
       gsap.fromTo(".contact-body",
         { opacity: 0 },
         {
-          opacity: 1, duration: 1, ease: "power3.out", stagger: 0.12,
-          scrollTrigger: { trigger: ".contact-section", start: "top 50%", once: true },
+          opacity: 1, duration: 1, ease: "power3.out", stagger: 0.12, delay: 0.5,
+          scrollTrigger: { trigger: ".contact-section", start: "top 70%", once: true },
         }
       );
       gsap.fromTo(".contact-bottom",
         { opacity: 0 },
         {
           opacity: 0.3, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".contact-section", start: "top 50%", once: true },
+          scrollTrigger: { trigger: ".contact-section", start: "top 90%", once: true },
         }
       );
 
@@ -336,8 +345,8 @@ export default function Home() {
         {/* ══ WORK ════════════════════════════════════════════════════════════ */}
         <section className="border-t border-zinc-200 px-8 py-24 dark:border-zinc-800 md:px-16 work-section">
           <div className="mb-10 flex items-end justify-between">
-            <h2 className="work-heading opacity-0 font-serif text-2xl uppercase leading-none tracking-tighter md:text-4xl">
-              Selected <em className="not-italic font-bold blink-word-2">Work</em>
+            <h2 className="font-serif text-2xl uppercase leading-none tracking-tighter md:text-4xl">
+              <span className="work-heading opacity-0">Selected</span> <em className="not-italic font-bold blink-word-2 opacity-0">Work</em>
             </h2>
             <span className="work-label mb-1 font-mono text-[10px] uppercase tracking-widest opacity-0">
               (Projects / '23–'26)
@@ -348,8 +357,8 @@ export default function Home() {
 
         {/* ══ CONTACT ══════════════════════════════════════════════════════════ */}
         <section className="border-t border-zinc-200 px-8 py-24 dark:border-zinc-800 md:px-16 contact-section">
-          <h2 className="contact-heading opacity-0 mb-6 font-sans text-4xl font-semibold uppercase leading-none tracking-tighter md:text-6xl">
-            <span className="font-serif italic">Let's Have</span> <span className="blink-word-3">a Chat</span>
+          <h2 className="mb-6 font-sans text-4xl font-semibold uppercase leading-none tracking-tighter md:text-6xl">
+            <span className="font-serif italic contact-heading opacity-0">Let's Have</span> <span className="opacity-0 blink-word-3">a Chat</span>
           </h2>
           <p className="contact-body mb-10 max-w-xs font-mono text-sm uppercase leading-relaxed opacity-0">
             Whether it's an idea or just a hello<br />— my inbox is open.
