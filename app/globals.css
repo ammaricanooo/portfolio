@@ -62,3 +62,9 @@ body {
 .work-reveal-bg {
   pointer-events: none;
 }
+
+/* ─── Transition / Loader FOUC Prevention ────────────────── */
+html.is-loading main,
+html.is-loading .header-anim {
+  opacity: 0 !important;
+}

@@ -15,13 +15,14 @@ export function useLoader() {
 }
 
 export function LoaderProvider({ children }: { children: React.ReactNode }) {
-  const [ready, setReady] = useState(false);
   const pathname = usePathname();
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  const [ready, setReady] = useState(false);
 
-  // Reset ready setiap route change
-  useEffect(() => {
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setReady(false);
-  }, [pathname]);
+  }
 
   // Listen for loader done — clear GSAP exit opacity lalu set ready
   useEffect(() => {

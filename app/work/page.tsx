@@ -16,7 +16,20 @@ if (typeof window !== "undefined") {
 export default function WorkPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [time, setTime] = useState("");
+  const [projects, setProjects] = useState<any[]>(WORK_PROJECTS);
   const { ready } = useLoader();
+
+  // Load projects from database
+  useEffect(() => {
+    fetch("/api/projects")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setProjects(data);
+        }
+      })
+      .catch((err) => console.error("Failed to load dynamic projects:", err));
+  }, []);
 
   // Clock
   useEffect(() => {
@@ -100,7 +113,7 @@ export default function WorkPage() {
           </h1>
           <div className="work-hero-meta opacity-0 mt-6 flex items-center gap-8">
             <span className="font-mono text-[10px] uppercase tracking-widest opacity-40">
-              {WORK_PROJECTS.length} Projects
+              {projects.length} Projects
             </span>
             <span className="font-mono text-[10px] uppercase tracking-widest opacity-40">
               '23–'26
@@ -113,7 +126,7 @@ export default function WorkPage() {
 
         {/* ══ WORK LIST ═══════════════════════════════════════════════════ */}
         <section className="border-t border-zinc-200 dark:border-zinc-800 px-8 md:px-16 opacity-0 work-list-section">
-          <WorkList projects={WORK_PROJECTS} />
+          <WorkList projects={projects} />
         </section>
 
         {/* ══ PROJECT COUNT ═══════════════════════════════════════════════ */}
@@ -122,7 +135,7 @@ export default function WorkPage() {
             <div>
               <p className="font-mono text-[10px] uppercase tracking-widest opacity-40 mb-2">Total Projects</p>
               <p className="font-serif text-6xl uppercase leading-none md:text-8xl">
-                {String(WORK_PROJECTS.length).padStart(2, "0")}
+                {String(projects.length).padStart(2, "0")}
               </p>
             </div>
             <div className="max-w-xs">

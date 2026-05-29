@@ -18,6 +18,7 @@ export default function PageLoader() {
 
     // Block scroll selama loader aktif
     document.body.style.overflow = "hidden";
+    document.documentElement.classList.add("is-loading");
 
     // Reset: pastikan layer langsung cover screen sebelum React re-render
     setDone(false);
@@ -37,6 +38,9 @@ export default function PageLoader() {
         if (barRef.current) barRef.current.style.width = `${v}%`;
       },
       onComplete() {
+        // Remove loading class to let content show behind the loader cover
+        document.documentElement.classList.remove("is-loading");
+
         // Layer 1 swipes up first
         gsap.to(layer1Ref.current, {
           yPercent: -100,

@@ -82,7 +82,7 @@ export default function WorkList({ projects }: WorkListProps) {
   };
 
   return (
-    <div ref={listRef} className="work-list flex flex-col opacity-0">
+    <div ref={listRef} className="work-list flex flex-col">
       {projects.map((p, i) => (
         <a
           key={p.id}

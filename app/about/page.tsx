@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import ScrollRevealText from "../components/ScrollRevealText";
 import { scramble } from "../lib/scramble";
 import { useLoader } from "../lib/loaderContext";
 
@@ -39,6 +40,96 @@ const INTEREST_P1 =
 
 const INTEREST_P2 =
   "I also enjoy listening to music across genres — from lo-fi and jazz to electronic and indie. Music keeps me in the zone when I'm deep in a coding session. My Spotify Wrapped always surprises me with how many minutes I've logged.";
+
+const EDUCATION_STEPS = [
+  {
+    year: "2017",
+    title: "SD",
+    subtitle: "Sekolah Dasar",
+    desc: "Memulai fondasi belajar, mengasah logika dasar matematika, dan menumbuhkan rasa ingin tahu yang tinggi terhadap dunia teknologi komputer.",
+  },
+  {
+    year: "2020",
+    title: "SMP",
+    subtitle: "Sekolah Menengah Pertama",
+    desc: "Memperdalam kemampuan berpikir analitis, memecahkan algoritma logika dasar, dan mulai bereksperimen dengan pemrograman web sederhana.",
+  },
+  {
+    year: "2023",
+    title: "SMK",
+    subtitle: "Teknik Komputer dan Jaringan",
+    desc: "Mempelajari arsitektur jaringan komputer, administrasi server Linux, sistem keamanan siber, dan aktif memimpin di berbagai organisasi intra/ekstra sekolah.",
+    branches: [
+      {
+        label: "OSIS",
+        desc: "Mengembangkan keterampilan kepemimpinan dan manajemen organisasi melalui kepanitiaan sekolah.",
+      },
+      {
+        label: "Pramuka",
+        desc: "Membentuk kemandirian, kedisiplinan lapangan, dan kerja sama tim yang tangguh dalam kepramukaan.",
+      },
+      {
+        label: "Paskibra",
+        desc: "Melatih fokus tingkat tinggi, ketahanan fisik, patriotisme, serta kedisiplinan dalam baris-berbaris resmi.",
+      },
+      {
+        label: "Magang IT",
+        desc: "Menjalani magang industri untuk mengonfigurasi jaringan real-world, instalasi server, dan pemeliharaan infrastruktur IT.",
+      },
+    ],
+  },
+  {
+    year: "2025",
+    title: "Self-Learning",
+    subtitle: "Software Engineering",
+    desc: "Memperkuat keahlian full-stack dengan mengerjakan proyek mandiri berskala industri, menguasai modern web framework, serta mendalami best practices arsitektur server.",
+  },
+];
+
+function EducationContent({ item, isLeft }: { item: typeof EDUCATION_STEPS[0]; isLeft: boolean }) {
+  return (
+    <div className={`group/card relative flex flex-col p-6 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/40 bg-white/40 dark:bg-zinc-950/20 backdrop-blur-xs transition-all duration-500 ease-out hover:scale-[1.02] hover:bg-white/80 dark:hover:bg-zinc-900/20 hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-lg hover:shadow-zinc-200/20 dark:hover:shadow-black/30 ${
+      isLeft ? 'md:items-end md:text-right' : 'md:items-start md:text-left'
+    }`}>
+      
+      {/* Header Info */}
+      <div className="flex flex-col gap-1 w-full">
+        <span className="font-mono text-[10px] font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+          {item.year}
+        </span>
+        <h4 className="text-base font-bold uppercase tracking-wide text-zinc-800 dark:text-zinc-200 transition-colors group-hover/card:text-black dark:group-hover/card:text-white">
+          {item.title}
+        </h4>
+        {item.subtitle && (
+          <span className="text-xs italic font-medium text-zinc-400 dark:text-zinc-600">
+            {item.subtitle}
+          </span>
+        )}
+      </div>
+
+      {/* Deskripsi: Selalu terlihat, bersih, dan elegan */}
+      <p className="mt-3 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400 max-w-md">
+        {item.desc}
+      </p>
+
+      {/* Cabang Jaringan Organisasi / OSIS */}
+      {item.branches ? (
+        <div className={`mt-6 pt-5 border-t border-zinc-200/50 dark:border-zinc-800/40 grid grid-cols-1 sm:grid-cols-2 gap-3 w-full text-left`}>
+          {item.branches.map((branch) => (
+            <div key={branch.label} className="group/branch relative p-3 rounded-lg border border-zinc-100 dark:border-zinc-900/60 bg-zinc-50/50 dark:bg-zinc-900/10 transition-all duration-300 hover:border-zinc-200 dark:hover:border-zinc-800 hover:bg-white dark:hover:bg-zinc-900/30">
+              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 transition-colors group-hover/branch:text-zinc-950 dark:group-hover/branch:text-white">
+                {branch.label}
+              </p>
+              <p className="mt-1 text-[10px] leading-relaxed text-zinc-400 dark:text-zinc-500">
+                {branch.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
 
 // ─── Accordion item ───────────────────────────────────────────────────────────
 function AccordionItem({
@@ -116,7 +207,20 @@ export default function AboutPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroNameRef = useRef<HTMLHeadingElement>(null);
   const [time, setTime] = useState("");
+  const [educationSteps, setEducationSteps] = useState<any[]>(EDUCATION_STEPS);
   const { ready } = useLoader();
+
+  // Load education milestones from database
+  useEffect(() => {
+    fetch("/api/education")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setEducationSteps(data);
+        }
+      })
+      .catch((err) => console.error("Failed to load dynamic education:", err));
+  }, []);
 
   // Clock
   useEffect(() => {
@@ -168,6 +272,22 @@ export default function AboutPage() {
         { opacity: 0 },
         { opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.1 }
       );
+      gsap.fromTo(".education-heading",
+        { opacity: 0 },
+        {
+          opacity: 1, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: ".education-section", start: "top 60%", once: true },
+        }
+      );
+      gsap.utils.toArray<HTMLElement>(".education-step").forEach((step) => {
+        gsap.fromTo(step,
+          { opacity: 0, x: -24 },
+          {
+            opacity: 1, x: 0, duration: 0.8, ease: "power3.out",
+            scrollTrigger: { trigger: step, start: "top 92%", once: true },
+          }
+        );
+      });
 
       // Clip reveal untuk gambar Ammar dari atas ke bawah
       gsap.fromTo(".ammar-clip",
@@ -190,23 +310,17 @@ export default function AboutPage() {
       gsap.fromTo(".journey-heading",
         { opacity: 0 },
         {
-          opacity: 1, duration: 1, ease: "power3.out", delay: 1,
-          scrollTrigger: { trigger: ".journey-section", start: "top 100%", once: true },
+          opacity: 1, duration: 1, ease: "power3.out", delay: 0.2,
+          scrollTrigger: { trigger: ".journey-section", start: "top 90%", once: true },
         }
       );
       gsap.fromTo(".journey-word-section",
         { opacity: 0 },
         {
-          opacity: 1, duration: 1, ease: "power3.out", delay: 1.2,
-          scrollTrigger: { trigger: ".journey-word-section", start: "top 100%", once: true },
+          opacity: 1, duration: 1, ease: "power3.out", delay: 0.4,
+          scrollTrigger: { trigger: ".journey-word-section", start: "top 90%", once: true },
         }
       );
-      gsap.utils.toArray<HTMLElement>(".journey-word").forEach((word) => {
-        gsap.fromTo(word,
-          { opacity: 0.08 },
-          { opacity: 1, scrollTrigger: { trigger: word, start: "top 70%", end: "top 55%", scrub: 0.6 } }
-        );
-      });
 
       // Tech
       gsap.fromTo(".tech-heading",
@@ -224,7 +338,7 @@ export default function AboutPage() {
         }
       );
 
-      // Section labels (/00-2, /00-3, /00-4)
+      // Section labels (/00-2, /00-3, /00-4, /00-5)
       gsap.utils.toArray<HTMLElement>(".section-label").forEach((el) => {
         gsap.fromTo(el,
           { opacity: 0 },
@@ -240,15 +354,9 @@ export default function AboutPage() {
         { opacity: 0 },
         {
           opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".interest-section", start: "top 50%", once: true },
+          scrollTrigger: { trigger: ".interest-section", start: "top 75%", once: true },
         }
       );
-      gsap.utils.toArray<HTMLElement>(".interest-word").forEach((word) => {
-        gsap.fromTo(word,
-          { opacity: 0.08 },
-          { opacity: 1, scrollTrigger: { trigger: word, start: "top 68%", end: "top 65%", scrub: 0.4 } }
-        );
-      });
 
       // Interest image fade-in
       gsap.fromTo(".interest-img",
@@ -271,6 +379,8 @@ export default function AboutPage() {
     }, containerRef);
     return () => ctx.revert();
   }, [ready]);
+
+  
 
   return (
     <div
@@ -338,11 +448,13 @@ export default function AboutPage() {
               <div className="journey-word-section opacity-0 space-y-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base">
                 {JOURNEY_PARAGRAPHS.map((para, pi) => (
                   <p key={pi}>
-                    {para.split(" ").map((word, i) => (
-                      <Fragment key={i}>
-                        <span className="journey-word inline-block opacity-10">{word}</span>{" "}
-                      </Fragment>
-                    ))}
+                    <ScrollRevealText
+                      text={para}
+                      baseOpacity={0.1}
+                      start="top 85%"
+                      end="top 50%"
+                      scrub={0.8}
+                    />
                   </p>
                 ))}
               </div>
@@ -350,9 +462,74 @@ export default function AboutPage() {
           </div>
         </section>
 
+        <section className="education-section border-t border-zinc-200 dark:border-zinc-800 px-6 py-16 md:px-16 bg-white dark:bg-black text-zinc-900 dark:text-zinc-100">
+      {/* Label & Heading */}
+      <div className="max-w-5xl mx-auto mb-20">
+        <p className="mb-2 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
+          /00-2
+        </p>
+        <h3 className="text-xl font-semibold uppercase tracking-tight md:text-2xl">
+          Education Journey
+        </h3>
+      </div>
+
+      {/* Container Graph Utama */}
+      <div className="relative max-w-5xl mx-auto">
+        
+        {/* Garis Pusat Vertikal Statis (Presisi di Tengah Desktop) dengan Gradien Memudar Premium */}
+        <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-[1px] -translate-x-1/2 bg-gradient-to-b from-zinc-200 via-zinc-200 to-zinc-200/20 dark:from-zinc-800/80 dark:via-zinc-800 dark:to-zinc-800/10" />
+
+        <div className="space-y-16 md:space-y-24">
+          {educationSteps.map((item, index) => {
+            const isLeft = index % 2 === 0;
+
+            return (
+              <div key={item.year} className="group relative min-h-[60px]">
+                
+                {/* 1. Node Pusat (Titik Saraf Utama) */}
+                <div className="absolute left-4 md:left-1/2 top-8 -translate-x-1/2 flex items-center justify-center z-20">
+                  {/* Outer glowing ring */}
+                  <div className="absolute h-8 w-8 rounded-full bg-zinc-200/0 dark:bg-zinc-800/0 transition-all duration-500 group-hover:bg-zinc-950/5 dark:group-hover:bg-white/5 group-hover:scale-150" />
+                  
+                  {/* Middle border ring */}
+                  <div className="absolute h-5 w-5 rounded-full border border-zinc-200 dark:border-zinc-800 transition-all duration-500 group-hover:border-zinc-800 dark:group-hover:border-zinc-300 group-hover:scale-125" />
+                  
+                  {/* Inner dot */}
+                  <div className="h-2.5 w-2.5 rounded-full border-2 border-white bg-zinc-300 dark:border-black dark:bg-zinc-700 transition-all duration-500 group-hover:bg-zinc-900 dark:group-hover:bg-white" />
+                </div>
+
+                {/* 2. Grid Layout Sistem (Mobile: Full di kanan garis, Desktop: Kiri-Kanan) */}
+                <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 w-full pl-10 md:pl-0`}>
+                  
+                  {/* SISI KIRI (Hanya muncul jika indeks genap di desktop) */}
+                  <div className={`hidden md:block ${isLeft ? 'opacity-100' : 'pointer-events-none opacity-0'}`}>
+                    {isLeft && <EducationContent item={item} isLeft={true} />}
+                  </div>
+
+                  {/* SISI KANAN (Muncul di mobile selalu, atau di desktop jika indeks ganjil) */}
+                  <div className={`${!isLeft ? 'md:col-start-2 opacity-100' : 'md:pointer-events-none md:opacity-0 md:col-start-2'}`}>
+                    {/* Di mobile, paksa semua konten tampil di kanan */}
+                    <div className="md:hidden">
+                      <EducationContent item={item} isLeft={false} />
+                    </div>
+                    {/* Di desktop, tampilkan hanya jika giliran sisi kanan (ganjil) */}
+                    <div className="hidden md:block">
+                      {!isLeft && <EducationContent item={item} isLeft={false} />}
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
         <section className="tech-section border-t border-zinc-200 dark:border-zinc-800 px-8 py-16 md:px-16 md:py-24">
           <p className="section-label opacity-0 mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
-            /00-2
+            /00-3
           </p>
 
           <h3 className="tech-heading opacity-0 mb-10 text-xl font-medium leading-snug md:text-2xl max-w-2xl">
@@ -371,7 +548,7 @@ export default function AboutPage() {
         {/* ══ PERSONAL INTEREST ═════════════════════════════════════════════════ */}
         <section className="interest-section border-t border-zinc-200 dark:border-zinc-800 px-8 py-16 md:px-16 md:py-24">
           <p className="section-label opacity-0 mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
-            /00-3
+            /00-4
           </p>
 
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-16">
@@ -386,11 +563,13 @@ export default function AboutPage() {
             <div className="md:col-span-8 space-y-8">
               <div className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base max-w-xl text-justify">
                 <p>
-                  {INTEREST_P1.split(" ").map((word, i) => (
-                    <Fragment key={i}>
-                      <span className="interest-word inline-block opacity-10">{word}</span>{" "}
-                    </Fragment>
-                  ))}
+                  <ScrollRevealText
+                    text={INTEREST_P1}
+                    baseOpacity={0.1}
+                    start="top 85%"
+                    end="top 55%"
+                    scrub={0.8}
+                  />
                 </p>
               </div>
 
@@ -406,11 +585,13 @@ export default function AboutPage() {
 
               <div className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base max-w-xl md:ml-auto">
                 <p>
-                  {INTEREST_P2.split(" ").map((word, i) => (
-                    <Fragment key={i}>
-                      <span className="interest-word inline-block opacity-10">{word}</span>{" "}
-                    </Fragment>
-                  ))}
+                  <ScrollRevealText
+                    text={INTEREST_P2}
+                    baseOpacity={0.1}
+                    start="top 85%"
+                    end="top 55%"
+                    scrub={0.8}
+                  />
                 </p>
               </div>
             </div>
@@ -438,7 +619,7 @@ export default function AboutPage() {
             {/* Right: CTA */}
             <div className="md:col-span-5">
               <p className="section-label opacity-0 mb-4 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
-                /00-4
+                /00-5
               </p>
               <h2 className="mb-6 text-3xl font-medium uppercase leading-tight">
                 Your Next Software Dev Is Right Here.
@@ -462,3 +643,4 @@ export default function AboutPage() {
     </div>
   );
 }
+

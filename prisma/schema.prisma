@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "./client"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  order     Int      @default(0)
+  title     String
+  tech      String
+  url       String   @default("#")
+  year      String
+  desc      String   @default("")
+  img       String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Education {
+  id        String   @id @default(cuid())
+  order     Int      @default(0)
+  year      String
+  title     String
+  subtitle  String   @default("")
+  desc      String   @default("")
+  branches  Branch[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Branch {
+  id          String    @id @default(cuid())
+  label       String
+  desc        String    @default("")
+  education   Education @relation(fields: [educationId], references: [id], onDelete: Cascade)
+  educationId String
+}

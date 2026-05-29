@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import WorkList from "./components/WorkList";
+import ScrollRevealText from "./components/ScrollRevealText";
 import { scramble } from "./lib/scramble";
 import { WORK_PROJECTS } from "./lib/data";
 import { useLoader } from "./lib/loaderContext";
@@ -37,7 +38,20 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroNameRef = useRef<HTMLHeadingElement>(null);
   const [time, setTime] = useState("");
+  const [projects, setProjects] = useState<any[]>(WORK_PROJECTS);
   const { ready } = useLoader();
+
+  // Load projects from database
+  useEffect(() => {
+    fetch("/api/projects")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setProjects(data);
+        }
+      })
+      .catch((err) => console.error("Failed to load dynamic projects:", err));
+  }, []);
 
   // Clock
   useEffect(() => {
@@ -81,11 +95,7 @@ export default function Home() {
         delay: 0.6,
       });
 
-      // About scroll reveal
-      gsap.to(".about-word", {
-        scrollTrigger: { trigger: ".about-section", start: "top 50%", end: "top -20%", scrub: 0.5 },
-        opacity: 1, stagger: 0.04,
-      });
+      // Tech logos, circle, etc. follow here
 
       // Marquee
       gsap.to(".marquee-track-1", {
@@ -275,11 +285,13 @@ export default function Home() {
         <section className="about-section flex min-h-screen w-full items-center justify-center bg-white px-8 py-20 dark:bg-zinc-950 md:px-16">
           <div className="max-w-5xl w-full">
             <h2 className="text-xl font-semibold uppercase leading-snug md:text-4xl text-justify">
-              {ABOUT_TEXT.split(" ").map((word, i) => (
-                <Fragment key={i}>
-                  <span className="about-word inline-block opacity-5">{word}</span>{" "}
-                </Fragment>
-              ))}
+              <ScrollRevealText
+                text={ABOUT_TEXT}
+                baseOpacity={0.05}
+                start="top 75%"
+                end="top 35%"
+                scrub={0.8}
+              />
             </h2>
           </div>
         </section>
@@ -352,7 +364,7 @@ export default function Home() {
               (Projects / '23–'26)
             </span>
           </div>
-          <WorkList projects={WORK_PROJECTS} />
+          <WorkList projects={projects} />
         </section>
 
         {/* ══ CONTACT ══════════════════════════════════════════════════════════ */}
