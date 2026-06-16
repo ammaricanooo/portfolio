@@ -4,15 +4,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { scramble } from "../lib/scramble";
 import { useLoader } from "../lib/loaderContext";
-
-interface Project {
-  id: string;
-  title: string;
-  tech: string;
-  url: string;
-  img: string;
-  year?: string;
-}
+import type { Project } from "../lib/types";
 
 interface WorkListProps {
   projects: Project[];

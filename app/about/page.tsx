@@ -1,17 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, Fragment } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ScrollRevealText from "../components/ScrollRevealText";
 import { scramble } from "../lib/scramble";
 import { useLoader } from "../lib/loaderContext";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { useClock } from "../lib/useClock";
+import { useGsapReady } from "../lib/useGsapReady";
+import type { EducationStep } from "../lib/types";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const TECH_CATEGORIES = [
@@ -206,9 +204,10 @@ function AccordionItem({
 export default function AboutPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroNameRef = useRef<HTMLHeadingElement>(null);
-  const [time, setTime] = useState("");
-  const [educationSteps, setEducationSteps] = useState<any[]>(EDUCATION_STEPS);
+  const [educationSteps, setEducationSteps] = useState<EducationStep[]>(EDUCATION_STEPS);
   const { ready } = useLoader();
+  const time = useClock();
+  useGsapReady();
 
   // Load education milestones from database
   useEffect(() => {
@@ -219,20 +218,7 @@ export default function AboutPage() {
           setEducationSteps(data);
         }
       })
-      .catch((err) => console.error("Failed to load dynamic education:", err));
-  }, []);
-
-  // Clock
-  useEffect(() => {
-    const tick = () => {
-      setTime(
-        new Intl.DateTimeFormat("en-US", { hour: "2-digit", minute: "2-digit", hour12: true })
-          .format(new Date()).toUpperCase()
-      );
-    };
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
+      .catch(() => {});
   }, []);
 
   // Scramble — wait for loader
@@ -576,8 +562,8 @@ export default function AboutPage() {
               {/* Image dengan efek zoom + parallax */}
               <div className="interest-img opacity-0 aspect-video w-full overflow-hidden bg-zinc-200 dark:bg-zinc-800">
                 <img
-                  src="music.png"
-                  alt=""
+                  src="/music.png"
+                  alt="Music — personal interest"
                   className="parallax-img h-full w-full object-cover md:-translate-y-40"
                   style={{ transform: "scale(1.20)" }}
                 />

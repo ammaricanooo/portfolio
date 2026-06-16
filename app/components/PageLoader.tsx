@@ -68,8 +68,7 @@ export default function PageLoader() {
 
   useEffect(() => {
     runLoader();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Tetap render — jangan return null agar refs tidak hilang
   // Saat done: pointer-events none + tidak visible tapi masih di DOM

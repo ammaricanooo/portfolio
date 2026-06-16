@@ -33,9 +33,9 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
     });
 
     return NextResponse.json(project);
-  } catch (error: any) {
-    console.error("PUT project error:", error);
-    return NextResponse.json({ error: error.message || "Failed to update project" }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to update project";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -51,8 +51,8 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
       where: { id },
     });
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    console.error("DELETE project error:", error);
-    return NextResponse.json({ error: error.message || "Failed to delete project" }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to delete project";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

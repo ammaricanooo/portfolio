@@ -6,17 +6,24 @@ const ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const randStr = (chars: string, len: number) =>
   Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
 
+const _siKey = Symbol("_scrambleInterval");
+
+interface ScrambleElement extends HTMLElement {
+  [_siKey]?: ReturnType<typeof setInterval>;
+}
+
 export const scramble = (el: HTMLElement | null, target: string, dur = 0.5, sym = false) => {
   if (!el) return;
+  const scrEl = el as ScrambleElement;
   let t = 0;
   const fps = sym ? 40 : 30;
-  if ((el as any)._si) clearInterval((el as any)._si);
+  if (scrEl[_siKey]) clearInterval(scrEl[_siKey]);
 
   const tick = () => {
     t += fps;
     const p = Math.min(t / (dur * 1000), 1);
     if (p >= 1) {
-      clearInterval((el as any)._si);
+      clearInterval(scrEl[_siKey]);
       el.textContent = target;
       return;
     }
@@ -29,5 +36,5 @@ export const scramble = (el: HTMLElement | null, target: string, dur = 0.5, sym 
   };
 
   el.textContent = sym ? randStr(SYM, target.length) : randStr(ALPHA, target.length);
-  (el as any)._si = setInterval(tick, fps);
+  scrEl[_siKey] = setInterval(tick, fps);
 };

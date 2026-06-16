@@ -3,40 +3,28 @@
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useClock } from "../lib/useClock";
+import type { Project, EducationStep, Branch } from "../lib/types";
 
 export default function AdminPage() {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authError, setAuthError] = useState("");
   const [isVerifying, setIsVerifying] = useState(true);
-  const [time, setTime] = useState("");
-
-  // Clock
-  useEffect(() => {
-    const tick = () =>
-      setTime(
-        new Intl.DateTimeFormat("en-US", { hour: "2-digit", minute: "2-digit", hour12: true })
-          .format(new Date())
-          .toUpperCase()
-      );
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-  }, []);
+  const time = useClock();
 
   // Management State
   const [activeTab, setActiveTab] = useState<"projects" | "education">("projects");
-  const [projects, setProjects] = useState<any[]>([]);
-  const [education, setEducation] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [education, setEducation] = useState<EducationStep[]>([]);
   
   // Loading & Action states
-  const [loading, setLoading] = useState(false);
-  const [projectModal, setProjectModal] = useState<{ open: boolean; mode: "add" | "edit"; data: any }>({
+  const [projectModal, setProjectModal] = useState<{ open: boolean; mode: "add" | "edit"; data: Project | null }>({
     open: false,
     mode: "add",
     data: null,
   });
-  const [educationModal, setEducationModal] = useState<{ open: boolean; mode: "add" | "edit"; data: any }>({
+  const [educationModal, setEducationModal] = useState<{ open: boolean; mode: "add" | "edit"; data: EducationStep | null }>({
     open: false,
     mode: "add",
     data: null,
@@ -62,7 +50,6 @@ export default function AdminPage() {
 
   // Fetch Data
   const fetchData = async () => {
-    setLoading(true);
     try {
       const pRes = await fetch("/api/projects");
       const pData = await pRes.json();
@@ -71,16 +58,15 @@ export default function AdminPage() {
       const eRes = await fetch("/api/education");
       const eData = await eRes.json();
       if (Array.isArray(eData)) setEducation(eData);
-    } catch (err) {
-      console.error("Error fetching admin data:", err);
-    } finally {
-      setLoading(false);
+    } catch {
+      // Fetch failed silently
     }
   };
 
   useEffect(() => {
     if (isAuthenticated) {
-      fetchData();
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      void fetchData();
     }
   }, [isAuthenticated]);
 
@@ -100,7 +86,7 @@ export default function AdminPage() {
         const errData = await res.json();
         setAuthError(errData.error || "Password tidak cocok");
       }
-    } catch (err) {
+    } catch {
       setAuthError("Koneksi gagal");
     }
   };
@@ -127,7 +113,7 @@ export default function AdminPage() {
     };
 
     const isEdit = projectModal.mode === "edit";
-    const url = isEdit ? `/api/projects/${projectModal.data.id}` : "/api/projects";
+    const url = isEdit && projectModal.data ? `/api/projects/${projectModal.data.id}` : "/api/projects";
     const method = isEdit ? "PUT" : "POST";
 
     try {
@@ -142,8 +128,8 @@ export default function AdminPage() {
       } else {
         alert("Gagal menyimpan proyek");
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
+      // Save failed silently
     }
   };
 
@@ -152,8 +138,8 @@ export default function AdminPage() {
     try {
       const res = await fetch(`/api/projects/${id}`, { method: "DELETE" });
       if (res.ok) fetchData();
-    } catch (err) {
-      console.error(err);
+    } catch {
+      // Save failed silently
     }
   };
 
@@ -166,10 +152,10 @@ export default function AdminPage() {
     // Parse dynamic branches input
     const branchLabels = form.querySelectorAll("[name='branchLabel']");
     const branchDescs = form.querySelectorAll("[name='branchDesc']");
-    const branches: any[] = [];
-    branchLabels.forEach((labelEl: any, idx: number) => {
-      const label = labelEl.value;
-      const desc = (branchDescs[idx] as any)?.value || "";
+    const branches: { label: string; desc: string }[] = [];
+    branchLabels.forEach((labelEl, idx: number) => {
+      const label = (labelEl as HTMLInputElement).value;
+      const desc = (branchDescs[idx] as HTMLInputElement)?.value || "";
       if (label) {
         branches.push({ label, desc });
       }
@@ -185,7 +171,7 @@ export default function AdminPage() {
     };
 
     const isEdit = educationModal.mode === "edit";
-    const url = isEdit ? `/api/education/${educationModal.data.id}` : "/api/education";
+    const url = isEdit && educationModal.data?.id ? `/api/education/${educationModal.data.id}` : "/api/education";
     const method = isEdit ? "PUT" : "POST";
 
     try {
@@ -200,8 +186,8 @@ export default function AdminPage() {
       } else {
         alert("Gagal menyimpan riwayat pendidikan");
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
+      // Save failed silently
     }
   };
 
@@ -210,15 +196,16 @@ export default function AdminPage() {
     try {
       const res = await fetch(`/api/education/${id}`, { method: "DELETE" });
       if (res.ok) fetchData();
-    } catch (err) {
-      console.error(err);
+    } catch {
+      // Save failed silently
     }
   };
 
   // Branch dynamic inputs management inside Modal
-  const [modalBranches, setModalBranches] = useState<any[]>([]);
+  const [modalBranches, setModalBranches] = useState<{ label: string; desc: string }[]>([]);
   useEffect(() => {
     if (educationModal.open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setModalBranches(educationModal.data?.branches || []);
     }
   }, [educationModal.open, educationModal.data]);
@@ -423,7 +410,7 @@ export default function AdminPage() {
                             Edit
                           </button>
                           <button
-                            onClick={() => handleDeleteEducation(edu.id)}
+                            onClick={() => edu.id && handleDeleteEducation(edu.id)}
                             className="px-3 py-2 font-mono text-[10px] uppercase tracking-widest border border-red-500/20 text-red-500 rounded-lg hover:bg-red-500/10 transition-colors"
                           >
                             Delete
@@ -437,7 +424,7 @@ export default function AdminPage() {
 
                       {edu.branches && edu.branches.length > 0 && (
                         <div className="mt-6 pt-5 border-t border-zinc-200/30 dark:border-zinc-800/40 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 w-full">
-                          {edu.branches.map((b: any) => (
+                          {edu.branches.map((b: Branch) => (
                             <div key={b.id} className="p-3 rounded-lg border border-zinc-100 dark:border-zinc-900/60 bg-zinc-50/50 dark:bg-zinc-900/10">
                               <p className="text-xs font-semibold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
                                 {b.label}

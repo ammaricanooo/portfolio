@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, Fragment, useState } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import WorkList from "./components/WorkList";
@@ -10,10 +9,9 @@ import ScrollRevealText from "./components/ScrollRevealText";
 import { scramble } from "./lib/scramble";
 import { WORK_PROJECTS } from "./lib/data";
 import { useLoader } from "./lib/loaderContext";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { useClock } from "./lib/useClock";
+import { useGsapReady } from "./lib/useGsapReady";
+import type { Project } from "./lib/types";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const HERO_TEXT =
@@ -37,9 +35,10 @@ const TECH_LOGOS = [
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroNameRef = useRef<HTMLHeadingElement>(null);
-  const [time, setTime] = useState("");
-  const [projects, setProjects] = useState<any[]>(WORK_PROJECTS);
+  const [projects, setProjects] = useState<Project[]>(WORK_PROJECTS);
   const { ready } = useLoader();
+  const time = useClock();
+  useGsapReady();
 
   // Load projects from database
   useEffect(() => {
@@ -50,20 +49,7 @@ export default function Home() {
           setProjects(data);
         }
       })
-      .catch((err) => console.error("Failed to load dynamic projects:", err));
-  }, []);
-
-  // Clock
-  useEffect(() => {
-    const tick = () => {
-      setTime(
-        new Intl.DateTimeFormat("en-US", { hour: "2-digit", minute: "2-digit", hour12: true })
-          .format(new Date()).toUpperCase()
-      );
-    };
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
+      .catch(() => {});
   }, []);
 
   // Initial scramble — wait for loader
@@ -361,7 +347,7 @@ export default function Home() {
               <span className="work-heading opacity-0">Selected</span> <em className="not-italic font-bold blink-word-2 opacity-0">Work</em>
             </h2>
             <span className="work-label mb-1 font-mono text-[10px] uppercase tracking-widest opacity-0">
-              (Projects / '23–'26)
+              (Projects / &apos;23–&apos;26)
             </span>
           </div>
           <WorkList projects={projects} />
@@ -370,10 +356,10 @@ export default function Home() {
         {/* ══ CONTACT ══════════════════════════════════════════════════════════ */}
         <section className="border-t border-zinc-200 px-8 py-24 dark:border-zinc-800 md:px-16 contact-section">
           <h2 className="mb-6 font-sans text-4xl font-semibold uppercase leading-none tracking-tighter md:text-6xl">
-            <span className="font-serif italic contact-heading opacity-0">Let's Have</span> <span className="opacity-0 blink-word-3">a Chat</span>
+            <span className="font-serif italic contact-heading opacity-0">Let&apos;s Have</span> <span className="opacity-0 blink-word-3">a Chat</span>
           </h2>
           <p className="contact-body mb-10 max-w-xs font-mono text-sm uppercase leading-relaxed opacity-0">
-            Whether it's an idea or just a hello<br />— my inbox is open.
+            Whether it&apos;s an idea or just a hello<br />— my inbox is open.
           </p>
           <a
             href="mailto:ammarithm@gmail.com"

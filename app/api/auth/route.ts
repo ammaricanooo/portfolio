@@ -1,4 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createHash } from "crypto";
+
+function hashToken(input: string): string {
+  return createHash("sha256").update(input + process.env.ADMIN_PASSWORD).digest("hex");
+}
 
 export async function POST(req: NextRequest) {
   const { password } = await req.json();
@@ -13,8 +18,9 @@ export async function POST(req: NextRequest) {
   }
 
   const res = NextResponse.json({ ok: true });
-  res.cookies.set("admin_auth", adminPassword, {
+  res.cookies.set("admin_auth", hashToken(password), {
     httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     path: "/",
     maxAge: 60 * 60 * 8, // 8 hours

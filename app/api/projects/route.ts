@@ -9,9 +9,9 @@ export async function GET() {
       orderBy: { order: "asc" },
     });
     return NextResponse.json(projects);
-  } catch (error: any) {
-    console.error("GET projects error:", error);
-    return NextResponse.json({ error: error.message || "Failed to fetch projects" }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to fetch projects";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -42,8 +42,8 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(project);
-  } catch (error: any) {
-    console.error("POST project error:", error);
-    return NextResponse.json({ error: error.message || "Failed to create project" }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to create project";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

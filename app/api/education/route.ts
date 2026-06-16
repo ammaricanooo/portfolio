@@ -12,9 +12,9 @@ export async function GET() {
       },
     });
     return NextResponse.json(education);
-  } catch (error: any) {
-    console.error("GET education error:", error);
-    return NextResponse.json({ error: error.message || "Failed to fetch education" }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to fetch education";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
         desc: desc || "",
         order: order !== undefined ? Number(order) : 0,
         branches: branches && Array.isArray(branches) ? {
-          create: branches.map((b: any) => ({
+          create: branches.map((b: { label?: string; desc?: string }) => ({
             label: b.label || "",
             desc: b.desc || "",
           })),
@@ -53,8 +53,8 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(milestone);
-  } catch (error: any) {
-    console.error("POST education error:", error);
-    return NextResponse.json({ error: error.message || "Failed to create education milestone" }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to create education milestone";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

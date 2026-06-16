@@ -4,11 +4,9 @@ import path from "path";
 
 function createPrismaClient() {
   const dbUrl = `file:${path.join(process.cwd(), "prisma", "dev.db")}`;
-  console.log("createPrismaClient: Initializing with URL:", dbUrl);
   const adapter = new PrismaLibSql({
     url: dbUrl,
   });
-  console.log("createPrismaClient: Adapter instantiated.");
   return new PrismaClient({
     adapter,
   } as ConstructorParameters<typeof PrismaClient>[0]);

@@ -33,6 +33,8 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
         },
       });
 
+      void updated;
+
       // 2. If branches array is supplied, replace all of them
       if (branches && Array.isArray(branches)) {
         // Delete all old branches first
@@ -43,7 +45,7 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
         // Insert new ones
         if (branches.length > 0) {
           await tx.branch.createMany({
-            data: branches.map((b: any) => ({
+            data: branches.map((b: { label?: string; desc?: string }) => ({
               educationId: id,
               label: b.label || "",
               desc: b.desc || "",
@@ -60,9 +62,9 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
     });
 
     return NextResponse.json(milestone);
-  } catch (error: any) {
-    console.error("PUT education error:", error);
-    return NextResponse.json({ error: error.message || "Failed to update education milestone" }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to update education milestone";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -78,8 +80,8 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
       where: { id },
     });
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    console.error("DELETE education error:", error);
-    return NextResponse.json({ error: error.message || "Failed to delete education milestone" }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to delete education milestone";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

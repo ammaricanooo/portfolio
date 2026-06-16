@@ -2,22 +2,21 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import WorkList from "../components/WorkList";
 import { WORK_PROJECTS } from "../lib/data";
 import { useLoader } from "../lib/loaderContext";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { useClock } from "../lib/useClock";
+import { useGsapReady } from "../lib/useGsapReady";
+import type { Project } from "../lib/types";
 
 export default function WorkPage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [time, setTime] = useState("");
-  const [projects, setProjects] = useState<any[]>(WORK_PROJECTS);
+  const [projects, setProjects] = useState<Project[]>(WORK_PROJECTS);
   const { ready } = useLoader();
+  const time = useClock();
+  useGsapReady();
 
   // Load projects from database
   useEffect(() => {
@@ -28,21 +27,7 @@ export default function WorkPage() {
           setProjects(data);
         }
       })
-      .catch((err) => console.error("Failed to load dynamic projects:", err));
-  }, []);
-
-  // Clock
-  useEffect(() => {
-    const tick = () => {
-      setTime(
-        new Intl.DateTimeFormat("en-US", { hour: "2-digit", minute: "2-digit", hour12: true })
-          .format(new Date())
-          .toUpperCase()
-      );
-    };
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -116,7 +101,7 @@ export default function WorkPage() {
               {projects.length} Projects
             </span>
             <span className="font-mono text-[10px] uppercase tracking-widest opacity-40">
-              '23–'26
+              &apos;23–&apos;26
             </span>
             <span className="font-mono text-[10px] uppercase tracking-widest opacity-40">
               {time}
@@ -156,7 +141,7 @@ export default function WorkPage() {
             className="group inline-flex items-center gap-3 font-mono text-sm uppercase tracking-widest transition-opacity duration-300 hover:opacity-60"
           >
             <span className="text-lg">→</span>
-            <span>Let's Talk</span>
+            <span>Let&apos;s Talk</span>
           </a>
         </section>
 
