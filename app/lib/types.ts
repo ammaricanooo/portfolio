@@ -9,18 +9,14 @@ export interface Project {
   order?: number;
 }
 
-export interface Branch {
+export interface TechItem {
   id?: string;
-  label: string;
-  desc: string;
+  name: string;
 }
 
-export interface EducationStep {
+export interface TechCategory {
   id?: string;
-  year: string;
-  title: string;
-  subtitle: string;
-  desc: string;
   order?: number;
-  branches?: Branch[];
+  label: string;
+  items?: TechItem[];
 }

@@ -56,3 +56,13 @@ export type Education = Prisma.EducationModel
  * 
  */
 export type Branch = Prisma.BranchModel
+/**
+ * Model TechCategory
+ * 
+ */
+export type TechCategory = Prisma.TechCategoryModel
+/**
+ * Model TechItem
+ * 
+ */
+export type TechItem = Prisma.TechItemModel

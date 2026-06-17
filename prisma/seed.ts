@@ -4,8 +4,6 @@ async function main() {
   console.log("🌱 Seeding database...");
 
   // Clear existing data
-  await prisma.branch.deleteMany();
-  await prisma.education.deleteMany();
   await prisma.project.deleteMany();
 
   // ── Projects ─────────────────────────────────────────────────────────────
@@ -68,76 +66,8 @@ async function main() {
     ],
   });
 
-  // ── Education ─────────────────────────────────────────────────────────────
-  const sd = await prisma.education.create({
-    data: {
-      order: 1,
-      year: "2017",
-      title: "SD",
-      subtitle: "Sekolah Dasar",
-      desc: "Memulai fondasi belajar, mengasah logika dasar matematika, dan menumbuhkan rasa ingin tahu yang tinggi terhadap dunia teknologi komputer.",
-    },
-  });
-
-  const smp = await prisma.education.create({
-    data: {
-      order: 2,
-      year: "2020",
-      title: "SMP",
-      subtitle: "Sekolah Menengah Pertama",
-      desc: "Memperdalam kemampuan berpikir analitis, memecahkan algoritma logika dasar, dan mulai bereksperimen dengan pemrograman web sederhana.",
-    },
-  });
-
-  const smk = await prisma.education.create({
-    data: {
-      order: 3,
-      year: "2023",
-      title: "SMK",
-      subtitle: "Teknik Komputer dan Jaringan",
-      desc: "Mempelajari arsitektur jaringan komputer, administrasi server Linux, sistem keamanan siber, dan aktif memimpin di berbagai organisasi intra/ekstra sekolah.",
-    },
-  });
-
-  await prisma.branch.createMany({
-    data: [
-      {
-        educationId: smk.id,
-        label: "OSIS",
-        desc: "Mengembangkan keterampilan kepemimpinan dan manajemen organisasi melalui kepanitiaan sekolah.",
-      },
-      {
-        educationId: smk.id,
-        label: "Pramuka",
-        desc: "Membentuk kemandirian, kedisiplinan lapangan, dan kerja sama tim yang tangguh dalam kepramukaan.",
-      },
-      {
-        educationId: smk.id,
-        label: "Paskibra",
-        desc: "Melatih fokus tingkat tinggi, ketahanan fisik, patriotisme, serta kedisiplinan dalam baris-berbaris resmi.",
-      },
-      {
-        educationId: smk.id,
-        label: "Magang IT",
-        desc: "Menjalani magang industri untuk mengonfigurasi jaringan real-world, instalasi server, dan pemeliharaan infrastruktur IT.",
-      },
-    ],
-  });
-
-  await prisma.education.create({
-    data: {
-      order: 4,
-      year: "2025",
-      title: "Self-Learning",
-      subtitle: "Software Engineering",
-      desc: "Memperkuat keahlian full-stack dengan mengerjakan proyek mandiri berskala industri, menguasai modern web framework, serta mendalami best practices arsitektur server.",
-    },
-  });
-
   console.log("✅ Seed complete!");
   console.log(`   Projects : 6`);
-  console.log(`   Education: 4 milestones (SD, SMP, SMK, Self-Learning)`);
-  console.log(`   Branches : 4 (OSIS, Pramuka, Paskibra, Magang IT under SMK)`);
 }
 
 main()

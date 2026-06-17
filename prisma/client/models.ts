@@ -11,4 +11,6 @@
 export type * from './models/Project'
 export type * from './models/Education'
 export type * from './models/Branch'
+export type * from './models/TechCategory'
+export type * from './models/TechItem'
 export type * from './commonInputTypes'

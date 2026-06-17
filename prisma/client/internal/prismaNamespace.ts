@@ -386,7 +386,9 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Project: 'Project',
   Education: 'Education',
-  Branch: 'Branch'
+  Branch: 'Branch',
+  TechCategory: 'TechCategory',
+  TechItem: 'TechItem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -402,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "project" | "education" | "branch"
+    modelProps: "project" | "education" | "branch" | "techCategory" | "techItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -628,6 +630,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TechCategory: {
+      payload: Prisma.$TechCategoryPayload<ExtArgs>
+      fields: Prisma.TechCategoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TechCategoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechCategoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TechCategoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechCategoryPayload>
+        }
+        findFirst: {
+          args: Prisma.TechCategoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechCategoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TechCategoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechCategoryPayload>
+        }
+        findMany: {
+          args: Prisma.TechCategoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechCategoryPayload>[]
+        }
+        create: {
+          args: Prisma.TechCategoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechCategoryPayload>
+        }
+        createMany: {
+          args: Prisma.TechCategoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TechCategoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechCategoryPayload>[]
+        }
+        delete: {
+          args: Prisma.TechCategoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechCategoryPayload>
+        }
+        update: {
+          args: Prisma.TechCategoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechCategoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.TechCategoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TechCategoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TechCategoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechCategoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.TechCategoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechCategoryPayload>
+        }
+        aggregate: {
+          args: Prisma.TechCategoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTechCategory>
+        }
+        groupBy: {
+          args: Prisma.TechCategoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TechCategoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TechCategoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TechCategoryCountAggregateOutputType> | number
+        }
+      }
+    }
+    TechItem: {
+      payload: Prisma.$TechItemPayload<ExtArgs>
+      fields: Prisma.TechItemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TechItemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechItemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TechItemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechItemPayload>
+        }
+        findFirst: {
+          args: Prisma.TechItemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechItemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TechItemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechItemPayload>
+        }
+        findMany: {
+          args: Prisma.TechItemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechItemPayload>[]
+        }
+        create: {
+          args: Prisma.TechItemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechItemPayload>
+        }
+        createMany: {
+          args: Prisma.TechItemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TechItemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechItemPayload>[]
+        }
+        delete: {
+          args: Prisma.TechItemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechItemPayload>
+        }
+        update: {
+          args: Prisma.TechItemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechItemPayload>
+        }
+        deleteMany: {
+          args: Prisma.TechItemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TechItemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TechItemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechItemPayload>[]
+        }
+        upsert: {
+          args: Prisma.TechItemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TechItemPayload>
+        }
+        aggregate: {
+          args: Prisma.TechItemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTechItem>
+        }
+        groupBy: {
+          args: Prisma.TechItemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TechItemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TechItemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TechItemCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -702,6 +852,26 @@ export const BranchScalarFieldEnum = {
 } as const
 
 export type BranchScalarFieldEnum = (typeof BranchScalarFieldEnum)[keyof typeof BranchScalarFieldEnum]
+
+
+export const TechCategoryScalarFieldEnum = {
+  id: 'id',
+  order: 'order',
+  label: 'label',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TechCategoryScalarFieldEnum = (typeof TechCategoryScalarFieldEnum)[keyof typeof TechCategoryScalarFieldEnum]
+
+
+export const TechItemScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  categoryId: 'categoryId'
+} as const
+
+export type TechItemScalarFieldEnum = (typeof TechItemScalarFieldEnum)[keyof typeof TechItemScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -858,6 +1028,8 @@ export type GlobalOmitConfig = {
   project?: Prisma.ProjectOmit
   education?: Prisma.EducationOmit
   branch?: Prisma.BranchOmit
+  techCategory?: Prisma.TechCategoryOmit
+  techItem?: Prisma.TechItemOmit
 }
 
 /* Types for Logging */

@@ -23,22 +23,18 @@ model Project {
   updatedAt DateTime @updatedAt
 }
 
-model Education {
-  id        String   @id @default(cuid())
-  order     Int      @default(0)
-  year      String
-  title     String
-  subtitle  String   @default("")
-  desc      String   @default("")
-  branches  Branch[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model TechCategory {
+  id        String     @id @default(cuid())
+  order     Int        @default(0)
+  label     String
+  items     TechItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
-model Branch {
-  id          String    @id @default(cuid())
-  label       String
-  desc        String    @default("")
-  education   Education @relation(fields: [educationId], references: [id], onDelete: Cascade)
-  educationId String
+model TechItem {
+  id           String       @id @default(cuid())
+  name         String
+  category     TechCategory  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId   String
 }
