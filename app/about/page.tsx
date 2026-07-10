@@ -14,7 +14,7 @@ import { useGsapReady } from "../lib/useGsapReady";
 const TECH_CATEGORIES = [
   {
     label: "Web Framework",
-    items: ["Next.js", "React", "Vue.js", "Nuxt.js"],
+    items: ["Next.js", "Laravel", "express.js"],
   },
   {
     label: "Styling",
@@ -73,7 +73,7 @@ function AccordionItem({
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center justify-between py-4 text-left text-xl font-medium uppercase transition-opacity hover:opacity-60 md:text-2xl"
+        className="flex w-full items-center justify-between py-4 text-left text-xl font-medium uppercase transition-opacity hover:opacity-60 md:text-2xl cursor-pointer"
       >
         <span>{label}</span>
         <div className="relative h-6 w-6 shrink-0">
@@ -291,9 +291,9 @@ export default function AboutPage() {
                 clipPath: "inset(0% 0% 100% 0%)"  // changed: dari 0% bawah 100%
               }}>
               <img
-                src="/ammar.png"
+                src="/ammar.jpeg"
                 alt="Ammar Abdul Malik"
-                className="w-full object-cover scale-110 bg-zinc-200 dark:bg-zinc-800"
+                className="w-full object-cover scale-110 bg-zinc-200 dark:bg-zinc-800 scale-250"
                 onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
               />
             </div>
@@ -379,7 +379,7 @@ export default function AboutPage() {
                   src="/music.png"
                   alt="Music — personal interest"
                   className="parallax-img h-full w-full object-cover md:-translate-y-40"
-                  style={{ transform: "scale(1.20)" }}
+                  style={{ transform: "scale(1.50)" }}
                 />
               </div>
 

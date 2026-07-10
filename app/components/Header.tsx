@@ -50,7 +50,11 @@ export default function Header({ activePage = "" }: HeaderProps) {
       <div className="mx-auto flex items-center justify-between px-4 md:px-16">
         <TransitionLink
           href="/"
-          className="font-mono text-sm uppercase mr-8"
+          className="relative font-mono text-sm uppercase mr-8
+            after:w-full after:pointer-events-none after:absolute after:bottom-0 after:h-px after:bg-current
+            after:transition-transform after:duration-500 after:ease-in-out
+            after:left-0 after:origin-bottom-right hover:after:origin-bottom-left
+            after:scale-x-0 hover:after:scale-x-100"
           onMouseEnter={(e) => onHover(e, "Ammar Abdul Malik")}
         >
           <span ref={nameRef} className="sc">Ammar Abdul Malik</span>
@@ -68,11 +72,14 @@ export default function Header({ activePage = "" }: HeaderProps) {
                 ) : (
                   <TransitionLink
                     href={`/${item.toLowerCase()}`}
-                    className="group relative font-mono text-sm uppercase"
+                    className="group relative font-mono text-sm uppercase
+                      after:w-full after:pointer-events-none after:absolute after:bottom-0 after:h-px after:bg-current
+                      after:transition-transform after:duration-500 after:ease-in-out
+                      after:left-0 after:origin-bottom-right hover:after:origin-bottom-left
+                      after:scale-x-0 hover:after:scale-x-100"
                     onMouseEnter={(e) => onHover(e, item)}
                   >
                     <span className="sc">{item}</span>
-                    <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-current transition-all duration-300 group-hover:w-full" />
                   </TransitionLink>
                 )}
               </li>

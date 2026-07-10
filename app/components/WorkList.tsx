@@ -109,9 +109,9 @@ export default function WorkList({ projects }: WorkListProps) {
             <div className="flex items-center justify-between mb-1">
               <span
                 className="sc-id font-mono text-xs group-hover:underline underline-offset-2"
-                data-target={`PROJECT ${i}`}
+                data-target={`${i + 1 < 10 ? `0${i + 1}` : i + 1}`}
               >
-                PROJECT {i + 1 < 10 ? `0${i + 1}` : i + 1}
+                {i + 1 < 10 ? `0${i + 1}` : i + 1}
               </span>
               <span
                 className="sc-tech font-mono text-xs uppercase tracking-widest"
@@ -138,9 +138,9 @@ export default function WorkList({ projects }: WorkListProps) {
             <div className="flex items-center gap-8">
               <span
                 className="sc-id font-mono text-sm group-hover:underline underline-offset-2"
-                data-target={`PROJECT ${i}`}
+                data-target={`${i + 1 < 10 ? `0${i + 1}` : i + 1}`}
               >
-                PROJECT {i + 1 < 10 ? `0${i + 1}` : i + 1}
+                {i + 1 < 10 ? `0${i + 1}` : i + 1}
               </span>
               <h3
                 className="sc-title text-2xl font-semibold uppercase tracking-tight lg:text-3xl"

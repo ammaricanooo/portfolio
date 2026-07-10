@@ -49,7 +49,7 @@ export default function Home() {
           setProjects(data);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   // Initial scramble — wait for loader
@@ -165,10 +165,15 @@ export default function Home() {
           scrollTrigger: { trigger: ".circle-label", start: "top 85%", once: true },
         }
       );
-      gsap.fromTo(".tech-logo",
-        { opacity: 0 },
+      gsap.fromTo(
+        ".tech-logo",
+        { yPercent: 120, opacity: 0 },
         {
-          opacity: 0.4, duration: 0.5, ease: "power3.out", stagger: 0.08,
+          yPercent: 0,
+          opacity: 0.4,
+          duration: 0.6,
+          ease: "power3.out",
+          stagger: 0.1,
           scrollTrigger: { trigger: ".circle-label", start: "top 80%", once: true },
         }
       );
@@ -328,12 +333,13 @@ export default function Home() {
               </p>
               <div className="group/logos flex flex-wrap items-center justify-center gap-10 md:gap-16">
                 {TECH_LOGOS.map((t) => (
-                  <img
-                    key={t.alt}
-                    src={t.src}
-                    alt={t.alt}
-                    className="tech-logo h-7 w-auto object-contain grayscale opacity-0 transition-[filter] duration-500 hover:grayscale-0 hover:opacity-100! group-hover/logos:opacity-20 md:gap-16"
-                  />
+                  <div key={t.alt} className="tech-logo-mask h-7 overflow-hidden">
+                    <img
+                      src={t.src}
+                      alt={t.alt}
+                      className="tech-logo h-7 w-auto object-contain grayscale opacity-0 transition-all duration-500 hover:grayscale-0 hover:opacity-100! group-hover/logos:opacity-20 cursor-pointer"
+                    />
+                  </div>
                 ))}
               </div>
             </div>
