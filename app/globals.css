@@ -65,6 +65,8 @@ body {
 
 /* ─── Transition / Loader FOUC Prevention ────────────────── */
 html.is-loading main,
-html.is-loading .header-anim {
+html.is-loading .header-anim,
+html.is-loading footer {
   opacity: 0 !important;
+  pointer-events: none !important;
 }

@@ -17,21 +17,24 @@ const LOADING_WORDS = [
 ];
 
 export default function PageLoader() {
-  const layer1Ref  = useRef<HTMLDivElement>(null);
-  const layer2Ref  = useRef<HTMLDivElement>(null);
-  const barRef     = useRef<HTMLDivElement>(null);
-  const wordRef    = useRef<HTMLSpanElement>(null);
-  const [count, setCount]   = useState(0);
+  const layer1Ref = useRef<HTMLDivElement>(null);
+  const layer2Ref = useRef<HTMLDivElement>(null);
+  const barRef    = useRef<HTMLDivElement>(null);
+  const wordRef   = useRef<HTMLSpanElement>(null);
+  const progressRef = useRef(0);       // actual progress 0–100
+  const animValRef  = useRef(0);       // animated display value
+  const tlRef       = useRef<gsap.core.Tween | null>(null);
+
+  const [count, setCount]     = useState(0);
   const [wordIdx, setWordIdx] = useState(0);
-  const [done, setDone]     = useState(false);
+  const [done, setDone]       = useState(false);
   const pathname = usePathname();
 
-  // Cycle through loading words with a clip-path reveal/hide
+  // ── Word cycling ────────────────────────────────────────────────────────────
   useEffect(() => {
     if (done) return;
     const interval = setInterval(() => {
       if (!wordRef.current) return;
-      // Slide out upward
       gsap.to(wordRef.current, {
         yPercent: -120,
         opacity: 0,
@@ -39,7 +42,6 @@ export default function PageLoader() {
         ease: "power3.in",
         onComplete() {
           setWordIdx((i) => (i + 1) % LOADING_WORDS.length);
-          // Slide in from below
           gsap.fromTo(
             wordRef.current,
             { yPercent: 120, opacity: 0 },
@@ -51,6 +53,7 @@ export default function PageLoader() {
     return () => clearInterval(interval);
   }, [done]);
 
+  // ── Loader run ──────────────────────────────────────────────────────────────
   const runLoader = () => {
     if (!layer1Ref.current || !layer2Ref.current || !barRef.current) return;
 
@@ -60,46 +63,83 @@ export default function PageLoader() {
     setDone(false);
     setCount(0);
     setWordIdx(0);
+    progressRef.current = 0;
+    animValRef.current  = 0;
+
     gsap.killTweensOf([layer1Ref.current, layer2Ref.current, barRef.current]);
+    if (tlRef.current) tlRef.current.kill();
+
     gsap.set([layer1Ref.current, layer2Ref.current], { yPercent: 0 });
     gsap.set(barRef.current, { width: "0%" });
-    if (wordRef.current) {
-      gsap.set(wordRef.current, { yPercent: 0, opacity: 1 });
+    if (wordRef.current) gsap.set(wordRef.current, { yPercent: 0, opacity: 1 });
+
+    // ── Finish: slide layers out, then signal ready ────────────────────────
+    const finish = () => {
+      // Keep is-loading until layers are fully gone so content never flashes
+      gsap.to(layer1Ref.current, {
+        yPercent: -100,
+        duration: 0.75,
+        ease: "power4.inOut",
+        delay: 0.15,
+      });
+      gsap.to(layer2Ref.current, {
+        yPercent: -100,
+        duration: 0.75,
+        ease: "power4.inOut",
+        delay: 0.45,
+        onComplete() {
+          document.documentElement.classList.remove("is-loading");
+          document.body.style.overflow = "";
+          setDone(true);
+          window.dispatchEvent(new CustomEvent("loaderDone"));
+        },
+      });
+    };
+
+    // ── Animate display counter to current progressRef value ──────────────
+    const animateTo = (target: number, duration: number, onDone?: () => void) => {
+      if (tlRef.current) tlRef.current.kill();
+      const obj = { val: animValRef.current };
+      tlRef.current = gsap.to(obj, {
+        val: target,
+        duration,
+        ease: "power1.out",
+        onUpdate() {
+          const v = Math.round(obj.val);
+          animValRef.current = v;
+          setCount(v);
+          if (barRef.current) barRef.current.style.width = `${v}%`;
+        },
+        onComplete() {
+          animValRef.current = target;
+          onDone?.();
+        },
+      });
+    };
+
+    // ── Phase 1: animate to ~30% quickly to show activity ─────────────────
+    animateTo(30, 0.6);
+
+    // ── Phase 2: wait for page load event ─────────────────────────────────
+    const onLoaded = () => {
+      // Animate from current to 100%, then finish
+      animateTo(100, 0.7, finish);
+    };
+
+    if (document.readyState === "complete") {
+      // Already loaded — short pause so loader is visible, then complete
+      setTimeout(() => animateTo(100, 0.5, finish), 300);
+    } else {
+      // Creep slowly to 85% while waiting
+      animateTo(85, 3.5);
+      window.addEventListener("load", onLoaded, { once: true });
+      // Safety fallback: if load takes too long, finish anyway after 5s
+      const fallback = setTimeout(() => {
+        window.removeEventListener("load", onLoaded);
+        animateTo(100, 0.5, finish);
+      }, 5000);
+      window.addEventListener("load", () => clearTimeout(fallback), { once: true });
     }
-
-    const obj = { val: 0 };
-    gsap.to(obj, {
-      val: 100,
-      duration: 1.4,
-      ease: "power2.inOut",
-      onUpdate() {
-        const v = Math.round(obj.val);
-        setCount(v);
-        if (barRef.current) barRef.current.style.width = `${v}%`;
-      },
-      onComplete() {
-        document.documentElement.classList.remove("is-loading");
-
-        gsap.to(layer1Ref.current, {
-          yPercent: -100,
-          duration: 0.75,
-          ease: "power4.inOut",
-          delay: 0.1,
-        });
-
-        gsap.to(layer2Ref.current, {
-          yPercent: -100,
-          duration: 0.75,
-          ease: "power4.inOut",
-          delay: 0.4,
-          onComplete() {
-            document.body.style.overflow = "";
-            setDone(true);
-            window.dispatchEvent(new CustomEvent("loaderDone"));
-          },
-        });
-      },
-    });
   };
 
   useEffect(() => {
