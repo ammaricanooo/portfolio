@@ -6,8 +6,8 @@ import gsap from "gsap";
 
 const LOADING_WORDS = [
   "Loading",      // English
-  "Laden",        // German
   "로딩 중",       // Korean
+  "Laden",        // German
   "Chargement",   // French
   "Cargando",     // Spanish
   "読み込み中",    // Japanese
@@ -24,6 +24,7 @@ export default function PageLoader() {
   const progressRef = useRef(0);       // actual progress 0–100
   const animValRef  = useRef(0);       // animated display value
   const tlRef       = useRef<gsap.core.Tween | null>(null);
+  const doneRef     = useRef(false);
 
   const [count, setCount]     = useState(0);
   const [wordIdx, setWordIdx] = useState(0);
@@ -65,6 +66,7 @@ export default function PageLoader() {
     setWordIdx(0);
     progressRef.current = 0;
     animValRef.current  = 0;
+    doneRef.current     = false;
 
     gsap.killTweensOf([layer1Ref.current, layer2Ref.current, barRef.current]);
     if (tlRef.current) tlRef.current.kill();
@@ -75,7 +77,7 @@ export default function PageLoader() {
 
     // ── Finish: slide layers out, then signal ready ────────────────────────
     const finish = () => {
-      // Keep is-loading until layers are fully gone so content never flashes
+      if (tlRef.current) tlRef.current.kill();
       gsap.to(layer1Ref.current, {
         yPercent: -100,
         duration: 0.75,
@@ -90,13 +92,14 @@ export default function PageLoader() {
         onComplete() {
           document.documentElement.classList.remove("is-loading");
           document.body.style.overflow = "";
+          doneRef.current = true;
           setDone(true);
           window.dispatchEvent(new CustomEvent("loaderDone"));
         },
       });
     };
 
-    // ── Animate display counter to current progressRef value ──────────────
+    // ── Animate display counter to a target value ──────────────────────────
     const animateTo = (target: number, duration: number, onDone?: () => void) => {
       if (tlRef.current) tlRef.current.kill();
       const obj = { val: animValRef.current };
@@ -117,28 +120,43 @@ export default function PageLoader() {
       });
     };
 
+    // ── Visibility recovery: if tab comes back while loader is still active ─
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        // Page became visible again — if we're not done, sprint to finish
+        if (!doneRef.current) {
+          window.removeEventListener("load", onLoaded);
+          clearTimeout(fallbackTimer);
+          animateTo(100, 0.6, finish);
+        }
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange, { once: true });
+
     // ── Phase 1: animate to ~30% quickly to show activity ─────────────────
     animateTo(30, 0.6);
 
-    // ── Phase 2: wait for page load event ─────────────────────────────────
+    let fallbackTimer: ReturnType<typeof setTimeout>;
+
     const onLoaded = () => {
-      // Animate from current to 100%, then finish
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       animateTo(100, 0.7, finish);
     };
 
     if (document.readyState === "complete") {
-      // Already loaded — short pause so loader is visible, then complete
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       setTimeout(() => animateTo(100, 0.5, finish), 300);
     } else {
-      // Creep slowly to 85% while waiting
+      // Creep slowly to 85% while waiting for load
       animateTo(85, 3.5);
       window.addEventListener("load", onLoaded, { once: true });
-      // Safety fallback: if load takes too long, finish anyway after 5s
-      const fallback = setTimeout(() => {
+      // Safety fallback after 5s
+      fallbackTimer = setTimeout(() => {
         window.removeEventListener("load", onLoaded);
+        document.removeEventListener("visibilitychange", onVisibilityChange);
         animateTo(100, 0.5, finish);
       }, 5000);
-      window.addEventListener("load", () => clearTimeout(fallback), { once: true });
+      window.addEventListener("load", () => clearTimeout(fallbackTimer), { once: true });
     }
   };
 
