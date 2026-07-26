@@ -27,7 +27,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://ammaricano.dev"),
   title: {
-    default: "Ammar Abdul Malik — Software Engineer",
+    default: "Ammar Abdul Malik Software Engineer",
     template: "%s | Ammar Abdul Malik",
   },
   description:
@@ -47,14 +47,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://ammaricano.dev",
-    siteName: "Ammar Abdul Malik — Software Engineer",
-    title: "Ammar Abdul Malik — Software Engineer",
+    siteName: "Ammar Abdul Malik Software Engineer",
+    title: "Ammar Abdul Malik Software Engineer",
     description:
       "Software Engineer based in Indonesia specializing in full-stack web development, building seamless digital solutions with clean code.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ammar Abdul Malik — Software Engineer",
+    title: "Ammar Abdul Malik Software Engineer",
     description:
       "Software Engineer based in Indonesia specializing in full-stack web development, building seamless digital solutions with clean code.",
     creator: "@ammaricano",

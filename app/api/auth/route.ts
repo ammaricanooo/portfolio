@@ -1,8 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHash } from "crypto";
+import { isAdmin } from "../../lib/adminAuth";
 
 function hashToken(input: string): string {
   return createHash("sha256").update(input + process.env.ADMIN_PASSWORD).digest("hex");
+}
+
+export async function GET(req: NextRequest) {
+  if (isAdmin(req)) {
+    return NextResponse.json({ authenticated: true });
+  }
+  return NextResponse.json({ authenticated: false }, { status: 401 });
 }
 
 export async function POST(req: NextRequest) {

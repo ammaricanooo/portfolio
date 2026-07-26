@@ -12,7 +12,7 @@ export default function Footer({ time }: FooterProps) {
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
           <span className="font-mono text-[10px] uppercase tracking-widest opacity-30">
-            © 2026 — Ammar Abdul Malik
+            © {new Date().getFullYear()} Ammar Abdul Malik
           </span>
           {time && (
             <span className="font-mono text-[10px] uppercase tracking-widest opacity-20">
@@ -25,7 +25,7 @@ export default function Footer({ time }: FooterProps) {
             ammaricano
           </h1>
         </div>
-        <ul className="flex flex-wrap justify-end gap-6">
+        <ul className="flex flex-wrap justify center md:justify-end gap-6">
           {SOCIALS.map((s) => (
             <li key={s.label}>
               <a
