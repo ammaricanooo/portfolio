@@ -8,7 +8,7 @@ interface FooterProps {
 
 export default function Footer({ time }: FooterProps) {
   return (
-    <footer className="border-t border-zinc-200 px-8 py-8 dark:border-zinc-800 md:px-16">
+    <footer className="border-t border-zinc-200 px-4 py-8 dark:border-zinc-800 md:px-16">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
           <span className="font-mono text-[10px] uppercase tracking-widest opacity-30">
@@ -25,7 +25,7 @@ export default function Footer({ time }: FooterProps) {
             ammaricano
           </h1>
         </div>
-        <ul className="flex flex-wrap justify center md:justify-end gap-6">
+        <ul className="flex flex-wrap justify-center md:justify-end gap-6">
           {SOCIALS.map((s) => (
             <li key={s.label}>
               <a

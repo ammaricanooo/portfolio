@@ -47,16 +47,6 @@ export { Prisma }
  */
 export type Project = Prisma.ProjectModel
 /**
- * Model Education
- * 
- */
-export type Education = Prisma.EducationModel
-/**
- * Model Branch
- * 
- */
-export type Branch = Prisma.BranchModel
-/**
  * Model TechCategory
  * 
  */

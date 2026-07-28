@@ -385,8 +385,6 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Project: 'Project',
-  Education: 'Education',
-  Branch: 'Branch',
   TechCategory: 'TechCategory',
   TechItem: 'TechItem'
 } as const
@@ -404,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "project" | "education" | "branch" | "techCategory" | "techItem"
+    modelProps: "project" | "techCategory" | "techItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -479,154 +477,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ProjectCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ProjectCountAggregateOutputType> | number
-        }
-      }
-    }
-    Education: {
-      payload: Prisma.$EducationPayload<ExtArgs>
-      fields: Prisma.EducationFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.EducationFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EducationPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.EducationFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EducationPayload>
-        }
-        findFirst: {
-          args: Prisma.EducationFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EducationPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.EducationFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EducationPayload>
-        }
-        findMany: {
-          args: Prisma.EducationFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EducationPayload>[]
-        }
-        create: {
-          args: Prisma.EducationCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EducationPayload>
-        }
-        createMany: {
-          args: Prisma.EducationCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.EducationCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EducationPayload>[]
-        }
-        delete: {
-          args: Prisma.EducationDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EducationPayload>
-        }
-        update: {
-          args: Prisma.EducationUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EducationPayload>
-        }
-        deleteMany: {
-          args: Prisma.EducationDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.EducationUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.EducationUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EducationPayload>[]
-        }
-        upsert: {
-          args: Prisma.EducationUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$EducationPayload>
-        }
-        aggregate: {
-          args: Prisma.EducationAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateEducation>
-        }
-        groupBy: {
-          args: Prisma.EducationGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.EducationGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.EducationCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.EducationCountAggregateOutputType> | number
-        }
-      }
-    }
-    Branch: {
-      payload: Prisma.$BranchPayload<ExtArgs>
-      fields: Prisma.BranchFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.BranchFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BranchPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.BranchFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BranchPayload>
-        }
-        findFirst: {
-          args: Prisma.BranchFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BranchPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.BranchFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BranchPayload>
-        }
-        findMany: {
-          args: Prisma.BranchFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BranchPayload>[]
-        }
-        create: {
-          args: Prisma.BranchCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BranchPayload>
-        }
-        createMany: {
-          args: Prisma.BranchCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.BranchCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BranchPayload>[]
-        }
-        delete: {
-          args: Prisma.BranchDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BranchPayload>
-        }
-        update: {
-          args: Prisma.BranchUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BranchPayload>
-        }
-        deleteMany: {
-          args: Prisma.BranchDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.BranchUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.BranchUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BranchPayload>[]
-        }
-        upsert: {
-          args: Prisma.BranchUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BranchPayload>
-        }
-        aggregate: {
-          args: Prisma.BranchAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateBranch>
-        }
-        groupBy: {
-          args: Prisma.BranchGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.BranchGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.BranchCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.BranchCountAggregateOutputType> | number
         }
       }
     }
@@ -830,30 +680,6 @@ export const ProjectScalarFieldEnum = {
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
 
 
-export const EducationScalarFieldEnum = {
-  id: 'id',
-  order: 'order',
-  year: 'year',
-  title: 'title',
-  subtitle: 'subtitle',
-  desc: 'desc',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type EducationScalarFieldEnum = (typeof EducationScalarFieldEnum)[keyof typeof EducationScalarFieldEnum]
-
-
-export const BranchScalarFieldEnum = {
-  id: 'id',
-  label: 'label',
-  desc: 'desc',
-  educationId: 'educationId'
-} as const
-
-export type BranchScalarFieldEnum = (typeof BranchScalarFieldEnum)[keyof typeof BranchScalarFieldEnum]
-
-
 export const TechCategoryScalarFieldEnum = {
   id: 'id',
   order: 'order',
@@ -1026,8 +852,6 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   project?: Prisma.ProjectOmit
-  education?: Prisma.EducationOmit
-  branch?: Prisma.BranchOmit
   techCategory?: Prisma.TechCategoryOmit
   techItem?: Prisma.TechItemOmit
 }

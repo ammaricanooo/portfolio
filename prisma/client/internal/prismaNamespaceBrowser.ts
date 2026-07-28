@@ -52,8 +52,6 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Project: 'Project',
-  Education: 'Education',
-  Branch: 'Branch',
   TechCategory: 'TechCategory',
   TechItem: 'TechItem'
 } as const
@@ -85,30 +83,6 @@ export const ProjectScalarFieldEnum = {
 } as const
 
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
-
-
-export const EducationScalarFieldEnum = {
-  id: 'id',
-  order: 'order',
-  year: 'year',
-  title: 'title',
-  subtitle: 'subtitle',
-  desc: 'desc',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type EducationScalarFieldEnum = (typeof EducationScalarFieldEnum)[keyof typeof EducationScalarFieldEnum]
-
-
-export const BranchScalarFieldEnum = {
-  id: 'id',
-  label: 'label',
-  desc: 'desc',
-  educationId: 'educationId'
-} as const
-
-export type BranchScalarFieldEnum = (typeof BranchScalarFieldEnum)[keyof typeof BranchScalarFieldEnum]
 
 
 export const TechCategoryScalarFieldEnum = {
