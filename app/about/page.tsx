@@ -9,6 +9,7 @@ import { scramble } from "../lib/scramble";
 import { useLoader } from "../lib/loaderContext";
 import { useClock } from "../lib/useClock";
 import { useGsapReady } from "../lib/useGsapReady";
+import { useIsMobile } from "../lib/useIsMobile";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const TECH_CATEGORIES = [
@@ -115,6 +116,7 @@ export default function AboutPage() {
   const heroNameRef = useRef<HTMLHeadingElement>(null);
   const { ready } = useLoader();
   const time = useClock();
+  const isMobile = useIsMobile();
   useGsapReady();
 
   // Scramble — wait for loader
@@ -126,23 +128,44 @@ export default function AboutPage() {
   useEffect(() => {
     if (!ready) return;
     const ctx = gsap.context(() => {
-      // Parallax untuk image di personal interest
+      const isMobileDevice = window.innerWidth < 768;
+
+      // Responsive ScrollTrigger start positions tailored per device
+      const START = {
+        journeyHeading: isMobileDevice ? "top 85%" : "top 70%",
+        journeyWord: isMobileDevice ? "top 85%" : "top 70%",
+        techHeading: isMobileDevice ? "top 80%" : "top 60%",
+        techAccordion: isMobileDevice ? "top 55%" : "top 20%",
+        sectionLabel: isMobileDevice ? "top 95%" : "top 88%",
+        interestHeading: isMobileDevice ? "top 80%" : "top 60%",
+        interestImg: isMobileDevice ? "top 75%" : "top 55%",
+        ctaSection: isMobileDevice ? "top 80%" : "top 60%",
+      };
+
+      // Entrance animation delays adjusted for touch/desktop
+      const DELAY = {
+        revealBlock: isMobileDevice ? 0.3 : 0.5,
+        ammarClip: isMobileDevice ? 0.3 : 0.5,
+        heroImg: isMobileDevice ? 0.6 : 0.8,
+      };
+
+      // Parallax for image in personal interest
       gsap.to(".parallax-img", {
-        y: "10%",
+        y: isMobileDevice ? "5%" : "35%",
         ease: "none",
         scrollTrigger: {
           trigger: ".interest-section",
           start: "top bottom",
           end: "bottom top",
-          scrub: 0.5,        // tambah scrub dari 0.5 jadi 1.5 (lebih lambat & smooth)
+          scrub: 1.5,
         },
       });
 
-      // ── Intro: reveal-block + reveal-content — identik dengan homepage ──
+      // Intro: reveal-block + reveal-content
       gsap.timeline()
         .fromTo(".reveal-block",
           { scaleX: 0, transformOrigin: "left" },
-          { scaleX: 1, duration: 0.7, ease: "power4.inOut", delay: 0.5 }
+          { scaleX: 1, duration: 0.7, ease: "power4.inOut", delay: DELAY.revealBlock }
         )
         .set(".reveal-content", { opacity: 1 })
         .to(".reveal-block",
@@ -154,98 +177,95 @@ export default function AboutPage() {
         { opacity: 0 },
         { opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.1 }
       );
-      // Clip reveal untuk gambar Ammar dari atas ke bawah
+
+      // Clip reveal for photo
       gsap.fromTo(".ammar-clip",
         { clipPath: "inset(0% 0% 100% 0%)" },
         {
           clipPath: "inset(0% 0% 0% 0%)",
-          duration: 2,
+          duration: 1.8,
           ease: "power4.inOut",
-          delay: 0.5,
+          delay: DELAY.ammarClip,
         }
       );
 
-      // Fade in untuk container gambarnya (opsional, tanpa y)
+      // Container fade-in
       gsap.fromTo(".about-hero-img",
         { opacity: 0 },
-        { opacity: 1, duration: 0.5, delay: 0.8 }
+        { opacity: 1, duration: 0.5, delay: DELAY.heroImg }
       );
 
-      // Journey
+      // Journey section
       gsap.fromTo(".journey-heading",
-        { opacity: 0 },
+        { opacity: 0, y: 16 },
         {
-          opacity: 1, duration: 1, ease: "power3.out", delay: 0.2,
-          scrollTrigger: { trigger: ".journey-section", start: "top 90%", once: true },
+          opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
+          scrollTrigger: { trigger: ".journey-section", start: START.journeyHeading, once: true },
         }
       );
       gsap.fromTo(".journey-word-section",
-        { opacity: 0 },
+        { opacity: 0, y: 16 },
         {
-          opacity: 1, duration: 1, ease: "power3.out", delay: 0.4,
-          scrollTrigger: { trigger: ".journey-word-section", start: "top 90%", once: true },
+          opacity: 1, y: 0, duration: 0.9, ease: "power3.out", delay: 0.2,
+          scrollTrigger: { trigger: ".journey-word-section", start: START.journeyWord, once: true },
         }
       );
 
-      // Tech
+      // Tech section
       gsap.fromTo(".tech-heading",
-        { opacity: 0 },
+        { opacity: 0, y: 16 },
         {
-          opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".tech-section", start: "top 60%", once: true },
+          opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
+          scrollTrigger: { trigger: ".tech-section", start: START.techHeading, once: true },
         }
       );
       gsap.fromTo(".tech-accordion",
-        { opacity: 0 },
+        { opacity: 0, y: 16 },
         {
-          opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".tech-section", start: "top 40%", once: true },
+          opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
+          scrollTrigger: { trigger: ".tech-section", start: START.techAccordion, once: true },
         }
       );
 
-      // Section labels (/00-2, /00-3, /00-4, /00-5)
+      // Section labels (/00-2, /00-3, /00-4)
       gsap.utils.toArray<HTMLElement>(".section-label").forEach((el) => {
         gsap.fromTo(el,
           { opacity: 0 },
           {
-            opacity: 1, duration: 1, ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 68%", once: true },
+            opacity: 1, duration: 0.8, ease: "power3.out",
+            scrollTrigger: { trigger: el, start: START.sectionLabel, once: true },
           }
         );
       });
 
-      // Interest
+      // Interest section
       gsap.fromTo(".interest-heading",
-        { opacity: 0 },
+        { opacity: 0, y: 16 },
         {
-          opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".interest-section", start: "top 75%", once: true },
+          opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
+          scrollTrigger: { trigger: ".interest-section", start: START.interestHeading, once: true },
         }
       );
-
-      // Interest image fade-in
       gsap.fromTo(".interest-img",
         { opacity: 0 },
         {
-          opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".interest-img", start: "top 55%", once: true },
+          opacity: 1, duration: 0.9, ease: "power3.out",
+          scrollTrigger: { trigger: ".interest-img", start: START.interestImg, once: true },
         }
       );
 
-      // CTA
+      // CTA section
       gsap.fromTo(".cta-section",
-        { opacity: 0 },
+        { opacity: 0, y: 16 },
         {
-          opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".cta-section", start: "top 50%", once: true },
+          opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
+          scrollTrigger: { trigger: ".cta-section", start: START.ctaSection, once: true },
         }
       );
 
     }, containerRef);
     return () => ctx.revert();
   }, [ready]);
-
-  
 
   return (
     <div
@@ -259,7 +279,7 @@ export default function AboutPage() {
         {/* ══ HERO ══════════════════════════════════════════════════════════════ */}
         <section className="relative flex flex-col justify-start px-8 pt-[20vh] md:pt-[32vh] md:px-16">
 
-          {/* Tags — kiri & kanan, sama posisi dengan bottom bar homepage */}
+          {/* Tags */}
           <div className="mb-6 flex items-center justify-between">
             <span className="about-hero-tag opacity-0 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
               Based in Indonesia
@@ -269,13 +289,13 @@ export default function AboutPage() {
             </span>
           </div>
 
-          {/* "An Ever-Growing" — heroNameRef + scramble, identik dengan homepage */}
+          {/* "An Ever-Growing" */}
           <h1
             ref={heroNameRef}
             className="font-serif text-[clamp(1rem,6vw,3rem)] uppercase leading-none tracking-tight"
           />
 
-          {/* "Software Engineer" — reveal-block + reveal-content, identik dengan homepage */}
+          {/* "Software Engineer" */}
           <div className="relative mt-2 inline-block overflow-hidden w-fit">
             <h2 className="reveal-content opacity-0 pl-4 font-sans text-[clamp(1rem,6vw,3rem)] font-semibold uppercase md:pl-16">
               Software Engineer
@@ -283,12 +303,12 @@ export default function AboutPage() {
             <div className="reveal-block absolute inset-0 ml-4 scale-x-0 bg-black dark:bg-white md:ml-16" />
           </div>
 
-          {/* Photo — pojok kanan */}
+          {/* Photo */}
           <div className="about-hero-img opacity-0 mt-6 flex justify-end mb-8">
             <div className="overflow-hidden ammar-clip"
               style={{
                 width: "clamp(140px, 22vw, 320px)",
-                clipPath: "inset(0% 0% 100% 0%)"  // changed: dari 0% bawah 100%
+                clipPath: "inset(0% 0% 100% 0%)"
               }}>
               <img
                 src="/ammar.jpeg"
@@ -316,8 +336,8 @@ export default function AboutPage() {
                     <ScrollRevealText
                       text={para}
                       baseOpacity={0.1}
-                      start="top 85%"
-                      end="top 50%"
+                      start={isMobile ? "top 90%" : "top 85%"}
+                      end={isMobile ? "top 60%" : "top 50%"}
                       scrub={0.8}
                     />
                   </p>
@@ -366,8 +386,8 @@ export default function AboutPage() {
                   <ScrollRevealText
                     text={INTEREST_P1}
                     baseOpacity={0.1}
-                    start="top 85%"
-                    end="top 55%"
+                    start={isMobile ? "top 90%" : "top 75%"}
+                    end={isMobile ? "top 60%" : "top 55%"}
                     scrub={0.8}
                   />
                 </p>
@@ -376,10 +396,10 @@ export default function AboutPage() {
               {/* Image dengan efek zoom + parallax */}
               <div className="interest-img opacity-0 aspect-video w-full overflow-hidden bg-zinc-200 dark:bg-zinc-800">
                 <img
-                  src="/music.png"
+                  src="/showcase.jpeg"
                   alt="Music — personal interest"
                   className="parallax-img h-full w-full object-cover md:-translate-y-40"
-                  style={{ transform: "scale(1.50)" }}
+                  style={{ transform: "scale(1.10)" }}
                 />
               </div>
 
@@ -388,8 +408,8 @@ export default function AboutPage() {
                   <ScrollRevealText
                     text={INTEREST_P2}
                     baseOpacity={0.1}
-                    start="top 85%"
-                    end="top 55%"
+                    start={isMobile ? "top 90%" : "top 85%"}
+                    end={isMobile ? "top 60%" : "top 55%"}
                     scrub={0.8}
                   />
                 </p>
@@ -443,4 +463,3 @@ export default function AboutPage() {
     </div>
   );
 }
-

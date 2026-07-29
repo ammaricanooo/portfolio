@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -9,26 +9,13 @@ import { WORK_PROJECTS } from "../lib/data";
 import { useLoader } from "../lib/loaderContext";
 import { useClock } from "../lib/useClock";
 import { useGsapReady } from "../lib/useGsapReady";
-import type { Project } from "../lib/types";
 
 export default function WorkPage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [projects, setProjects] = useState<Project[]>(WORK_PROJECTS);
+  const projects = WORK_PROJECTS;
   const { ready } = useLoader();
   const time = useClock();
   useGsapReady();
-
-  // Load projects from database
-  useEffect(() => {
-    fetch("/api/projects")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setProjects(data);
-        }
-      })
-      .catch(() => {});
-  }, []);
 
   useEffect(() => {
     if (!ready) return;

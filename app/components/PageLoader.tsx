@@ -19,16 +19,16 @@ const LOADING_WORDS = [
 export default function PageLoader() {
   const layer1Ref = useRef<HTMLDivElement>(null);
   const layer2Ref = useRef<HTMLDivElement>(null);
-  const barRef    = useRef<HTMLDivElement>(null);
-  const wordRef   = useRef<HTMLSpanElement>(null);
-  const progressRef = useRef(0);       // actual progress 0–100
-  const animValRef  = useRef(0);       // animated display value
-  const tlRef       = useRef<gsap.core.Tween | null>(null);
-  const doneRef     = useRef(false);
+  const barRef = useRef<HTMLDivElement>(null);
+  const wordRef = useRef<HTMLSpanElement>(null);
+  const animValRef = useRef(0);
+  const tlRef = useRef<gsap.core.Tween | null>(null);
+  const doneRef = useRef(false);
+  const isFirstLoadRef = useRef(true);
 
-  const [count, setCount]     = useState(0);
+  const [count, setCount] = useState(0);
   const [wordIdx, setWordIdx] = useState(0);
-  const [done, setDone]       = useState(false);
+  const [done, setDone] = useState(false);
   const pathname = usePathname();
 
   // ── Word cycling ────────────────────────────────────────────────────────────
@@ -39,18 +39,18 @@ export default function PageLoader() {
       gsap.to(wordRef.current, {
         yPercent: -120,
         opacity: 0,
-        duration: 0.35,
+        duration: 0.25,
         ease: "power3.in",
         onComplete() {
           setWordIdx((i) => (i + 1) % LOADING_WORDS.length);
           gsap.fromTo(
             wordRef.current,
             { yPercent: 120, opacity: 0 },
-            { yPercent: 0, opacity: 1, duration: 0.4, ease: "power3.out" }
+            { yPercent: 0, opacity: 1, duration: 0.3, ease: "power3.out" }
           );
         },
       });
-    }, 500);
+    }, 400);
     return () => clearInterval(interval);
   }, [done]);
 
@@ -64,9 +64,8 @@ export default function PageLoader() {
     setDone(false);
     setCount(0);
     setWordIdx(0);
-    progressRef.current = 0;
-    animValRef.current  = 0;
-    doneRef.current     = false;
+    animValRef.current = 0;
+    doneRef.current = false;
 
     gsap.killTweensOf([layer1Ref.current, layer2Ref.current, barRef.current]);
     if (tlRef.current) tlRef.current.kill();
@@ -75,20 +74,20 @@ export default function PageLoader() {
     gsap.set(barRef.current, { width: "0%" });
     if (wordRef.current) gsap.set(wordRef.current, { yPercent: 0, opacity: 1 });
 
-    // ── Finish: slide layers out, then signal ready ────────────────────────
+    // ── Finish: slide layers out quickly ──────────────────────────────────────
     const finish = () => {
       if (tlRef.current) tlRef.current.kill();
       gsap.to(layer1Ref.current, {
         yPercent: -100,
-        duration: 0.75,
+        duration: 0.5,
         ease: "power4.inOut",
-        delay: 0.15,
+        delay: 0.05,
       });
       gsap.to(layer2Ref.current, {
         yPercent: -100,
-        duration: 0.75,
+        duration: 0.5,
         ease: "power4.inOut",
-        delay: 0.45,
+        delay: 0.25,
         onComplete() {
           document.documentElement.classList.remove("is-loading");
           document.body.style.overflow = "";
@@ -99,14 +98,14 @@ export default function PageLoader() {
       });
     };
 
-    // ── Animate display counter to a target value ──────────────────────────
+    // ── Animate counter display ───────────────────────────────────────────────
     const animateTo = (target: number, duration: number, onDone?: () => void) => {
       if (tlRef.current) tlRef.current.kill();
       const obj = { val: animValRef.current };
       tlRef.current = gsap.to(obj, {
         val: target,
         duration,
-        ease: "power1.out",
+        ease: "power2.out",
         onUpdate() {
           const v = Math.round(obj.val);
           animValRef.current = v;
@@ -120,42 +119,60 @@ export default function PageLoader() {
       });
     };
 
-    // ── Visibility recovery: if tab comes back while loader is still active ─
-    const onVisibilityChange = () => {
-      if (document.visibilityState === "visible") {
-        // Page became visible again — if we're not done, sprint to finish
-        if (!doneRef.current) {
-          window.removeEventListener("load", onLoaded);
-          clearTimeout(fallbackTimer);
-          animateTo(100, 0.6, finish);
-        }
-      }
-    };
-    document.addEventListener("visibilitychange", onVisibilityChange, { once: true });
+    // Fast transition on SPA client navigation
+    if (!isFirstLoadRef.current) {
+      animateTo(100, 0.25, finish);
+      return;
+    }
 
-    // ── Phase 1: animate to ~30% quickly to show activity ─────────────────
-    animateTo(30, 0.6);
+    isFirstLoadRef.current = false;
 
-    let fallbackTimer: ReturnType<typeof setTimeout>;
-
-    const onLoaded = () => {
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-      animateTo(100, 0.7, finish);
-    };
-
+    // First load: measure real DOM & network loading state
     if (document.readyState === "complete") {
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-      setTimeout(() => animateTo(100, 0.5, finish), 300);
+      animateTo(100, 0.35, finish);
     } else {
-      // Creep slowly to 85% while waiting for load
-      animateTo(85, 3.5);
-      window.addEventListener("load", onLoaded, { once: true });
-      // Safety fallback after 5s
-      fallbackTimer = setTimeout(() => {
-        window.removeEventListener("load", onLoaded);
-        document.removeEventListener("visibilitychange", onVisibilityChange);
-        animateTo(100, 0.5, finish);
-      }, 5000);
+      // Calculate real resource progress
+      const checkProgress = () => {
+        const images = Array.from(document.images);
+        const totalImages = images.length;
+        const loadedImages = images.filter((img) => img.complete).length;
+
+        // Base progress on DOM readyState + image completion
+        let calcProgress = 30; // initial DOM base
+        if (totalImages > 0) {
+          calcProgress += Math.round((loadedImages / totalImages) * 60);
+        } else {
+          calcProgress = 80;
+        }
+
+        return Math.min(calcProgress, 95);
+      };
+
+      // Instantly start at initial progress
+      animateTo(checkProgress(), 0.3);
+
+      let finished = false;
+      const completeLoading = () => {
+        if (finished) return;
+        finished = true;
+        animateTo(100, 0.3, finish);
+      };
+
+      // Listen for window load
+      window.addEventListener("load", completeLoading, { once: true });
+
+      // Track font loading if supported
+      if (document.fonts) {
+        document.fonts.ready.then(() => {
+          if (!finished) animateTo(checkProgress(), 0.2);
+        });
+      }
+
+      // Safety timeout based on network speed (max 1.5s fallback)
+      const fallbackTimer = setTimeout(() => {
+        completeLoading();
+      }, 1500);
+
       window.addEventListener("load", () => clearTimeout(fallbackTimer), { once: true });
     }
   };

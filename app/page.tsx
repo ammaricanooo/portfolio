@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, Fragment, useState } from "react";
+import { useEffect, useRef, Fragment } from "react";
 import gsap from "gsap";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -11,14 +11,14 @@ import { WORK_PROJECTS } from "./lib/data";
 import { useLoader } from "./lib/loaderContext";
 import { useClock } from "./lib/useClock";
 import { useGsapReady } from "./lib/useGsapReady";
-import type { Project } from "./lib/types";
+import { useIsMobile } from "./lib/useIsMobile";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const HERO_TEXT =
   "SOFTWARE ENGINEER DRIVEN BY CURIOSITY AND TECHNICAL PRECISION. OVER THREE YEARS OF DEDICATED LEARNING AND HANDS-ON EXPERIENCE IN MODERN DEVELOPMENT. FOCUSING ON BUILDING SEAMLESS DIGITAL SOLUTIONS WHILE CONTINUOUSLY REFINING THE ART OF CLEAN CODE. EVERY LINE MATTERS. THE JOURNEY STARTS HERE.";
 
 const ABOUT_TEXT =
-  "Hi, I'm Ammar. A Software Engineer based in Indonesia with a deep focus on building robust web systems—from high-performance Next.js interfaces to complex Laravel backends. I thrive at the intersection of clean code and server infrastructure, ensuring every application I build is solid, secure, and scalable.";
+  "Hi, I'm Ammar. A Software Engineer based in Indonesia with a deep focus on building robust web systems from high-performance Next.js interfaces to complex Laravel backends. I thrive at the intersection of clean code and server infrastructure, ensuring every application I build is solid, secure, and scalable.";
 
 const MARQUEE_ROW1 = ["Full-Stack Web Development", "Backend Engineering", "System Administration", "Clean Architecture", "API Design"];
 const MARQUEE_ROW2 = ["Next.js", "Laravel", "Node.js", "Express.js", "TypeScript", "PostgreSQL", "Nginx", "Cloudflare Tunnels", "Docker"];
@@ -35,22 +35,10 @@ const TECH_LOGOS = [
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroNameRef = useRef<HTMLHeadingElement>(null);
-  const [projects, setProjects] = useState<Project[]>(WORK_PROJECTS);
+  const isMobile = useIsMobile();
   const { ready } = useLoader();
   const time = useClock();
   useGsapReady();
-
-  // Load projects from database
-  useEffect(() => {
-    fetch("/api/projects")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setProjects(data);
-        }
-      })
-      .catch(() => { });
-  }, []);
 
   // Initial scramble — wait for loader
   useEffect(() => {
@@ -62,12 +50,38 @@ export default function Home() {
   useEffect(() => {
     if (!ready) return;
     const ctx = gsap.context(() => {
+      const isMobileDevice = window.innerWidth < 768;
 
-      // Intro timeline — animates header via .header-anim class
+      // Responsive ScrollTrigger start positions tailored per device
+      const START = {
+        circleLabel: isMobileDevice ? "top 85%" : "top 70%",
+        techLogo: isMobileDevice ? "top 90%" : "top 80%",
+        circlePathIn: isMobileDevice ? "top 70%" : "top 70%",
+        circlePathOut: isMobileDevice ? "top 10%" : "top -10%",
+        blinkWord1: isMobileDevice ? "top 45%" : "top 30%",
+        blinkWord2: isMobileDevice ? "top 65%" : "top 40%",
+        blinkWord3: isMobileDevice ? "top 65%" : "top 45%",
+        workHeading: isMobileDevice ? "top 75%" : "top 50%",
+        workLabel: isMobileDevice ? "top 65%" : "top 40%",
+        workList: isMobileDevice ? "top 50%" : "top 30%",
+        contactHeading: isMobileDevice ? "top 75%" : "top 50%",
+        contactBody: isMobileDevice ? "top 65%" : "top 40%",
+        contactButton: isMobileDevice ? "top 65%" : "top 40%",
+        contactBottom: isMobileDevice ? "top 60%" : "top 34%",
+      };
+
+      // Entrance animation delays adjusted for touch/desktop
+      const DELAY = {
+        revealBlock: isMobileDevice ? 0.3 : 0.5,
+        heroWord: isMobileDevice ? 0.4 : 0.6,
+        heroBottom: isMobileDevice ? 0.8 : 1.2,
+      };
+
+      // Intro timeline
       gsap.timeline()
         .fromTo(".reveal-block",
           { scaleX: 0, transformOrigin: "left" },
-          { scaleX: 1, duration: 0.7, ease: "power4.inOut", delay: 0.5 }
+          { scaleX: 1, duration: 0.7, ease: "power4.inOut", delay: DELAY.revealBlock }
         )
         .set(".reveal-content", { opacity: 1 })
         .to(".reveal-block",
@@ -78,12 +92,10 @@ export default function Home() {
       gsap.to(".hero-word", {
         opacity: 1, duration: 0.8,
         stagger: { each: 0.04, from: "random" },
-        delay: 0.6,
+        delay: DELAY.heroWord,
       });
 
-      // Tech logos, circle, etc. follow here
-
-      // Marquee
+      // Marquee tracks
       gsap.to(".marquee-track-1", {
         xPercent: -50, ease: "none",
         scrollTrigger: { trigger: ".marquee-section", start: "top bottom", end: "bottom top", scrub: 1 },
@@ -101,27 +113,25 @@ export default function Home() {
         { strokeDasharray: 1000, strokeDashoffset: 1000 },
         {
           strokeDashoffset: 0,
-          scrollTrigger: { trigger: ".circle-section", start: "top 80%", end: "top -30%", scrub: 0.4 }
+          scrollTrigger: { trigger: ".circle-section", start: START.circlePathIn, end: START.circlePathOut, scrub: 0.4 }
         }
       );
 
-      // Blink words — sekali saja
+      // Blink words
       gsap.to(".blink-word", {
-        scrollTrigger: { trigger: ".circle-section", start: "top 50%", once: true },
+        scrollTrigger: { trigger: ".circle-section", start: START.blinkWord1, once: true },
         keyframes: [
           { opacity: 1, duration: 0.1 },
           { opacity: 0.2, duration: 0.1 },
           { opacity: 1, duration: 0.1 },
           { opacity: 0.2, duration: 0.1 },
-          { opacity: 1, duration: 0.1 },
-          { opacity: 0.5, duration: 0.1 },
           { opacity: 1, duration: 0.3 },
         ],
         stagger: 0.15,
         ease: "none",
       });
       gsap.to(".blink-word-2", {
-        scrollTrigger: { trigger: ".work-section", start: "top 70%", once: true },
+        scrollTrigger: { trigger: ".work-section", start: START.blinkWord2, once: true },
         keyframes: [
           { opacity: 1, duration: 0.1 },
           { opacity: 0.2, duration: 0.1 },
@@ -136,7 +146,7 @@ export default function Home() {
         ease: "none",
       });
       gsap.to(".blink-word-3", {
-        scrollTrigger: { trigger: ".contact-section", start: "top 70%", once: true },
+        scrollTrigger: { trigger: ".contact-section", start: START.blinkWord3, once: true },
         keyframes: [
           { opacity: 1, duration: 0.1 },
           { opacity: 0.2, duration: 0.1 },
@@ -154,7 +164,7 @@ export default function Home() {
       // Hero bottom bar
       gsap.fromTo(".hero-bottom",
         { opacity: 0 },
-        { opacity: 1, duration: 0.6, ease: "power3.out", stagger: 0.1, delay: 1.2 }
+        { opacity: 1, duration: 0.6, ease: "power3.out", stagger: 0.1, delay: DELAY.heroBottom }
       );
 
       // Circle section — label + logos
@@ -162,7 +172,7 @@ export default function Home() {
         { opacity: 0 },
         {
           opacity: 1, duration: 0.6, ease: "power3.out",
-          scrollTrigger: { trigger: ".circle-label", start: "top 85%", once: true },
+          scrollTrigger: { trigger: ".circle-label", start: START.circleLabel, once: true },
         }
       );
       gsap.fromTo(
@@ -174,53 +184,75 @@ export default function Home() {
           duration: 0.6,
           ease: "power3.out",
           stagger: 0.1,
-          scrollTrigger: { trigger: ".circle-label", start: "top 80%", once: true },
+          scrollTrigger: { trigger: ".circle-label", start: START.techLogo, once: true },
         }
       );
 
-      // Work section — heading + label
+      // Work section
       gsap.fromTo(".work-heading",
-        { opacity: 0 },
+        { opacity: 0, y: 18, immediateRender: true },
         {
-          opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".work-section", start: "top 70%", once: true },
+          opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".work-section",
+            start: START.workHeading,
+            once: true,
+            fastScrollEnd: true,
+          },
         }
       );
       gsap.fromTo(".work-label",
-        { opacity: 0 },
+        { opacity: 0, y: 12, immediateRender: true },
         {
-          opacity: 0.4, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".work-section", start: "top 70%", once: true },
+          opacity: 0.4, y: 0, duration: 0.9, ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".work-section",
+            start: START.workLabel,
+            once: true,
+            fastScrollEnd: true,
+          },
         }
       );
       gsap.fromTo(".work-list",
-        { opacity: 0 },
+        { opacity: 0, y: 20, immediateRender: true },
         {
-          opacity: 1, duration: 1, ease: "power3.out", delay: 0.5,
-          scrollTrigger: { trigger: ".work-section", start: "top 70%", once: true },
+          opacity: 1, y: 0, duration: 1, ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".work-section",
+            start: START.workList,
+            once: true,
+            fastScrollEnd: true,
+          },
         }
       );
 
-      // Contact section — heading + paragraph + button + bottom info
+      // Contact section
       gsap.fromTo(".contact-heading",
-        { opacity: 0 },
+        { opacity: 0, y: 18 },
         {
-          opacity: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".contact-section", start: "top 70%", once: true },
+          opacity: 1, y: 0, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: ".contact-section", start: START.contactHeading, once: true },
         }
       );
       gsap.fromTo(".contact-body",
-        { opacity: 0 },
+        { opacity: 0, y: 22 },
         {
-          opacity: 1, duration: 1, ease: "power3.out", stagger: 0.12, delay: 0.5,
-          scrollTrigger: { trigger: ".contact-section", start: "top 70%", once: true },
+          opacity: 1, y: 0, duration: 1, ease: "power3.out", stagger: 0.12, delay: 0.25,
+          scrollTrigger: { trigger: ".contact-section", start: START.contactBody, once: true },
+        }
+      );
+      gsap.fromTo(".contact-button",
+        { opacity: 0, y: 16 },
+        {
+          opacity: 1, y: 0, duration: 0.9, ease: "power3.out", delay: 0.35,
+          scrollTrigger: { trigger: ".contact-section", start: START.contactButton, once: true },
         }
       );
       gsap.fromTo(".contact-bottom",
-        { opacity: 0 },
+        { opacity: 0, y: 12 },
         {
-          opacity: 0.3, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".contact-section", start: "top 90%", once: true },
+          opacity: 0.3, y: 0, duration: 1, ease: "power3.out",
+          scrollTrigger: { trigger: ".contact-section", start: START.contactBottom, once: true },
         }
       );
 
@@ -228,14 +260,11 @@ export default function Home() {
     return () => ctx.revert();
   }, [ready]);
 
-  // Work hover handlers moved to WorkList component
-
   return (
     <div
       ref={containerRef}
       className="min-h-screen bg-zinc-50 dark:bg-black text-black dark:text-white overflow-x-hidden selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black"
     >
-      {/* Shared header — no activePage = home */}
       <Header />
 
       <main className="w-full">
@@ -273,14 +302,14 @@ export default function Home() {
         </section>
 
         {/* ══ ABOUT ═══════════════════════════════════════════════════════════ */}
-        <section className="about-section flex min-h-screen w-full items-center justify-center bg-white px-4 py-20 dark:bg-zinc-950 md:px-16">
+        <section className="about-section flex w-full items-center justify-center bg-white px-4 py-20 dark:bg-zinc-950 md:px-16">
           <div className="max-w-5xl w-full">
             <h2 className="text-xl font-semibold uppercase leading-snug md:text-4xl text-justify">
               <ScrollRevealText
                 text={ABOUT_TEXT}
                 baseOpacity={0.05}
-                start="top 75%"
-                end="top 35%"
+                start={isMobile ? "top 90%" : "top 85%"}
+                end={isMobile ? "top 55%" : "top 30%"}
                 scrub={0.8}
               />
             </h2>
@@ -356,7 +385,7 @@ export default function Home() {
               (Projects / &apos;23–&apos;26)
             </span>
           </div>
-          <WorkList projects={projects} />
+          <WorkList projects={WORK_PROJECTS} />
         </section>
 
         {/* ══ CONTACT ══════════════════════════════════════════════════════════ */}
@@ -369,10 +398,13 @@ export default function Home() {
           </p>
           <a
             href="mailto:ammarithm@gmail.com"
-            className="contact-body opacity-0 group relative inline-flex items-center justify-center overflow-hidden rounded-full border border-black px-8 py-3 font-mono text-xs uppercase tracking-widest transition-all duration-500 dark:border-white"
+            className="contact-button opacity-0 group relative isolate inline-flex items-center justify-center overflow-hidden rounded-full border border-black px-8 py-3 font-mono text-xs uppercase tracking-widest transition-all duration-700 dark:border-white"
           >
+            {/* backdrop lokal — pastikan blend selalu punya sesuatu untuk didiff */}
+            <span className="absolute inset-0 -z-10 bg-white dark:bg-black" />
+
             <span className="absolute inset-0 translate-y-full bg-black transition-transform duration-500 group-hover:translate-y-0" />
-            <span className="relative mix-blend-difference text-white">Get in Touch</span>
+            <span className="relative z-10 text-white mix-blend-difference">Get in Touch</span>
           </a>
           <div className="contact-bottom mt-20 flex flex-col items-end gap-1 font-mono text-[10px] uppercase tracking-widest opacity-0">
             <span>Based in Indonesia</span>
@@ -387,4 +419,3 @@ export default function Home() {
     </div>
   );
 }
-
