@@ -58,7 +58,7 @@ body {
   will-change: opacity;
 }
 
-/* ─── Work reveal bg needs overflow:hidden on parent ──── */
+/* ─── Work reveal bg — needs overflow:hidden on parent ──── */
 .work-reveal-bg {
   pointer-events: none;
 }

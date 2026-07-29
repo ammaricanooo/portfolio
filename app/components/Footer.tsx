@@ -12,7 +12,7 @@ export default function Footer({ time }: FooterProps) {
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
           <span className="font-mono text-[10px] uppercase tracking-widest opacity-30">
-            © {new Date().getFullYear()} Ammar Abdul Malik
+            © 2026 — Ammar Abdul Malik
           </span>
           {time && (
             <span className="font-mono text-[10px] uppercase tracking-widest opacity-20">

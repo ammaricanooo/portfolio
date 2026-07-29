@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -9,9 +9,23 @@ import { scramble } from "../lib/scramble";
 import { useLoader } from "../lib/loaderContext";
 import { useClock } from "../lib/useClock";
 import { useGsapReady } from "../lib/useGsapReady";
-import type { TechCategory } from "../lib/types";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
+const TECH_CATEGORIES = [
+  {
+    label: "Web Framework",
+    items: ["Next.js", "Laravel", "express.js"],
+  },
+  {
+    label: "Styling",
+    items: ["Tailwind CSS", "SCSS / CSS", "Styled Components"],
+  },
+  {
+    label: "Animation",
+    items: ["GSAP", "Framer Motion", "CSS Animation"],
+  },
+];
+
 const JOURNEY_PARAGRAPHS = [
   "Been a software engineer since early 2023. Since then, my sense of precision has grown. Years of experience in developing applications gave me an opportunity to improve my engineering skills to be more robust and scalable.",
   "In my career journey, I've collaborated with various teams, delivering solutions across different domains — from government systems to consumer apps. Each project has its own challenges, and each one becomes an opportunity to learn something new.",
@@ -22,7 +36,7 @@ const INTEREST_P1 =
   "In my free time, I spend most of it at home, chilling out and doing something I like. I love diving deep into new technologies, reading about system design, and experimenting with side projects that push my limits.";
 
 const INTEREST_P2 =
-  "I also enjoy listening to music across genres from lo-fi and jazz to electronic and indie. Music keeps me in the zone when I'm deep in a coding session. My Apple Music Replay always surprises me with how many minutes I've logged.";
+  "I also enjoy listening to music across genres — from lo-fi and jazz to electronic and indie. Music keeps me in the zone when I'm deep in a coding session. My Spotify Wrapped always surprises me with how many minutes I've logged.";
 
 // ─── Accordion item ───────────────────────────────────────────────────────────
 function AccordionItem({
@@ -103,27 +117,6 @@ export default function AboutPage() {
   const time = useClock();
   useGsapReady();
 
-  const [techCategories, setTechCategories] = useState<TechCategory[]>([]);
-
-  const fetchTechCategories = useCallback(async () => {
-    try {
-      const res = await fetch("/api/tech-categories");
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data)) {
-          setTechCategories(data);
-        }
-      }
-    } catch (err) {
-      console.error("Error fetching tech categories:", err);
-    }
-  }, []);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    void fetchTechCategories();
-  }, [fetchTechCategories]);
-
   // Scramble — wait for loader
   useEffect(() => {
     if (!ready) return;
@@ -135,13 +128,13 @@ export default function AboutPage() {
     const ctx = gsap.context(() => {
       // Parallax untuk image di personal interest
       gsap.to(".parallax-img", {
-        y: "20%",
+        y: "10%",
         ease: "none",
         scrollTrigger: {
           trigger: ".interest-section",
           start: "top bottom",
           end: "bottom top",
-          scrub: 1.5,        // tambah scrub dari 0.5 jadi 1.5 (lebih lambat & smooth)
+          scrub: 0.5,        // tambah scrub dari 0.5 jadi 1.5 (lebih lambat & smooth)
         },
       });
 
@@ -264,7 +257,7 @@ export default function AboutPage() {
       <main className="w-full">
 
         {/* ══ HERO ══════════════════════════════════════════════════════════════ */}
-        <section className="relative flex flex-col justify-start px-4 pt-[18vh] pb-8 md:px-16 md:pt-[22vh] md:pb-12">
+        <section className="relative flex flex-col justify-start px-8 pt-[20vh] md:pt-[32vh] md:px-16">
 
           {/* Tags — kiri & kanan, sama posisi dengan bottom bar homepage */}
           <div className="mb-6 flex items-center justify-between">
@@ -309,7 +302,7 @@ export default function AboutPage() {
         </section>
 
         {/* ══ JOURNEY ═══════════════════════════════════════════════════════════ */}
-        <section className="journey-section px-4 py-20 md:px-16 md:py-24">
+        <section className="journey-section px-8 pb-16 md:px-16 md:py-24">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-7">
               <h3 className="journey-heading opacity-0 font-serif text-2xl uppercase leading-tight md:text-4xl">
@@ -334,7 +327,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="tech-section border-t border-zinc-200 dark:border-zinc-800 px-4 py-20 md:px-16 md:py-24">
+        <section className="tech-section border-t border-zinc-200 dark:border-zinc-800 px-8 py-16 md:px-16 md:py-24">
           <p className="section-label opacity-0 mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
             /00-2
           </p>
@@ -346,14 +339,14 @@ export default function AboutPage() {
           </h3>
 
           <div className="tech-accordion opacity-0">
-            {techCategories.map((cat) => (
-              <AccordionItem key={cat.id ?? cat.label} label={cat.label} items={cat.items?.map((i) => i.name) ?? []} />
+            {TECH_CATEGORIES.map((cat) => (
+              <AccordionItem key={cat.label} label={cat.label} items={cat.items} />
             ))}
           </div>
         </section>
 
         {/* ══ PERSONAL INTEREST ═════════════════════════════════════════════════ */}
-        <section className="interest-section border-t border-zinc-200 dark:border-zinc-800 px-4 py-20 md:px-16 md:py-24">
+        <section className="interest-section border-t border-zinc-200 dark:border-zinc-800 px-8 py-16 md:px-16 md:py-24">
           <p className="section-label opacity-0 mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
             /00-3
           </p>
@@ -383,10 +376,10 @@ export default function AboutPage() {
               {/* Image dengan efek zoom + parallax */}
               <div className="interest-img opacity-0 aspect-video w-full overflow-hidden bg-zinc-200 dark:bg-zinc-800">
                 <img
-                  src="/showcase.jpeg"
-                  alt="Music, personal interest"
-                  className="parallax-img h-full w-full object-cover md:-translate-y-40 translate-x-4"
-                  style={{ transform: "scale(1.30)" }}
+                  src="/music.png"
+                  alt="Music — personal interest"
+                  className="parallax-img h-full w-full object-cover md:-translate-y-40"
+                  style={{ transform: "scale(1.50)" }}
                 />
               </div>
 
@@ -406,7 +399,7 @@ export default function AboutPage() {
         </section>
 
         {/* ══ CTA + NAME ════════════════════════════════════════════════════════ */}
-        <section className="cta-section opacity-0 border-t border-zinc-200 dark:border-zinc-800 px-4 py-20 md:px-16 md:py-24">
+        <section className="cta-section opacity-0 border-t border-zinc-200 dark:border-zinc-800 px-8 py-16 md:px-16 md:py-20">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-16">
 
             {/* Left: name + role — hidden on mobile */}

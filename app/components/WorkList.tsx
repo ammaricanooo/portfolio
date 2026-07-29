@@ -150,7 +150,7 @@ export default function WorkList({ projects }: WorkListProps) {
               </h3>
             </div>
             <span
-              className="sc-tech flex items-center font-mono text-sm uppercase tracking-widest"
+              className="sc-tech font-mono text-sm uppercase tracking-widest"
               data-target={p.tech}
             >
               {p.tech}
