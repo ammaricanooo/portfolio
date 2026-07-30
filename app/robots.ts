@@ -6,8 +6,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
+        disallow: ["/api/", "/_next/", "/static/"],
       },
     ],
-    sitemap: "https://ammaricano.dev/sitemap.xml",
+    sitemap: "https://ammaricano.my.id/sitemap.xml",
+    host: "https://ammaricano.my.id",
   };
 }

@@ -1,26 +1,27 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://ammaricano.dev";
+  const baseUrl = "https://ammaricano.my.id";
+  const lastModified = new Date("2026-07-29");
 
   return [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: "monthly",
       priority: 1,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/work`,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: "monthly",
-      priority: 0.8,
+      priority: 0.9,
     },
   ];
 }

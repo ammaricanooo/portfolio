@@ -14,12 +14,24 @@ import { useIsMobile } from "../lib/useIsMobile";
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const TECH_CATEGORIES = [
   {
-    label: "Web Framework",
-    items: ["Next.js", "Laravel", "express.js"],
+    label: "IOT",
+    items: ["ESP32", "Arduino"],
+  },
+  {
+    label: "Backend",
+    items: ["JavaScript", "PHP", "Python", "Node.js"],
   },
   {
     label: "Styling",
     items: ["Tailwind CSS", "SCSS / CSS", "Styled Components"],
+  },
+  {
+    label: "Database",
+    items: ["SQL", "MongoDB", "Firebase", "MySQL"],
+  },
+  {
+    label: "Web Framework",
+    items: ["Next.js", "Laravel", "express.js"],
   },
   {
     label: "Animation",
@@ -277,7 +289,7 @@ export default function AboutPage() {
       <main className="w-full">
 
         {/* ══ HERO ══════════════════════════════════════════════════════════════ */}
-        <section className="relative flex flex-col justify-start px-8 pt-[20vh] md:pt-[32vh] md:px-16">
+        <section className="relative flex flex-col justify-start px-6 pt-[18vh] pb-12 md:px-16 md:pt-[28vh]">
 
           {/* Tags */}
           <div className="mb-6 flex items-center justify-between">
@@ -322,7 +334,7 @@ export default function AboutPage() {
         </section>
 
         {/* ══ JOURNEY ═══════════════════════════════════════════════════════════ */}
-        <section className="journey-section px-8 pb-16 md:px-16 md:py-24">
+        <section className="journey-section px-6 py-20 md:px-16 md:py-28">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-7">
               <h3 className="journey-heading opacity-0 font-serif text-2xl uppercase leading-tight md:text-4xl">
@@ -347,7 +359,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="tech-section border-t border-zinc-200 dark:border-zinc-800 px-8 py-16 md:px-16 md:py-24">
+        <section className="tech-section border-t border-zinc-200 dark:border-zinc-800 px-6 py-20 md:px-16 md:py-28">
           <p className="section-label opacity-0 mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
             /00-2
           </p>
@@ -366,7 +378,7 @@ export default function AboutPage() {
         </section>
 
         {/* ══ PERSONAL INTEREST ═════════════════════════════════════════════════ */}
-        <section className="interest-section border-t border-zinc-200 dark:border-zinc-800 px-8 py-16 md:px-16 md:py-24">
+        <section className="interest-section border-t border-zinc-200 dark:border-zinc-800 px-6 py-20 md:px-16 md:py-28">
           <p className="section-label opacity-0 mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
             /00-3
           </p>
@@ -419,7 +431,7 @@ export default function AboutPage() {
         </section>
 
         {/* ══ CTA + NAME ════════════════════════════════════════════════════════ */}
-        <section className="cta-section opacity-0 border-t border-zinc-200 dark:border-zinc-800 px-8 py-16 md:px-16 md:py-20">
+        <section className="cta-section opacity-0 border-t border-zinc-200 dark:border-zinc-800 px-6 py-20 md:px-16 md:py-28">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-16">
 
             {/* Left: name + role — hidden on mobile */}

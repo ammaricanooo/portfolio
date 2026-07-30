@@ -270,7 +270,7 @@ export default function Home() {
       <main className="w-full">
 
         {/* ══ HERO ════════════════════════════════════════════════════════════ */}
-        <section className="relative flex h-svh flex-col justify-start px-4 pt-[18vh] pb-8 md:px-16">
+        <section className="relative flex h-svh flex-col justify-start px-6 pt-[18vh] pb-12 md:px-16 md:pt-[28vh]">
           <h1
             ref={heroNameRef}
             className="font-serif text-[clamp(1rem,6vw,3rem)] uppercase leading-none tracking-tight"
@@ -290,7 +290,7 @@ export default function Home() {
               ))}
             </p>
           </div>
-          <div className="absolute bottom-6 inset-x-0 px-4 md:px-16 flex items-end justify-between">
+          <div className="absolute bottom-6 inset-x-0 px-6 md:px-16 flex items-end justify-between">
             <span className="hero-bottom font-mono text-[10px] font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-600 opacity-0">
               Bogor, Indonesia
             </span>
@@ -302,7 +302,7 @@ export default function Home() {
         </section>
 
         {/* ══ ABOUT ═══════════════════════════════════════════════════════════ */}
-        <section className="about-section flex w-full items-center justify-center bg-white px-4 py-20 dark:bg-zinc-950 md:px-16">
+        <section className="about-section flex w-full items-center justify-center bg-white px-6 py-20 dark:bg-zinc-950 md:px-16 md:py-28">
           <div className="max-w-5xl w-full">
             <h2 className="text-xl font-semibold uppercase leading-snug md:text-4xl text-justify">
               <ScrollRevealText
@@ -376,7 +376,7 @@ export default function Home() {
         </section>
 
         {/* ══ WORK ════════════════════════════════════════════════════════════ */}
-        <section className="border-t border-zinc-200 px-4 py-24 dark:border-zinc-800 md:px-16 work-section">
+        <section className="border-t border-zinc-200 px-6 py-20 dark:border-zinc-800 md:px-16 md:py-28 work-section">
           <div className="mb-10 flex items-end justify-between">
             <h2 className="font-serif text-2xl uppercase leading-none tracking-tighter md:text-4xl">
               <span className="work-heading opacity-0">Selected</span> <em className="not-italic font-bold blink-word-2 opacity-0">Work</em>
@@ -389,7 +389,7 @@ export default function Home() {
         </section>
 
         {/* ══ CONTACT ══════════════════════════════════════════════════════════ */}
-        <section className="border-t border-zinc-200 px-4 py-24 dark:border-zinc-800 md:px-16 contact-section">
+        <section className="border-t border-zinc-200 px-6 py-20 dark:border-zinc-800 md:px-16 md:py-28 contact-section">
           <h2 className="mb-6 font-sans text-4xl font-semibold uppercase leading-none tracking-tighter md:text-6xl">
             <span className="font-serif italic contact-heading opacity-0">Let&apos;s Have</span> <span className="opacity-0 blink-word-3">a Chat</span>
           </h2>

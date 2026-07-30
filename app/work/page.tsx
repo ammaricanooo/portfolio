@@ -76,7 +76,7 @@ export default function WorkPage() {
       <main className="w-full">
 
         {/* ══ HERO ════════════════════════════════════════════════════════ */}
-        <section className="relative flex min-h-[55vh] flex-col justify-end px-8 pb-16 pt-40 md:px-16">
+        <section className="relative flex min-h-[55vh] flex-col justify-end px-6 pb-12 pt-[18vh] md:px-16 md:pt-[28vh]">
           <span className="work-hero-label opacity-0 font-mono text-[10px] uppercase tracking-widest mb-6">
             Selected Work
           </span>
@@ -97,12 +97,12 @@ export default function WorkPage() {
         </section>
 
         {/* ══ WORK LIST ═══════════════════════════════════════════════════ */}
-        <section className="border-t border-zinc-200 dark:border-zinc-800 px-8 md:px-16 opacity-0 work-list-section">
+        <section className="border-t border-zinc-200 dark:border-zinc-800 px-6 md:px-16 opacity-0 work-list-section">
           <WorkList projects={projects} />
         </section>
 
         {/* ══ PROJECT COUNT ═══════════════════════════════════════════════ */}
-        <section className="border-t border-zinc-200 dark:border-zinc-800 px-8 py-16 md:px-16 bg-white dark:bg-zinc-950 opacity-0 work-count">
+        <section className="border-t border-zinc-200 dark:border-zinc-800 px-6 py-20 md:px-16 md:py-28 bg-white dark:bg-zinc-950 opacity-0 work-count">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-widest opacity-40 mb-2">Total Projects</p>
@@ -119,16 +119,19 @@ export default function WorkPage() {
         </section>
 
         {/* ══ CTA ═════════════════════════════════════════════════════════ */}
-        <section className="border-t border-zinc-200 dark:border-zinc-800 px-8 py-24 md:px-16 md:py-32 opacity-0 work-cta">
+        <section className="border-t border-zinc-200 dark:border-zinc-800 px-6 py-20 md:px-16 md:py-28 opacity-0 work-cta">
           <h2 className="mb-10 font-serif text-4xl uppercase leading-none tracking-tight md:text-6xl">
             Have a Project<br />in Mind?
           </h2>
           <a
             href="mailto:ammarithm@gmail.com"
-            className="group inline-flex items-center gap-3 font-mono text-sm uppercase tracking-widest transition-opacity duration-300 hover:opacity-60"
-          >
-            <span className="text-lg">→</span>
-            <span>Let&apos;s Talk</span>
+            className="inline-flex items-center relative justify-center whitespace-nowrap font-mono font-medium py-2 uppercase text-sm
+                  after:w-full after:pointer-events-none after:absolute after:bottom-0 after:h-px after:bg-current
+                  after:transition-transform after:duration-500 after:ease-in-out
+                  after:left-0 after:origin-bottom-right hover:after:origin-bottom-left
+                  after:scale-x-0 hover:after:scale-x-100"
+              >
+                → Let&apos;s Talk
           </a>
         </section>
 

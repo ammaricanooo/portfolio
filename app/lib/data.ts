@@ -51,7 +51,7 @@ export const WORK_PROJECTS = [
     url: "#",
     year: "2023",
     desc: "Real-time parking slot management system with live availability updates via WebSocket.",
-    img: "parqeer.png",
+    img: "",
   },
   {
     id: "06",
@@ -60,7 +60,7 @@ export const WORK_PROJECTS = [
     url: "#",
     year: "2023",
     desc: "Anime streaming platform with server-side rendering, dynamic routing, and PostgreSQL-backed watchlist.",
-    img: "arnime.png",
+    img: "",
   },
   {
     id: "07",
@@ -69,7 +69,7 @@ export const WORK_PROJECTS = [
     url: "#",
     year: "2023",
     desc: "RESTful API boilerplate with JWT auth, role-based access control, and auto-generated docs.",
-    img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=900&auto=format&fit=crop",
+    img: "",
   },
   {
     id: "08",
@@ -78,6 +78,6 @@ export const WORK_PROJECTS = [
     url: "#",
     year: "2023",
     desc: "Telegram bot built in Go with command routing, webhook support, and automated message scheduling.",
-    img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=900&auto=format&fit=crop",
+    img: "",
   },
 ];

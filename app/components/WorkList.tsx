@@ -96,12 +96,14 @@ export default function WorkList({ projects }: WorkListProps) {
             style={{ clipPath: "inset(100% 0% 0% 0%)" }}
           >
             <div className="absolute inset-0 bg-black" />
-            <div
-              className="relative z-10 overflow-hidden hidden md:block"
-              style={{ width: "20rem", height: "75%" }}
-            >
-              <img src={p.img} alt={p.title} className="h-full w-full object-cover" />
-            </div>
+            {p.img?.trim() ? (
+              <div
+                className="relative z-10 overflow-hidden hidden md:block"
+                style={{ width: "20rem", height: "75%" }}
+              >
+                <img src={p.img} alt={p.title} className="h-full w-full object-cover" />
+              </div>
+            ) : null}
           </div>
 
           {/* ── MOBILE: text content ────────────────────────────────────── */}
@@ -128,10 +130,12 @@ export default function WorkList({ projects }: WorkListProps) {
             </h3>
           </div>
 
-          {/* Gambar mobile — static, always visible */}
-          <div className="md:hidden relative z-20 w-full overflow-hidden" style={{ height: "5rem" }}>
-            <img src={p.img} alt={p.title} className="h-full w-full object-cover" />
-          </div>
+          {/* Gambar mobile — static, only when available */}
+          {p.img ? (
+            <div className="md:hidden relative z-20 w-full overflow-hidden" style={{ height: "5rem" }}>
+              <img src={p.img} alt={p.title} className="h-full w-full object-cover" />
+            </div>
+          ) : null}
 
           {/* ── DESKTOP: text content ───────────────────────────────────── */}
           <div className="hidden relative z-20 md:grid grid-cols-2 mix-blend-difference text-white">

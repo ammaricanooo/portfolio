@@ -25,38 +25,51 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ammaricano.dev"),
+  metadataBase: new URL("https://ammaricano.my.id"),
   title: {
     default: "Ammar Abdul Malik — Software Engineer",
     template: "%s | Ammar Abdul Malik",
   },
   description:
-    "Software Engineer based in Indonesia specializing in full-stack web development, building seamless digital solutions with clean code and modern architecture.",
+    "Ammar Abdul Malik — Software Engineer based in Bogor, Indonesia. Specializing in full-stack web development with Next.js, Laravel, and Node.js. Building robust, scalable, and seamless digital solutions with clean code and modern architecture.",
   keywords: [
     "Ammar Abdul Malik",
-    "Software Engineer",
-    "Full-Stack Developer",
-    "Next.js",
-    "Laravel",
+    "ammaricano",
+    "Software Engineer Indonesia",
+    "Full-Stack Developer Indonesia",
+    "Web Developer Bogor",
+    "Next.js Developer",
+    "Laravel Developer",
+    "Node.js Developer",
+    "TypeScript Developer",
+    "Backend Engineer",
+    "Frontend Developer",
+    "Portfolio Software Engineer",
     "Web Developer Indonesia",
-    "Portfolio",
+    "ammaricano.my.id",
   ],
-  authors: [{ name: "Ammar Abdul Malik", url: "https://ammaricano.dev" }],
+  authors: [{ name: "Ammar Abdul Malik", url: "https://ammaricano.my.id" }],
   creator: "Ammar Abdul Malik",
+  publisher: "Ammar Abdul Malik",
+  category: "Technology",
+  alternates: {
+    canonical: "https://ammaricano.my.id",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ammaricano.dev",
+    url: "https://ammaricano.my.id",
     siteName: "Ammar Abdul Malik — Software Engineer",
     title: "Ammar Abdul Malik — Software Engineer",
     description:
-      "Software Engineer based in Indonesia specializing in full-stack web development, building seamless digital solutions with clean code.",
+      "Ammar Abdul Malik — Software Engineer based in Bogor, Indonesia. Specializing in full-stack web development with Next.js, Laravel, and Node.js.",
   },
   twitter: {
     card: "summary_large_image",
+    site: "@ammaricano",
     title: "Ammar Abdul Malik — Software Engineer",
     description:
-      "Software Engineer based in Indonesia specializing in full-stack web development, building seamless digital solutions with clean code.",
+      "Ammar Abdul Malik — Software Engineer based in Bogor, Indonesia. Specializing in full-stack web development with Next.js, Laravel, and Node.js.",
     creator: "@ammaricano",
   },
   robots: {
