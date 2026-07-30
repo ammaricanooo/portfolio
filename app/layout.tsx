@@ -72,6 +72,9 @@ export const metadata: Metadata = {
       "Ammar Abdul Malik — Software Engineer based in Bogor, Indonesia. Specializing in full-stack web development with Next.js, Laravel, and Node.js.",
     creator: "@ammaricano",
   },
+  icons: {
+    icon: "/favicon.ico",
+  },
   robots: {
     index: true,
     follow: true,
