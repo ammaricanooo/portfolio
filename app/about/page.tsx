@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -307,11 +308,11 @@ export default function AboutPage() {
             className="font-serif text-[clamp(1rem,6vw,3rem)] uppercase leading-none tracking-tight"
           />
 
-          {/* "Software Engineer" */}
+          {/* "Software Engineer" — same h1 visually, rendered as span inside a styled div */}
           <div className="relative mt-2 inline-block overflow-hidden w-fit">
-            <h2 className="reveal-content opacity-0 pl-4 font-sans text-[clamp(1rem,6vw,3rem)] font-semibold uppercase md:pl-16">
+            <span className="reveal-content opacity-0 pl-4 font-sans text-[clamp(1rem,6vw,3rem)] font-semibold uppercase md:pl-16 block">
               Software Engineer
-            </h2>
+            </span>
             <div className="reveal-block absolute inset-0 ml-4 scale-x-0 bg-black dark:bg-white md:ml-16" />
           </div>
 
@@ -322,10 +323,13 @@ export default function AboutPage() {
                 width: "clamp(140px, 22vw, 320px)",
                 clipPath: "inset(0% 0% 100% 0%)"
               }}>
-              <img
+              <Image
                 src="/ammar.jpeg"
                 alt="Ammar Abdul Malik"
-                className="w-full object-cover scale-110 bg-zinc-200 dark:bg-zinc-800 scale-250"
+                width={320}
+                height={400}
+                priority
+                className="w-full object-cover scale-110 bg-zinc-200 dark:bg-zinc-800"
                 onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
               />
             </div>
@@ -337,9 +341,9 @@ export default function AboutPage() {
         <section className="journey-section px-6 py-20 md:px-16 md:py-28">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-7">
-              <h3 className="journey-heading opacity-0 font-serif text-2xl uppercase leading-tight md:text-4xl">
+              <h2 className="journey-heading opacity-0 font-serif text-2xl uppercase leading-tight md:text-4xl">
                 A Journey of Progression
-              </h3>
+              </h2>
             </div>
             <div className="md:col-span-5">
               <div className="journey-word-section opacity-0 space-y-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base">
@@ -407,9 +411,11 @@ export default function AboutPage() {
 
               {/* Image dengan efek zoom + parallax */}
               <div className="interest-img opacity-0 aspect-video w-full overflow-hidden bg-zinc-200 dark:bg-zinc-800">
-                <img
+                <Image
                   src="/showcase.jpeg"
                   alt="Music — personal interest"
+                  width={1280}
+                  height={720}
                   className="parallax-img h-full w-full object-cover md:-translate-y-40"
                   style={{ transform: "scale(1.10)" }}
                 />

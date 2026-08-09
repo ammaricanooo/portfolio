@@ -21,9 +21,9 @@ export default function Footer({ time }: FooterProps) {
           )}
         </div>
         <div className="w-full flex justify-center overflow-hidden">
-          <h1 className="font-serif font-bold text-[14vw] leading-none">
+          <p className="font-serif font-bold text-[14vw] leading-none select-none" aria-hidden="true">
             ammaricano
-          </h1>
+          </p>
         </div>
         <ul className="flex flex-wrap justify-center md:justify-end gap-6">
           {SOCIALS.map((s) => (

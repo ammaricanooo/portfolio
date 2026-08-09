@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { scramble } from "../lib/scramble";
 import { useLoader } from "../lib/loaderContext";
@@ -14,10 +15,7 @@ export default function WorkList({ projects }: WorkListProps) {
   const listRef = useRef<HTMLDivElement | null>(null);
   const { ready } = useLoader();
 
-  // Hide rows immediately on mount — no flash
-  // (opacity-0 sudah di-set via class di JSX, useEffect ini tidak diperlukan)
-
-  // Entrance animation — left to right, then scramble text
+  // Entrance animation — left to right
   useEffect(() => {
     if (!ready || !listRef.current) return;
 
@@ -41,7 +39,7 @@ export default function WorkList({ projects }: WorkListProps) {
     return () => ctx.revert();
   }, [ready]);
 
-  const handleWorkEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleWorkEnter = (e: React.MouseEvent<HTMLElement>) => {
     const layer = e.currentTarget.querySelector<HTMLElement>(".work-layer");
     if (!layer) return;
     const rect    = e.currentTarget.getBoundingClientRect();
@@ -61,7 +59,7 @@ export default function WorkList({ projects }: WorkListProps) {
     );
   };
 
-  const handleWorkLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleWorkLeave = (e: React.MouseEvent<HTMLElement>) => {
     const layer = e.currentTarget.querySelector<HTMLElement>(".work-layer");
     if (!layer) return;
     const rect     = e.currentTarget.getBoundingClientRect();
@@ -73,95 +71,136 @@ export default function WorkList({ projects }: WorkListProps) {
     });
   };
 
+  const rowBaseClass = (i: number) =>
+    "work-row opacity-0 group relative overflow-hidden px-2 py-5 md:py-12" +
+    (i !== 0 ? " border-t border-zinc-200 dark:border-zinc-800" : "");
+
+  const rowContent = (p: Project, i: number) => (
+    <>
+      {/* Solid background — required so mix-blend-difference has a reference color */}
+      <div className="absolute inset-0 bg-zinc-50 dark:bg-zinc-950" />
+
+      {/* Hover layer — black curtain + image, sits above bg but below text */}
+      <div
+        className="work-layer absolute inset-0 z-10 pointer-events-none flex items-center justify-end px-4"
+        style={{ clipPath: "inset(100% 0% 0% 0%)" }}
+      >
+        <div className="absolute inset-0 bg-black" />
+        {p.img?.trim() ? (
+          <div
+            className="relative z-10 overflow-hidden hidden md:block"
+            style={{ width: "20rem", height: "75%" }}
+          >
+            <Image
+              src={`/${p.img}`}
+              alt={p.title}
+              fill
+              sizes="320px"
+              className="object-cover"
+            />
+          </div>
+        ) : null}
+      </div>
+
+      {/* ── MOBILE: text content ────────────────────────────────────── */}
+      <div className="relative z-20 md:hidden mix-blend-difference text-white">
+        <div className="flex items-center justify-between mb-1">
+          <span
+            className="sc-id font-mono text-xs group-hover:underline underline-offset-2"
+            data-target={`${i + 1 < 10 ? `0${i + 1}` : i + 1}`}
+          >
+            {i + 1 < 10 ? `0${i + 1}` : i + 1}
+          </span>
+          <span
+            className="sc-tech font-mono text-xs uppercase tracking-widest"
+            data-target={p.tech}
+          >
+            {p.tech}
+          </span>
+        </div>
+        <h3
+          className="sc-title text-2xl font-semibold uppercase tracking-tight mb-3"
+          data-target={p.title}
+        >
+          {p.title}
+        </h3>
+      </div>
+
+      {/* Gambar mobile — static, only when available */}
+      {p.img?.trim() ? (
+        <div className="md:hidden relative z-20 w-full overflow-hidden" style={{ height: "5rem" }}>
+          <Image
+            src={`/${p.img}`}
+            alt={p.title}
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
+      ) : null}
+
+      {/* ── DESKTOP: text content ───────────────────────────────────── */}
+      <div className="hidden relative z-20 md:grid grid-cols-2 mix-blend-difference text-white">
+        <div className="flex items-center gap-8">
+          <span
+            className="sc-id font-mono text-sm group-hover:underline underline-offset-2"
+            data-target={`${i + 1 < 10 ? `0${i + 1}` : i + 1}`}
+          >
+            {i + 1 < 10 ? `0${i + 1}` : i + 1}
+          </span>
+          <h3
+            className="sc-title text-2xl font-semibold uppercase tracking-tight lg:text-3xl"
+            data-target={p.title}
+          >
+            {p.title}
+          </h3>
+        </div>
+        <span
+          className="sc-tech font-mono text-sm uppercase tracking-widest flex items-center"
+          data-target={p.tech}
+        >
+          {p.tech}
+        </span>
+      </div>
+    </>
+  );
+
   return (
     <div ref={listRef} className="work-list flex flex-col">
-      {projects.map((p, i) => (
-        <a
-          key={p.id}
-          href={p.url}
-          data-project-id={p.id}
-          onMouseEnter={handleWorkEnter}
-          onMouseLeave={handleWorkLeave}
-          className={
-            "work-row opacity-0 group relative overflow-hidden px-2 py-5 md:py-12" +
-            (i !== 0 ? " border-t border-zinc-200 dark:border-zinc-800" : "")
-          }
-        >
-          {/* Solid background — required so mix-blend-difference has a reference color */}
-          <div className="absolute inset-0 bg-zinc-50 dark:bg-zinc-950" />
+      {projects.map((p, i) => {
+        const hasUrl = p.url && p.url !== "#";
 
-          {/* Hover layer — black curtain + image, sits above bg but below text */}
+        // Projects with a real URL — render as <a>
+        if (hasUrl) {
+          return (
+            <a
+              key={p.id}
+              href={p.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-project-id={p.id}
+              onMouseEnter={handleWorkEnter}
+              onMouseLeave={handleWorkLeave}
+              className={rowBaseClass(i)}
+            >
+              {rowContent(p, i)}
+            </a>
+          );
+        }
+
+        // Projects without a URL — render as <div> (no broken link)
+        return (
           <div
-            className="work-layer absolute inset-0 z-10 pointer-events-none flex items-center justify-end px-4"
-            style={{ clipPath: "inset(100% 0% 0% 0%)" }}
+            key={p.id}
+            data-project-id={p.id}
+            onMouseEnter={handleWorkEnter}
+            onMouseLeave={handleWorkLeave}
+            className={rowBaseClass(i) + " cursor-default"}
           >
-            <div className="absolute inset-0 bg-black" />
-            {p.img?.trim() ? (
-              <div
-                className="relative z-10 overflow-hidden hidden md:block"
-                style={{ width: "20rem", height: "75%" }}
-              >
-                <img src={p.img} alt={p.title} className="h-full w-full object-cover" />
-              </div>
-            ) : null}
+            {rowContent(p, i)}
           </div>
-
-          {/* ── MOBILE: text content ────────────────────────────────────── */}
-          <div className="relative z-20 md:hidden mix-blend-difference text-white">
-            <div className="flex items-center justify-between mb-1">
-              <span
-                className="sc-id font-mono text-xs group-hover:underline underline-offset-2"
-                data-target={`${i + 1 < 10 ? `0${i + 1}` : i + 1}`}
-              >
-                {i + 1 < 10 ? `0${i + 1}` : i + 1}
-              </span>
-              <span
-                className="sc-tech font-mono text-xs uppercase tracking-widest"
-                data-target={p.tech}
-              >
-                {p.tech}
-              </span>
-            </div>
-            <h3
-              className="sc-title text-2xl font-semibold uppercase tracking-tight mb-3"
-              data-target={p.title}
-            >
-              {p.title}
-            </h3>
-          </div>
-
-          {/* Gambar mobile — static, only when available */}
-          {p.img ? (
-            <div className="md:hidden relative z-20 w-full overflow-hidden" style={{ height: "5rem" }}>
-              <img src={p.img} alt={p.title} className="h-full w-full object-cover" />
-            </div>
-          ) : null}
-
-          {/* ── DESKTOP: text content ───────────────────────────────────── */}
-          <div className="hidden relative z-20 md:grid grid-cols-2 mix-blend-difference text-white">
-            <div className="flex items-center gap-8">
-              <span
-                className="sc-id font-mono text-sm group-hover:underline underline-offset-2"
-                data-target={`${i + 1 < 10 ? `0${i + 1}` : i + 1}`}
-              >
-                {i + 1 < 10 ? `0${i + 1}` : i + 1}
-              </span>
-              <h3
-                className="sc-title text-2xl font-semibold uppercase tracking-tight lg:text-3xl"
-                data-target={p.title}
-              >
-                {p.title}
-              </h3>
-            </div>
-            <span
-              className="sc-tech font-mono text-sm uppercase tracking-widest flex items-center"
-              data-target={p.tech}
-            >
-              {p.tech}
-            </span>
-          </div>
-        </a>
-      ))}
+        );
+      })}
     </div>
   );
 }

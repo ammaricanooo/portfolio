@@ -20,12 +20,21 @@ export const metadata: Metadata = {
       "Learn about Ammar Abdul Malik — a Software Engineer based in Bogor, Indonesia with 3+ years of experience in full-stack web development, Next.js, Laravel, and clean architecture.",
     url: "https://ammaricano.my.id/about",
     type: "profile",
+    images: [
+      {
+        url: "/og-image",
+        width: 1200,
+        height: 630,
+        alt: "About Ammar Abdul Malik — Software Engineer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "About — Ammar Abdul Malik",
     description:
       "Learn about Ammar Abdul Malik — a Software Engineer based in Bogor, Indonesia with 3+ years of experience in full-stack web development.",
+    images: ["/og-image"],
   },
 };
 

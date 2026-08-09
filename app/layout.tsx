@@ -63,6 +63,14 @@ export const metadata: Metadata = {
     title: "Ammar Abdul Malik — Software Engineer",
     description:
       "Ammar Abdul Malik — Software Engineer based in Bogor, Indonesia. Specializing in full-stack web development with Next.js, Laravel, and Node.js.",
+    images: [
+      {
+        url: "/og-image",
+        width: 1200,
+        height: 630,
+        alt: "Ammar Abdul Malik — Software Engineer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -71,6 +79,7 @@ export const metadata: Metadata = {
     description:
       "Ammar Abdul Malik — Software Engineer based in Bogor, Indonesia. Specializing in full-stack web development with Next.js, Laravel, and Node.js.",
     creator: "@ammaricano",
+    images: ["/og-image"],
   },
   icons: {
     icon: "/favicon.ico",
