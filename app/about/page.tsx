@@ -326,10 +326,10 @@ export default function AboutPage() {
               <Image
                 src="/ammar.jpeg"
                 alt="Ammar Abdul Malik"
-                width={320}
-                height={400}
+                width={1020}
+                height={1100}
                 priority
-                className="w-full object-cover scale-110 bg-zinc-200 dark:bg-zinc-800"
+                className="w-full object-cover scale-250 bg-zinc-200 dark:bg-zinc-800"
                 onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
               />
             </div>
