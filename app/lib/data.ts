@@ -10,6 +10,15 @@ export const SOCIALS = [
 export const WORK_PROJECTS = [
   {
     id: "01",
+    title: "Trashily",
+    tech: "PHP, Tailwind, MySQL",
+    url: "trashily.id",
+    year: "2026",
+    desc: "Trashily is a waste management platform that connects users with local recycling centers, providing real-time pickup scheduling and waste tracking.",
+    img: "trashily.png",
+  },
+  {
+    id: "02",
     title: "DISKOMINFO Company profile",
     tech: "Laravel, Tailwind, MySQL",
     url: "#",
@@ -18,7 +27,7 @@ export const WORK_PROJECTS = [
     img: "diskominfo.png",
   },
   {
-    id: "02",
+    id: "03",
     title: "Arsana Tarangga",
     tech: "Next.js, Tailwind",
     url: "https://arsana-tarangga.vercel.app/",
@@ -27,7 +36,7 @@ export const WORK_PROJECTS = [
     img: "arsana.png",
   },
   {
-    id: "03",
+    id: "04",
     title: "Al-Qur'an Ku",
     tech: "Next.js, Tailwind, FireBase",
     url: "https://quran.ammaricano.my.id/",
@@ -36,7 +45,7 @@ export const WORK_PROJECTS = [
     img: "alquranku.png",
   },
   {
-    id: "04",
+    id: "05",
     title: "PPDB SMK Bina Informatika",
     tech: "Next.js, Tailwind",
     url: "https://bifor.ammaricano.my.id/",
@@ -45,7 +54,7 @@ export const WORK_PROJECTS = [
     img: "biforppdb.png",
   },
   {
-    id: "05",
+    id: "06",
     title: "Parqeer",
     tech: "Laravel, Tailwind, MySQL",
     url: "#",
@@ -54,7 +63,7 @@ export const WORK_PROJECTS = [
     img: "",
   },
   {
-    id: "06",
+    id: "07",
     title: "Arnime",
     tech: "Next.js, Tailwind, FireBase",
     url: "#",
@@ -63,16 +72,16 @@ export const WORK_PROJECTS = [
     img: "",
   },
   {
-    id: "07",
+    id: "08",
     title: "Nexure API",
     tech: "Node.js, Express.js",
-    url: "#",
+    url: "api.ammaricano.my.id",
     year: "2023",
     desc: "RESTful API boilerplate with JWT auth, role-based access control, and auto-generated docs.",
     img: "",
   },
   {
-    id: "08",
+    id: "09",
     title: "Telebot Go",
     tech: "Golang",
     url: "#",

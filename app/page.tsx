@@ -62,10 +62,10 @@ export default function Home() {
         blinkWord2: isMobileDevice ? "top 65%" : "top 40%",
         blinkWord3: isMobileDevice ? "top 65%" : "top 45%",
         workHeading: isMobileDevice ? "top 75%" : "top 50%",
-        workLabel: isMobileDevice ? "top 65%" : "top 40%",
+        workLabel: isMobileDevice ? "top 55%" : "top 30%",
         workList: isMobileDevice ? "top 50%" : "top 30%",
         contactHeading: isMobileDevice ? "top 75%" : "top 50%",
-        contactBody: isMobileDevice ? "top 65%" : "top 40%",
+        contactBody: isMobileDevice ? "top 55%" : "top 30%",
         contactButton: isMobileDevice ? "top 65%" : "top 40%",
         contactBottom: isMobileDevice ? "top 60%" : "top 34%",
       };
@@ -309,7 +309,7 @@ export default function Home() {
                 text={ABOUT_TEXT}
                 baseOpacity={0.05}
                 start={isMobile ? "top 90%" : "top 85%"}
-                end={isMobile ? "top 55%" : "top 30%"}
+                end={isMobile ? "top 35%" : "top 30%"}
                 scrub={0.8}
               />
             </h2>
@@ -401,7 +401,7 @@ export default function Home() {
             className="contact-button opacity-0 group relative isolate inline-flex items-center justify-center overflow-hidden rounded-full border border-black px-8 py-3 font-mono text-xs uppercase tracking-widest transition-all duration-700 dark:border-white"
           >
             {/* backdrop lokal — pastikan blend selalu punya sesuatu untuk didiff */}
-            <span className="absolute inset-0 -z-10 bg-white dark:bg-black" />
+            <span className="absolute inset-0 -z-10 bg-zinc-50 dark:bg-black" />
 
             <span className="absolute inset-0 translate-y-full bg-black transition-transform duration-500 group-hover:translate-y-0" />
             <span className="relative z-10 text-white mix-blend-difference">Get in Touch</span>
