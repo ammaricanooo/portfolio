@@ -12,7 +12,7 @@ export const WORK_PROJECTS = [
     id: "01",
     title: "Trashily",
     tech: "PHP, Tailwind, MySQL",
-    url: "trashily.id",
+    url: "https://trashily.id",
     year: "2026",
     desc: "Trashily is a waste management platform that connects users with local recycling centers, providing real-time pickup scheduling and waste tracking.",
     img: "trashily.png",
