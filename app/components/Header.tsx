@@ -294,7 +294,7 @@ export default function Header({ activePage = "" }: HeaderProps) {
             </span>
             <span className="font-mono text-xs text-zinc-400 dark:text-zinc-600 inline-flex items-center gap-1.5">
               <span>/04</span>
-              <Arrow size="xs" direction="up-right" className="opacity-70 group-hover:opacity-100" />
+              <Arrow size="xs" direction="right" className="opacity-70 group-hover:opacity-100" />
             </span>
           </a>
         </nav>
@@ -310,7 +310,7 @@ export default function Header({ activePage = "" }: HeaderProps) {
           >
             <span className="inline-block h-1.5 w-1.5 bg-black dark:bg-white" />
             <span>Public REST API <span className="underline">api.ammaricano.my.id</span></span>
-            <Arrow size="xs" direction="up-right" className="opacity-60 group-hover:opacity-100" />
+            <Arrow size="xs" direction="right" className="opacity-60 group-hover:opacity-100" />
           </a>
         </div>
 

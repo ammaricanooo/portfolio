@@ -102,14 +102,14 @@ export default function WorkPage() {
       <main className="w-full">
 
         {/* ══ HERO ════════════════════════════════════════════════════════ */}
-        <section className="relative flex min-h-[55vh] flex-col justify-end px-6 pb-12 pt-[18vh] md:px-16 md:pt-[28vh]">
+        <section className="relative flex flex-col justify-start px-6 pt-[18vh] pb-12 md:px-16 md:pt-[28vh]">
           <span className="work-hero-label opacity-0 font-mono text-[10px] uppercase tracking-widest mb-6">
             {dict.work.heroLabel}
           </span>
           <h1 className="work-hero-title opacity-0 font-serif text-[clamp(3.5rem,10vw,9rem)] uppercase leading-none tracking-tight">
             {dict.work.heroTitle}
           </h1>
-          <div className="work-hero-meta opacity-0 mt-6 flex items-center gap-8">
+          <div className="work-hero-meta opacity-0 mt-6 flex flex-wrap items-center gap-6 md:gap-8">
             <span className="font-mono text-[10px] uppercase tracking-widest opacity-40">
               {projects.length} {lang === "id" ? "Proyek" : "Projects"}
             </span>
@@ -160,7 +160,7 @@ export default function WorkPage() {
                   after:scale-x-0 hover:after:scale-x-100"
           >
             <span>{dict.work.bottomCtaBtn}</span>
-            <Arrow size="md" direction="up-right" />
+            <Arrow size="md" direction="right" />
           </a>
         </section>
 

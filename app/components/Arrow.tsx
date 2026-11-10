@@ -1,7 +1,7 @@
 interface ArrowProps {
   className?: string;
   size?: "xs" | "sm" | "md" | "lg";
-  direction?: "right" | "up-right";
+  direction?: "right" | "left" | "up" | "down";
   color?: string;
 }
 
@@ -11,7 +11,15 @@ export default function Arrow({
   direction = "right",
   color = "",
 }: ArrowProps) {
-  const dirClass = direction === "up-right" ? "arrow-up-right" : "";
+  const dirClass =
+    direction === "up"
+      ? "arrow-up"
+      : direction === "down"
+      ? "arrow-down"
+      : direction === "left"
+      ? "arrow-left"
+      : "";
+
   const sizeClass =
     size === "xs"
       ? "arrow-xs"
@@ -22,7 +30,7 @@ export default function Arrow({
       : "arrow-md";
 
   return (
-    <div className={`arrow-container ${sizeClass} ${dirClass} ${color} ${className}`}>
+    <div className={`arrow-container ${sizeClass} ${dirClass} ${color} ${className}`.trim()}>
       <div className="arrow-line" />
       <div className="arrow-point" />
     </div>

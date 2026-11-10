@@ -18,9 +18,9 @@
   --color-foreground: var(--foreground);
 
   /* Font families */
-  --font-sans:  var(--font-plusjakartasans);
+  --font-sans: var(--font-plusjakartasans);
   --font-serif: var(--font-playfair);
-  --font-mono:  var(--font-jetbrains-mono);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
 body {
@@ -31,11 +31,28 @@ body {
 
 /* ─── Scroll indicator ───────────────────────────────────── */
 @keyframes scrollDown {
-  0%   { transform: translateY(-100%); opacity: 0; }
-  15%  { opacity: 1; }
-  90%  { opacity: 1; }
-  95%  { transform: translateY(100%); opacity: 0; }
-  100% { transform: translateY(-100%); opacity: 0; }
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  95% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
 }
 
 .c-scrolldown {
@@ -73,13 +90,16 @@ body {
   .tech-logo {
     filter: grayscale(1) brightness(1.25);
   }
+
   .tech-logo.tech-logo-invert {
     filter: grayscale(1) invert(1) brightness(1.2) !important;
   }
+
   .tech-logo.tech-logo-invert:hover {
     filter: grayscale(0) invert(1) brightness(1) !important;
     opacity: 1 !important;
   }
+
   .tech-logo:hover {
     filter: grayscale(0) brightness(1) !important;
     opacity: 1 !important;
@@ -89,17 +109,21 @@ body {
 .dark .tech-logo {
   filter: grayscale(1) brightness(1.25);
 }
+
 .dark .tech-logo.tech-logo-invert {
   filter: grayscale(1) invert(1) brightness(1.2) !important;
 }
+
 .dark .tech-logo.tech-logo-invert:hover {
   filter: grayscale(0) invert(1) brightness(1) !important;
   opacity: 1 !important;
 }
+
 .dark .tech-logo:hover {
   filter: grayscale(0) brightness(1) !important;
   opacity: 1 !important;
 }
+
 .work-reveal-bg {
   pointer-events: none;
 }
@@ -113,6 +137,7 @@ html.is-loading {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -128,8 +153,18 @@ html.is-loading {
   vertical-align: middle;
 }
 
-.arrow-container.arrow-up-right {
-  transform: rotate(-45deg);
+.arrow-container.arrow-up {
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+.arrow-container.arrow-down {
+  transform: rotate(90deg);
+  transform-origin: center;
+}
+
+.arrow-container.arrow-left {
+  transform: rotate(180deg);
   transform-origin: center;
 }
 
@@ -167,6 +202,7 @@ button:hover .arrow-container:not([class*="arrow-xs"]):not([class*="arrow-sm"]):
   height: 1.5px;
   width: 8px;
 }
+
 .arrow-container.arrow-xs .arrow-point {
   width: 5px;
   height: 5px;
@@ -174,6 +210,7 @@ button:hover .arrow-container:not([class*="arrow-xs"]):not([class*="arrow-sm"]):
   border-right-width: 1.5px;
   margin-left: -5px;
 }
+
 .arrow-container.arrow-xs:hover .arrow-line,
 .group:hover .arrow-container.arrow-xs .arrow-line,
 .link:hover .arrow-container.arrow-xs .arrow-line,
@@ -186,6 +223,7 @@ a:hover .arrow-container.arrow-xs .arrow-line {
   height: 1.5px;
   width: 12px;
 }
+
 .arrow-container.arrow-sm .arrow-point {
   width: 6px;
   height: 6px;
@@ -193,6 +231,7 @@ a:hover .arrow-container.arrow-xs .arrow-line {
   border-right-width: 1.5px;
   margin-left: -6px;
 }
+
 .arrow-container.arrow-sm:hover .arrow-line,
 .group:hover .arrow-container.arrow-sm .arrow-line,
 .link:hover .arrow-container.arrow-sm .arrow-line,
@@ -205,6 +244,7 @@ a:hover .arrow-container.arrow-sm .arrow-line {
   height: 2px;
   width: 18px;
 }
+
 .arrow-container.arrow-md .arrow-point {
   width: 8px;
   height: 8px;
@@ -212,6 +252,7 @@ a:hover .arrow-container.arrow-sm .arrow-line {
   border-right-width: 2px;
   margin-left: -8px;
 }
+
 .arrow-container.arrow-md:hover .arrow-line,
 .group:hover .arrow-container.arrow-md .arrow-line,
 .link:hover .arrow-container.arrow-md .arrow-line,
@@ -227,6 +268,7 @@ button:hover .arrow-container.arrow-md .arrow-line,
   height: 2px;
   width: 24px;
 }
+
 .arrow-container.arrow-lg .arrow-point {
   width: 10px;
   height: 10px;
@@ -234,6 +276,7 @@ button:hover .arrow-container.arrow-md .arrow-line,
   border-right-width: 2px;
   margin-left: -10px;
 }
+
 .arrow-container.arrow-lg:hover .arrow-line,
 .group:hover .arrow-container.arrow-lg .arrow-line,
 .link:hover .arrow-container.arrow-lg .arrow-line,
@@ -243,5 +286,3 @@ button:hover .arrow-container.arrow-lg .arrow-line,
 .work-cta-button:hover .arrow-container.arrow-lg .arrow-line {
   width: 44px;
 }
-
-
