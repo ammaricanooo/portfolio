@@ -5,6 +5,7 @@ import gsap from "gsap";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import WorkList from "../../components/WorkList";
+import Arrow from "../../components/Arrow";
 import { WORK_PROJECTS } from "../../lib/data";
 import { useLoader } from "../../lib/loaderContext";
 import { useClock } from "../../lib/useClock";
@@ -152,13 +153,14 @@ export default function WorkPage() {
           </h2>
           <a
             href="mailto:ammarithm@gmail.com"
-            className="work-cta-button opacity-0 inline-flex items-center relative justify-center whitespace-nowrap font-mono font-medium py-2 uppercase text-sm
+            className="work-cta-button opacity-0 group inline-flex items-center gap-3 relative justify-center whitespace-nowrap font-mono font-medium py-2 uppercase text-sm
                   after:w-full after:pointer-events-none after:absolute after:bottom-0 after:h-px after:bg-current
                   after:transition-transform after:duration-500 after:ease-in-out
                   after:left-0 after:origin-bottom-right hover:after:origin-bottom-left
                   after:scale-x-0 hover:after:scale-x-100"
           >
-            {dict.work.bottomCtaBtn} ↗
+            <span>{dict.work.bottomCtaBtn}</span>
+            <Arrow size="md" direction="up-right" />
           </a>
         </section>
 

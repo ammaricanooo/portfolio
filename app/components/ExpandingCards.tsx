@@ -62,8 +62,8 @@ export default function ExpandingCards({
         </div>
       )}
 
-      {/* Stacking Cards Container — Sesuai permintaan: padding dikembalikan ke ukuran semula (pb-32 md:pb-48) */}
-      <div className="relative flex flex-col w-full pb-32 md:pb-48">
+      {/* Stacking Cards Container — Tanpa gap antar foto, transisi rapat & rapat ke seksi berikutnya */}
+      <div className="relative flex flex-col w-full pb-0">
         {displayItems.map((item, index) => {
           const title = isId ? (item.title_id || item.title) : (item.title_en || item.title);
           const category = isId ? (item.category_id || item.category) : (item.category_en || item.category);
@@ -79,8 +79,6 @@ export default function ExpandingCards({
               style={{
                 // Judul menumpuk rapi di bawah header navbar (base-top 104px desktop / 84px mobile)
                 top: `calc(var(--base-top) + ${index} * var(--header-height))`,
-                // Penyeimbang offset agar seluruh kartu un-stick bersamaan tanpa kartu terakhir menyusul naik menutupi judul lain
-                paddingBottom: `calc((${displayItems.length - 1} - ${index}) * var(--header-height))`,
                 zIndex: index + 10,
                 transform: "translate3d(0, 0, 0)",
                 WebkitTransform: "translate3d(0, 0, 0)",
@@ -150,7 +148,7 @@ export default function ExpandingCards({
 
                     {item.location && (
                       <div className="mt-3 pt-2.5 border-t border-white/20 flex items-center justify-between font-mono text-[10px] sm:text-xs uppercase tracking-wider text-zinc-400">
-                        <span>📍 {item.location}</span>
+                        <span>{item.location}</span>
                         <span>{item.year}</span>
                       </div>
                     )}

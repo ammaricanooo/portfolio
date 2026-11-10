@@ -7,6 +7,7 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ScrollRevealText from "../../components/ScrollRevealText";
 import ExpandingCards from "../../components/ExpandingCards";
+import Arrow from "../../components/Arrow";
 import { scramble } from "../../lib/scramble";
 import { ACTIVITIES } from "../../lib/data";
 import { useLoader } from "../../lib/loaderContext";
@@ -387,7 +388,7 @@ export default function AboutPage() {
         </section>
 
         {/* ══ ACTIVITIES ══════════════════════════════════════════════════════ */}
-        <section className="activities-section border-t border-zinc-200 dark:border-zinc-800 px-6 py-20 md:px-16 md:py-28">
+        <section className="activities-section border-t border-zinc-200 dark:border-zinc-800 px-6 pt-20 pb-0 md:px-16 md:pt-28 md:pb-0">
           <p className="section-label activities-label opacity-0 mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
             /00-3
           </p>
@@ -412,7 +413,7 @@ export default function AboutPage() {
         </section>
 
         {/* ══ PERSONAL INTEREST ═════════════════════════════════════════════════ */}
-        <section className="interest-section relative z-20 bg-zinc-50 dark:bg-black border-t border-zinc-200 dark:border-zinc-800 px-6 py-20 md:px-16 md:py-28">
+        <section className="interest-section relative z-40 bg-zinc-50 dark:bg-black border-t border-zinc-200 dark:border-zinc-800 px-6 py-20 md:px-16 md:py-28">
           <p className="section-label interest-label opacity-0 mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
             /00-4
           </p>
@@ -489,13 +490,14 @@ export default function AboutPage() {
               </h2>
               <a
                 href="mailto:ammarithm@gmail.com"
-                className="cta-button opacity-0 inline-flex items-center relative justify-center whitespace-nowrap font-mono font-medium py-2 uppercase text-sm
+                className="cta-button opacity-0 group inline-flex items-center gap-3 relative justify-center whitespace-nowrap font-mono font-medium py-2 uppercase text-sm
                   after:w-full after:pointer-events-none after:absolute after:bottom-0 after:h-px after:bg-current
                   after:transition-transform after:duration-500 after:ease-in-out
                   after:left-0 after:origin-bottom-right hover:after:origin-bottom-left
                   after:scale-x-0 hover:after:scale-x-100"
               >
-                {dict.about.ctaBtn}
+                <span>{dict.about.ctaBtn}</span>
+                <Arrow size="md" direction="right" />
               </a>
             </div>
           </div>

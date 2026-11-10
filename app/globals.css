@@ -58,7 +58,48 @@ body {
   will-change: opacity;
 }
 
-/* ─── Work reveal bg — needs overflow:hidden on parent ──── */
+/* ─── Tech logos contrast & visibility ────────────────────── */
+.tech-logo {
+  filter: grayscale(1);
+  transition: filter 0.4s ease, opacity 0.4s ease, transform 0.3s ease;
+}
+
+.tech-logo:hover {
+  filter: grayscale(0) !important;
+  opacity: 1 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tech-logo {
+    filter: grayscale(1) brightness(1.25);
+  }
+  .tech-logo.tech-logo-invert {
+    filter: grayscale(1) invert(1) brightness(1.2) !important;
+  }
+  .tech-logo.tech-logo-invert:hover {
+    filter: grayscale(0) invert(1) brightness(1) !important;
+    opacity: 1 !important;
+  }
+  .tech-logo:hover {
+    filter: grayscale(0) brightness(1) !important;
+    opacity: 1 !important;
+  }
+}
+
+.dark .tech-logo {
+  filter: grayscale(1) brightness(1.25);
+}
+.dark .tech-logo.tech-logo-invert {
+  filter: grayscale(1) invert(1) brightness(1.2) !important;
+}
+.dark .tech-logo.tech-logo-invert:hover {
+  filter: grayscale(0) invert(1) brightness(1) !important;
+  opacity: 1 !important;
+}
+.dark .tech-logo:hover {
+  filter: grayscale(0) brightness(1) !important;
+  opacity: 1 !important;
+}
 .work-reveal-bg {
   pointer-events: none;
 }
@@ -76,4 +117,131 @@ html.is-loading {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ─── Custom Animated Arrow ──────────────────────────────── */
+.arrow-container {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  vertical-align: middle;
+}
+
+.arrow-container.arrow-up-right {
+  transform: rotate(-45deg);
+  transform-origin: center;
+}
+
+.arrow-line {
+  height: 2px;
+  background-color: currentColor;
+  width: 20px;
+  transition: width 0.3s ease;
+  flex-shrink: 0;
+}
+
+.arrow-point {
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: rotate(45deg);
+  margin-left: -10px;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+/* Default hover expansion matching user specification (20px -> 40px) */
+.arrow-container:hover .arrow-line,
+.group:hover .arrow-container:not([class*="arrow-xs"]):not([class*="arrow-sm"]):not([class*="arrow-md"]):not([class*="arrow-lg"]) .arrow-line,
+.link:hover .arrow-line,
+.link:hover .arrow-container .arrow-line,
+a:hover .arrow-container:not([class*="arrow-xs"]):not([class*="arrow-sm"]):not([class*="arrow-md"]):not([class*="arrow-lg"]) .arrow-line,
+button:hover .arrow-container:not([class*="arrow-xs"]):not([class*="arrow-sm"]):not([class*="arrow-md"]):not([class*="arrow-lg"]) .arrow-line {
+  width: 40px;
+}
+
+/* Size: XS */
+.arrow-container.arrow-xs .arrow-line {
+  height: 1.5px;
+  width: 8px;
+}
+.arrow-container.arrow-xs .arrow-point {
+  width: 5px;
+  height: 5px;
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
+  margin-left: -5px;
+}
+.arrow-container.arrow-xs:hover .arrow-line,
+.group:hover .arrow-container.arrow-xs .arrow-line,
+.link:hover .arrow-container.arrow-xs .arrow-line,
+a:hover .arrow-container.arrow-xs .arrow-line {
+  width: 16px;
+}
+
+/* Size: SM */
+.arrow-container.arrow-sm .arrow-line {
+  height: 1.5px;
+  width: 12px;
+}
+.arrow-container.arrow-sm .arrow-point {
+  width: 6px;
+  height: 6px;
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
+  margin-left: -6px;
+}
+.arrow-container.arrow-sm:hover .arrow-line,
+.group:hover .arrow-container.arrow-sm .arrow-line,
+.link:hover .arrow-container.arrow-sm .arrow-line,
+a:hover .arrow-container.arrow-sm .arrow-line {
+  width: 22px;
+}
+
+/* Size: MD */
+.arrow-container.arrow-md .arrow-line {
+  height: 2px;
+  width: 18px;
+}
+.arrow-container.arrow-md .arrow-point {
+  width: 8px;
+  height: 8px;
+  border-top-width: 2px;
+  border-right-width: 2px;
+  margin-left: -8px;
+}
+.arrow-container.arrow-md:hover .arrow-line,
+.group:hover .arrow-container.arrow-md .arrow-line,
+.link:hover .arrow-container.arrow-md .arrow-line,
+a:hover .arrow-container.arrow-md .arrow-line,
+button:hover .arrow-container.arrow-md .arrow-line,
+.cta-button:hover .arrow-container.arrow-md .arrow-line,
+.work-cta-button:hover .arrow-container.arrow-md .arrow-line {
+  width: 32px;
+}
+
+/* Size: LG */
+.arrow-container.arrow-lg .arrow-line {
+  height: 2px;
+  width: 24px;
+}
+.arrow-container.arrow-lg .arrow-point {
+  width: 10px;
+  height: 10px;
+  border-top-width: 2px;
+  border-right-width: 2px;
+  margin-left: -10px;
+}
+.arrow-container.arrow-lg:hover .arrow-line,
+.group:hover .arrow-container.arrow-lg .arrow-line,
+.link:hover .arrow-container.arrow-lg .arrow-line,
+a:hover .arrow-container.arrow-lg .arrow-line,
+button:hover .arrow-container.arrow-lg .arrow-line,
+.cta-button:hover .arrow-container.arrow-lg .arrow-line,
+.work-cta-button:hover .arrow-container.arrow-lg .arrow-line {
+  width: 44px;
+}
+
 

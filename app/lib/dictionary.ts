@@ -129,7 +129,7 @@ export const DICTIONARY = {
       interestP2:
         "Staying active and balanced is just as essential. I love hitting the badminton court for a fast-paced rally with friends, reading modern software engineering trends, and exploring innovative digital products. Balancing physical activity, music, and quiet problem-solving keeps my mind grounded and creative.",
       ctaHeading: "From Clean Architecture to Scalable Web Systems — Let's Build Together.",
-      ctaBtn: "→ Contact Me",
+      ctaBtn: "Contact Me",
     },
     work: {
       heroLabel: "/03 Works",
@@ -137,8 +137,8 @@ export const DICTIONARY = {
       heroMeta: "Web Systems · Backend Architecture · Modern Interfaces",
       countLabel: "Total Projects Completed",
       countDesc: "Engineered from concept to deployment with clean architecture, security, and responsive design.",
-      viewCode: "Source Code ↗",
-      liveDemo: "Live Demo ↗",
+      viewCode: "Source Code",
+      liveDemo: "Live Demo",
       bottomCtaTitle: "Have a Project in Mind?",
       bottomCtaSub: "Whether you need a full-stack web platform, a robust API, or a modern digital product, let's connect.",
       bottomCtaBtn: "Get in Touch",
@@ -240,7 +240,7 @@ export const DICTIONARY = {
       interestP2:
         "Menjaga tubuh tetap aktif dan seimbang juga sangat krusial bagi saya. Saya gemar bermain badminton bersama teman-teman, membaca perkembangan tren arsitektur software terbaru, dan mengeksplorasi ide-ide produk digital baru. Keseimbangan antara aktivitas fisik, musik, dan pemecahan logika membuat pikiran tetap jernih dan kreatif.",
       ctaHeading: "Dari Arsitektur Bersih Hingga Sistem Web Skalabel — Mari Berkarya Bersama.",
-      ctaBtn: "→ Hubungi Saya",
+      ctaBtn: "Hubungi Saya",
     },
     work: {
       heroLabel: "/03 Proyek",
@@ -248,8 +248,8 @@ export const DICTIONARY = {
       heroMeta: "Sistem Web · Arsitektur Backend · Aplikasi Full-Stack",
       countLabel: "Total Proyek yang Diselesaikan",
       countDesc: "Dirancang dan dibangun dari konsep hingga deployment dengan arsitektur bersih, keamanan, dan responsivitas.",
-      viewCode: "Kode Sumber ↗",
-      liveDemo: "Lihat Demo ↗",
+      viewCode: "Kode Sumber",
+      liveDemo: "Lihat Demo",
       bottomCtaTitle: "Punya Ide Proyek?",
       bottomCtaSub: "Baik platform web full-stack, backend API, maupun produk digital modern, mari diskusikan ide Anda.",
       bottomCtaBtn: "Hubungi Saya",

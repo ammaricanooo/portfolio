@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { scramble } from "../lib/scramble";
 import TransitionLink from "./TransitionLink";
+import Arrow from "./Arrow";
 import { useLoader } from "../lib/loaderContext";
 import { useCurrentLang } from "../lib/useCurrentLang";
 import { getDictionary, getLocalizedPath } from "../lib/dictionary";
@@ -131,7 +132,9 @@ export default function Header({ activePage = "" }: HeaderProps) {
                 className="inline-block whitespace-nowrap overflow-hidden shrink-0"
               >
                 <a
-                  href="#"
+                  href="https://api.ammaricano.my.id"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group relative block overflow-hidden bg-white px-5 py-2 font-mono text-sm font-bold uppercase text-black transition-all duration-300 hover:scale-95"
                 >
                   <span className="block transition-transform duration-300 group-hover:-translate-y-full">
@@ -149,18 +152,16 @@ export default function Header({ activePage = "" }: HeaderProps) {
               <div className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest select-none">
                 <TransitionLink
                   href={getLocalizedPath(pathname, "en")}
-                  className={`transition-opacity duration-200 ${
-                    lang === "en" ? "opacity-100" : "opacity-40 hover:opacity-100"
-                  }`}
+                  className={`transition-opacity duration-200 ${lang === "en" ? "opacity-100" : "opacity-40 hover:opacity-100"
+                    }`}
                 >
                   EN
                 </TransitionLink>
                 <span className="opacity-30">/</span>
                 <TransitionLink
                   href={getLocalizedPath(pathname, "id")}
-                  className={`transition-opacity duration-200 ${
-                    lang === "id" ? "opacity-100" : "opacity-40 hover:opacity-100"
-                  }`}
+                  className={`transition-opacity duration-200 ${lang === "id" ? "opacity-100" : "opacity-40 hover:opacity-100"
+                    }`}
                 >
                   ID
                 </TransitionLink>
@@ -168,7 +169,7 @@ export default function Header({ activePage = "" }: HeaderProps) {
             </li>
           </ul>
 
-          {/* Mobile Right Controls: Menu Button + Language Switcher di paling pojok kanan */}
+          {/* Mobile Right Controls: Menu Button + Language Switcher */}
           <div className="md:hidden flex items-center gap-5">
             <button
               type="button"
@@ -177,14 +178,12 @@ export default function Header({ activePage = "" }: HeaderProps) {
               aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
             >
               <span
-                className={`block h-[1.5px] w-8 bg-white transition-all duration-300 ease-out origin-center ${
-                  menuOpen ? "translate-y-[4.75px] rotate-45" : ""
-                }`}
+                className={`block h-[1.5px] w-8 bg-white transition-all duration-300 ease-out origin-center ${menuOpen ? "translate-y-[4.75px] rotate-45" : ""
+                  }`}
               />
               <span
-                className={`block h-[1.5px] w-8 bg-white transition-all duration-300 ease-out origin-center ${
-                  menuOpen ? "-translate-y-[4.75px] -rotate-45" : ""
-                }`}
+                className={`block h-[1.5px] w-8 bg-white transition-all duration-300 ease-out origin-center ${menuOpen ? "-translate-y-[4.75px] -rotate-45" : ""
+                  }`}
               />
             </button>
 
@@ -192,18 +191,16 @@ export default function Header({ activePage = "" }: HeaderProps) {
             <div className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest select-none">
               <TransitionLink
                 href={getLocalizedPath(pathname, "en")}
-                className={`transition-opacity duration-200 ${
-                  lang === "en" ? "opacity-100" : "opacity-40"
-                }`}
+                className={`transition-opacity duration-200 ${lang === "en" ? "opacity-100" : "opacity-40"
+                  }`}
               >
                 EN
               </TransitionLink>
               <span className="opacity-30">/</span>
               <TransitionLink
                 href={getLocalizedPath(pathname, "id")}
-                className={`transition-opacity duration-200 ${
-                  lang === "id" ? "opacity-100" : "opacity-40"
-                }`}
+                className={`transition-opacity duration-200 ${lang === "id" ? "opacity-100" : "opacity-40"
+                  }`}
               >
                 ID
               </TransitionLink>
@@ -214,11 +211,10 @@ export default function Header({ activePage = "" }: HeaderProps) {
 
       {/* Mobile Drawer / Fullscreen Overlay */}
       <div
-        className={`md:hidden fixed inset-0 z-40 bg-zinc-50 dark:bg-black text-black dark:text-white flex flex-col justify-between px-6 pt-28 pb-10 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          menuOpen
-            ? "opacity-100 pointer-events-auto translate-y-0"
-            : "opacity-0 pointer-events-none -translate-y-4"
-        }`}
+        className={`md:hidden fixed inset-0 z-40 bg-zinc-50 dark:bg-black text-black dark:text-white flex flex-col justify-between px-6 pt-28 pb-10 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${menuOpen
+          ? "opacity-100 pointer-events-auto translate-y-0"
+          : "opacity-0 pointer-events-none -translate-y-4"
+          }`}
       >
         <nav className="flex flex-col gap-6 my-auto">
           <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-3">
@@ -229,9 +225,8 @@ export default function Header({ activePage = "" }: HeaderProps) {
               <TransitionLink
                 href={getLocalizedPath(pathname, "en")}
                 onClick={() => setMenuOpen(false)}
-                className={`transition-opacity duration-200 ${
-                  lang === "en" ? "opacity-100" : "opacity-40"
-                }`}
+                className={`transition-opacity duration-200 ${lang === "en" ? "opacity-100" : "opacity-40"
+                  }`}
               >
                 EN
               </TransitionLink>
@@ -239,9 +234,8 @@ export default function Header({ activePage = "" }: HeaderProps) {
               <TransitionLink
                 href={getLocalizedPath(pathname, "id")}
                 onClick={() => setMenuOpen(false)}
-                className={`transition-opacity duration-200 ${
-                  lang === "id" ? "opacity-100" : "opacity-40"
-                }`}
+                className={`transition-opacity duration-200 ${lang === "id" ? "opacity-100" : "opacity-40"
+                  }`}
               >
                 ID
               </TransitionLink>
@@ -254,9 +248,8 @@ export default function Header({ activePage = "" }: HeaderProps) {
             className="flex items-baseline justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4 group"
           >
             <span
-              className={`font-serif text-3xl uppercase tracking-tight group-hover:translate-x-2 transition-transform duration-300 ${
-                activePage === "home" || activePage === "" ? "opacity-40" : ""
-              }`}
+              className={`font-serif text-3xl uppercase tracking-tight group-hover:translate-x-2 transition-transform duration-300 ${activePage === "home" || activePage === "" ? "opacity-40" : ""
+                }`}
             >
               {dict.nav.home}
             </span>
@@ -269,9 +262,8 @@ export default function Header({ activePage = "" }: HeaderProps) {
             className="flex items-baseline justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4 group"
           >
             <span
-              className={`font-serif text-3xl uppercase tracking-tight group-hover:translate-x-2 transition-transform duration-300 ${
-                activePage === "about" ? "opacity-40" : ""
-              }`}
+              className={`font-serif text-3xl uppercase tracking-tight group-hover:translate-x-2 transition-transform duration-300 ${activePage === "about" ? "opacity-40" : ""
+                }`}
             >
               {dict.nav.about}
             </span>
@@ -284,9 +276,8 @@ export default function Header({ activePage = "" }: HeaderProps) {
             className="flex items-baseline justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4 group"
           >
             <span
-              className={`font-serif text-3xl uppercase tracking-tight group-hover:translate-x-2 transition-transform duration-300 ${
-                activePage === "work" ? "opacity-40" : ""
-              }`}
+              className={`font-serif text-3xl uppercase tracking-tight group-hover:translate-x-2 transition-transform duration-300 ${activePage === "work" ? "opacity-40" : ""
+                }`}
             >
               {dict.nav.work}
             </span>
@@ -301,9 +292,27 @@ export default function Header({ activePage = "" }: HeaderProps) {
             <span className="font-serif text-3xl uppercase tracking-tight group-hover:translate-x-2 transition-transform duration-300">
               {dict.nav.contact}
             </span>
-            <span className="font-mono text-xs text-zinc-400 dark:text-zinc-600">/04 ↗</span>
+            <span className="font-mono text-xs text-zinc-400 dark:text-zinc-600 inline-flex items-center gap-1.5">
+              <span>/04</span>
+              <Arrow size="xs" direction="up-right" className="opacity-70 group-hover:opacity-100" />
+            </span>
           </a>
         </nav>
+
+        {/* Secondary Endpoint Link — kecil & dibedakan di paling bawah menu */}
+        <div className="pt-4 pb-2">
+          <a
+            href="https://api.ammaricano.my.id"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMenuOpen(false)}
+            className="group inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors"
+          >
+            <span className="inline-block h-1.5 w-1.5 bg-black dark:bg-white" />
+            <span>Public REST API <span className="underline">api.ammaricano.my.id</span></span>
+            <Arrow size="xs" direction="up-right" className="opacity-60 group-hover:opacity-100" />
+          </a>
+        </div>
 
         {/* Footer info in mobile drawer */}
         <div className="pt-6 border-t border-zinc-200 dark:border-zinc-800 flex items-end justify-between font-mono text-[10px] uppercase tracking-widest text-zinc-400 dark:text-zinc-600">

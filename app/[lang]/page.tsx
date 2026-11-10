@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import WorkList from "../components/WorkList";
 import ScrollRevealText from "../components/ScrollRevealText";
+import Arrow from "../components/Arrow";
 import { scramble } from "../lib/scramble";
 import { WORK_PROJECTS } from "../lib/data";
 import { useLoader } from "../lib/loaderContext";
@@ -16,11 +17,11 @@ import { useCurrentLang } from "../lib/useCurrentLang";
 import { getDictionary } from "../lib/dictionary";
 
 const TECH_LOGOS = [
-  { src: "/nextjs.svg", alt: "Next.js" },
-  { src: "/laravel.webp", alt: "Laravel" },
-  { src: "/nginx.png", alt: "Nginx" },
-  { src: "/nodejs.svg", alt: "Node.js" },
-  { src: "/expressjs.svg", alt: "Express.js" },
+  { src: "/nextjs.svg", alt: "Next.js", className: "tech-logo-invert" },
+  { src: "/laravel.webp", alt: "Laravel", className: "" },
+  { src: "/nginx.png", alt: "Nginx", className: "" },
+  { src: "/nodejs.svg", alt: "Node.js", className: "" },
+  { src: "/expressjs.svg", alt: "Express.js", className: "tech-logo-invert" },
 ];
 
 export default function Home() {
@@ -158,7 +159,7 @@ export default function Home() {
         { yPercent: 120, opacity: 0 },
         {
           yPercent: 0,
-          opacity: 0.4,
+          opacity: 0.55,
           duration: 0.6,
           ease: "power3.out",
           stagger: 0.08,
@@ -214,16 +215,16 @@ export default function Home() {
         }
       );
       gsap.fromTo(".contact-body",
-        { opacity: 0, y: 20 },
+        { opacity: 0 },
         {
-          opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.1, delay: 0.2,
+          opacity: 1, duration: 0.8, ease: "power3.out", stagger: 0.1, delay: 0.2,
           scrollTrigger: { trigger: ".contact-section", start: START.contactSection, once: true },
         }
       );
       gsap.fromTo(".contact-button",
-        { opacity: 0, y: 16 },
+        { opacity: 0 },
         {
-          opacity: 1, y: 0, duration: 0.7, ease: "power3.out", delay: 0.35,
+          opacity: 1, duration: 0.7, ease: "power3.out", delay: 0.35,
           scrollTrigger: { trigger: ".contact-section", start: START.contactSection, once: true },
         }
       );
@@ -271,7 +272,7 @@ export default function Home() {
           </div>
           <div className="absolute bottom-6 inset-x-0 px-6 md:px-16 flex items-end justify-between">
             <span className="hero-bottom font-mono text-[10px] font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-600 opacity-0">
-              Bogor, Indonesia
+              <span className="hidden md:inline">Bogor, </span>Indonesia
             </span>
             <div className="hero-bottom c-scrolldown opacity-0" />
             <span className="hero-bottom font-mono text-[10px] font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-600 opacity-0">
@@ -341,11 +342,11 @@ export default function Home() {
               </p>
               <div className="group/logos flex flex-wrap items-center justify-center gap-10 md:gap-16">
                 {TECH_LOGOS.map((t) => (
-                  <div key={t.alt} className="tech-logo-mask h-7 overflow-hidden">
+                  <div key={t.alt} className="tech-logo-mask h-7 overflow-hidden flex items-center">
                     <img
                       src={t.src}
                       alt={t.alt}
-                      className="tech-logo h-7 w-auto object-contain grayscale opacity-0 transition-all duration-500 hover:grayscale-0 hover:opacity-100! group-hover/logos:opacity-20 cursor-pointer"
+                      className={`tech-logo h-7 w-auto object-contain opacity-0 transition-all duration-500 hover:opacity-100! group-hover/logos:opacity-25 cursor-pointer ${t.className}`}
                     />
                   </div>
                 ))}
@@ -379,11 +380,14 @@ export default function Home() {
           </p>
           <a
             href="mailto:ammarithm@gmail.com"
-            className="contact-button opacity-0 group relative isolate inline-flex items-center justify-center overflow-hidden rounded-full border border-black px-8 py-3 font-mono text-xs uppercase tracking-widest transition-all duration-700 dark:border-white"
+            className="contact-button opacity-0 group relative isolate inline-flex items-center justify-center gap-3 overflow-hidden rounded-full border border-black px-8 py-3 font-mono text-xs uppercase tracking-widest transition-all duration-700 dark:border-white"
           >
             <span className="absolute inset-0 -z-10 bg-zinc-50 dark:bg-black" />
             <span className="absolute inset-0 translate-y-full bg-black transition-transform duration-500 group-hover:translate-y-0" />
-            <span className="relative z-10 text-white mix-blend-difference">{dict.home.contactBtn}</span>
+            <span className="relative z-10 text-white mix-blend-difference inline-flex items-center gap-2.5">
+              <span>{dict.home.contactBtn}</span>
+              <Arrow size="sm" direction="right" />
+            </span>
           </a>
           <div className="contact-bottom mt-20 flex flex-col items-end gap-1 font-mono text-[10px] uppercase tracking-widest opacity-0">
             <span>{dict.home.basedIn}</span>
