@@ -18,9 +18,12 @@ export default function SmoothScroll() {
             requestAnimationFrame(raf)
         }
 
+        (window as unknown as { lenis?: Lenis }).lenis = lenis
+
         requestAnimationFrame(raf)
 
         return () => {
+            (window as unknown as { lenis?: Lenis }).lenis = undefined
             lenis.destroy()
         }
     }, [])

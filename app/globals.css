@@ -63,10 +63,17 @@ body {
   pointer-events: none;
 }
 
-/* ─── Transition / Loader FOUC Prevention ────────────────── */
-html.is-loading main,
-html.is-loading .header-anim,
-html.is-loading footer {
-  opacity: 0 !important;
-  pointer-events: none !important;
+/* ─── Transition / Loader Interaction Lock ───────────────── */
+html.is-loading {
+  pointer-events: none;
 }
+
+/* ─── Hide scrollbar utility ────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+

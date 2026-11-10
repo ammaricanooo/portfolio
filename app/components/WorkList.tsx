@@ -15,7 +15,7 @@ export default function WorkList({ projects }: WorkListProps) {
   const listRef = useRef<HTMLDivElement | null>(null);
   const { ready } = useLoader();
 
-  // Entrance animation — left to right
+  // Entrance animation — sequential left to right reveal on scroll
   useEffect(() => {
     if (!ready || !listRef.current) return;
 
@@ -24,14 +24,18 @@ export default function WorkList({ projects }: WorkListProps) {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         rows,
-        { opacity: 0, x: -40 },
+        { opacity: 0, x: -35 },
         {
           opacity: 1,
           x: 0,
-          duration: 1,
+          duration: 0.8,
           ease: "power3.out",
-          stagger: 0.2,
-          delay: 0.5,
+          stagger: 0.12,
+          scrollTrigger: {
+            trigger: listRef.current,
+            start: "top 82%",
+            once: true,
+          },
         }
       );
     }, listRef);

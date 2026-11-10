@@ -3,54 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import ScrollRevealText from "../components/ScrollRevealText";
-import { scramble } from "../lib/scramble";
-import { useLoader } from "../lib/loaderContext";
-import { useClock } from "../lib/useClock";
-import { useGsapReady } from "../lib/useGsapReady";
-import { useIsMobile } from "../lib/useIsMobile";
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
-const TECH_CATEGORIES = [
-  {
-    label: "IOT",
-    items: ["ESP32", "Arduino"],
-  },
-  {
-    label: "Backend",
-    items: ["JavaScript", "PHP", "Python", "Node.js"],
-  },
-  {
-    label: "Styling",
-    items: ["Tailwind CSS", "SCSS / CSS", "Styled Components"],
-  },
-  {
-    label: "Database",
-    items: ["SQL", "MongoDB", "Firebase", "MySQL"],
-  },
-  {
-    label: "Web Framework",
-    items: ["Next.js", "Laravel", "express.js"],
-  },
-  {
-    label: "Animation",
-    items: ["GSAP", "Framer Motion", "CSS Animation"],
-  },
-];
-
-const JOURNEY_PARAGRAPHS = [
-  "Been a software engineer since early 2023. Since then, my sense of precision has grown. Years of experience in developing applications gave me an opportunity to improve my engineering skills to be more robust and scalable.",
-  "In my career journey, I've collaborated with various teams, delivering solutions across different domains — from government systems to consumer apps. Each project has its own challenges, and each one becomes an opportunity to learn something new.",
-  "I am currently focused on mastering modern full-stack development, building clean APIs, and crafting seamless user experiences.",
-];
-
-const INTEREST_P1 =
-  "In my free time, I spend most of it at home, chilling out and doing something I like. I love diving deep into new technologies, reading about system design, and experimenting with side projects that push my limits.";
-
-const INTEREST_P2 =
-  "I also enjoy listening to music across genres — from lo-fi and jazz to electronic and indie. Music keeps me in the zone when I'm deep in a coding session. My Spotify Wrapped always surprises me with how many minutes I've logged.";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import ScrollRevealText from "../../components/ScrollRevealText";
+import ExpandingCards from "../../components/ExpandingCards";
+import { scramble } from "../../lib/scramble";
+import { ACTIVITIES } from "../../lib/data";
+import { useLoader } from "../../lib/loaderContext";
+import { useClock } from "../../lib/useClock";
+import { useGsapReady } from "../../lib/useGsapReady";
+import { useIsMobile } from "../../lib/useIsMobile";
+import { useCurrentLang } from "../../lib/useCurrentLang";
+import { getDictionary } from "../../lib/dictionary";
 
 // ─── Accordion item ───────────────────────────────────────────────────────────
 function AccordionItem({
@@ -130,32 +94,21 @@ export default function AboutPage() {
   const { ready } = useLoader();
   const time = useClock();
   const isMobile = useIsMobile();
+  const lang = useCurrentLang();
+  const dict = getDictionary(lang);
   useGsapReady();
 
   // Scramble — wait for loader
   useEffect(() => {
     if (!ready) return;
-    scramble(heroNameRef.current, "An Ever-Growing", 1.5);
-  }, [ready]);
+    scramble(heroNameRef.current, dict.about.heroScramble, 1.5);
+  }, [ready, dict.about.heroScramble]);
 
   useEffect(() => {
     if (!ready) return;
     const ctx = gsap.context(() => {
       const isMobileDevice = window.innerWidth < 768;
 
-      // Responsive ScrollTrigger start positions tailored per device
-      const START = {
-        journeyHeading: isMobileDevice ? "top 85%" : "top 70%",
-        journeyWord: isMobileDevice ? "top 85%" : "top 70%",
-        techHeading: isMobileDevice ? "top 80%" : "top 60%",
-        techAccordion: isMobileDevice ? "top 55%" : "top 20%",
-        sectionLabel: isMobileDevice ? "top 95%" : "top 88%",
-        interestHeading: isMobileDevice ? "top 80%" : "top 60%",
-        interestImg: isMobileDevice ? "top 75%" : "top 55%",
-        ctaSection: isMobileDevice ? "top 80%" : "top 60%",
-      };
-
-      // Entrance animation delays adjusted for touch/desktop
       const DELAY = {
         revealBlock: isMobileDevice ? 0.3 : 0.5,
         ammarClip: isMobileDevice ? 0.3 : 0.5,
@@ -208,71 +161,125 @@ export default function AboutPage() {
         { opacity: 1, duration: 0.5, delay: DELAY.heroImg }
       );
 
-      // Journey section
+      // Journey section — sequential
       gsap.fromTo(".journey-heading",
-        { opacity: 0, y: 16 },
+        { opacity: 0, y: 18 },
         {
-          opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
-          scrollTrigger: { trigger: ".journey-section", start: START.journeyHeading, once: true },
+          opacity: 1, y: 0, duration: 0.8, ease: "power3.out",
+          scrollTrigger: { trigger: ".journey-section", start: isMobileDevice ? "top 80%" : "top 75%", once: true },
         }
       );
       gsap.fromTo(".journey-word-section",
-        { opacity: 0, y: 16 },
+        { opacity: 0, y: 18 },
         {
-          opacity: 1, y: 0, duration: 0.9, ease: "power3.out", delay: 0.2,
-          scrollTrigger: { trigger: ".journey-word-section", start: START.journeyWord, once: true },
+          opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.15,
+          scrollTrigger: { trigger: ".journey-section", start: isMobileDevice ? "top 80%" : "top 75%", once: true },
         }
       );
 
-      // Tech section
-      gsap.fromTo(".tech-heading",
-        { opacity: 0, y: 16 },
+      // Tech section (/00-2) — sequential
+      gsap.fromTo(".tech-label",
+        { opacity: 0, y: 10 },
         {
-          opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
-          scrollTrigger: { trigger: ".tech-section", start: START.techHeading, once: true },
+          opacity: 1, y: 0, duration: 0.6, ease: "power3.out",
+          scrollTrigger: { trigger: ".tech-section", start: isMobileDevice ? "top 80%" : "top 75%", once: true },
+        }
+      );
+      gsap.fromTo(".tech-heading",
+        { opacity: 0, y: 18 },
+        {
+          opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.1,
+          scrollTrigger: { trigger: ".tech-section", start: isMobileDevice ? "top 80%" : "top 75%", once: true },
         }
       );
       gsap.fromTo(".tech-accordion",
-        { opacity: 0, y: 16 },
+        { opacity: 0, y: 20 },
         {
-          opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
-          scrollTrigger: { trigger: ".tech-section", start: START.techAccordion, once: true },
+          opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.25,
+          scrollTrigger: { trigger: ".tech-section", start: isMobileDevice ? "top 80%" : "top 75%", once: true },
         }
       );
 
-      // Section labels (/00-2, /00-3, /00-4)
-      gsap.utils.toArray<HTMLElement>(".section-label").forEach((el) => {
-        gsap.fromTo(el,
-          { opacity: 0 },
-          {
-            opacity: 1, duration: 0.8, ease: "power3.out",
-            scrollTrigger: { trigger: el, start: START.sectionLabel, once: true },
-          }
-        );
-      });
-
-      // Interest section
-      gsap.fromTo(".interest-heading",
-        { opacity: 0, y: 16 },
+      // Activities section (/00-3) — sequential
+      gsap.fromTo(".activities-label",
+        { opacity: 0, y: 10 },
         {
-          opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
-          scrollTrigger: { trigger: ".interest-section", start: START.interestHeading, once: true },
+          opacity: 1, y: 0, duration: 0.6, ease: "power3.out",
+          scrollTrigger: { trigger: ".activities-section", start: isMobileDevice ? "top 80%" : "top 75%", once: true },
+        }
+      );
+      gsap.fromTo(".activities-heading",
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.1,
+          scrollTrigger: { trigger: ".activities-section", start: isMobileDevice ? "top 80%" : "top 75%", once: true },
+        }
+      );
+      gsap.fromTo([".activities-sub", ".activities-badge"],
+        { opacity: 0, y: 12 },
+        {
+          opacity: 1, y: 0, duration: 0.7, ease: "power3.out", delay: 0.2, stagger: 0.05,
+          scrollTrigger: { trigger: ".activities-section", start: isMobileDevice ? "top 80%" : "top 75%", once: true },
+        }
+      );
+      gsap.fromTo(".activities-gallery",
+        { opacity: 0 },
+        {
+          opacity: 1, duration: 0.9, ease: "power3.out", delay: 0.3,
+          scrollTrigger: { trigger: ".activities-section", start: isMobileDevice ? "top 80%" : "top 75%", once: true },
+        }
+      );
+
+      // Interest section (/00-4) — sequential
+      gsap.fromTo(".interest-label",
+        { opacity: 0, y: 10 },
+        {
+          opacity: 1, y: 0, duration: 0.6, ease: "power3.out",
+          scrollTrigger: { trigger: ".interest-section", start: isMobileDevice ? "top 80%" : "top 75%", once: true },
+        }
+      );
+      gsap.fromTo(".interest-heading",
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.1,
+          scrollTrigger: { trigger: ".interest-section", start: isMobileDevice ? "top 80%" : "top 75%", once: true },
         }
       );
       gsap.fromTo(".interest-img",
-        { opacity: 0 },
+        { opacity: 0, y: 20 },
         {
-          opacity: 1, duration: 0.9, ease: "power3.out",
-          scrollTrigger: { trigger: ".interest-img", start: START.interestImg, once: true },
+          opacity: 1, y: 0, duration: 0.9, ease: "power3.out", delay: 0.2,
+          scrollTrigger: { trigger: ".interest-img", start: isMobileDevice ? "top 75%" : "top 65%", once: true },
         }
       );
 
-      // CTA section
-      gsap.fromTo(".cta-section",
-        { opacity: 0, y: 16 },
+      // CTA section (/00-5) — sequential
+      gsap.fromTo(".cta-label",
+        { opacity: 0, y: 10 },
         {
-          opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
-          scrollTrigger: { trigger: ".cta-section", start: START.ctaSection, once: true },
+          opacity: 1, y: 0, duration: 0.6, ease: "power3.out",
+          scrollTrigger: { trigger: ".cta-section", start: isMobileDevice ? "top 80%" : "top 75%", once: true },
+        }
+      );
+      gsap.fromTo(".cta-heading",
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.1,
+          scrollTrigger: { trigger: ".cta-section", start: isMobileDevice ? "top 80%" : "top 75%", once: true },
+        }
+      );
+      gsap.fromTo(".cta-button",
+        { opacity: 0, y: 12 },
+        {
+          opacity: 1, y: 0, duration: 0.7, ease: "power3.out", delay: 0.2,
+          scrollTrigger: { trigger: ".cta-section", start: isMobileDevice ? "top 80%" : "top 75%", once: true },
+        }
+      );
+      gsap.fromTo(".cta-meta",
+        { opacity: 0, y: 12 },
+        {
+          opacity: 1, y: 0, duration: 0.7, ease: "power3.out", delay: 0.3,
+          scrollTrigger: { trigger: ".cta-section", start: isMobileDevice ? "top 80%" : "top 75%", once: true },
         }
       );
 
@@ -283,7 +290,7 @@ export default function AboutPage() {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-zinc-50 dark:bg-black text-black dark:text-white overflow-x-hidden selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black"
+      className="min-h-screen bg-zinc-50 dark:bg-black text-black dark:text-white overflow-x-clip selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black"
     >
       <Header activePage="about" />
 
@@ -295,10 +302,10 @@ export default function AboutPage() {
           {/* Tags */}
           <div className="mb-6 flex items-center justify-between">
             <span className="about-hero-tag opacity-0 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
-              Based in Indonesia
+              {dict.about.basedIn}
             </span>
             <span className="about-hero-tag opacity-0 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
-              Engineer
+              {dict.about.roleBadge}
             </span>
           </div>
 
@@ -308,10 +315,10 @@ export default function AboutPage() {
             className="font-serif text-[clamp(1rem,6vw,3rem)] uppercase leading-none tracking-tight"
           />
 
-          {/* "Software Engineer" — same h1 visually, rendered as span inside a styled div */}
+          {/* Role text */}
           <div className="relative mt-2 inline-block overflow-hidden w-fit">
             <span className="reveal-content opacity-0 pl-4 font-sans text-[clamp(1rem,6vw,3rem)] font-semibold uppercase md:pl-16 block">
-              Software Engineer
+              {dict.about.heroTitle}
             </span>
             <div className="reveal-block absolute inset-0 ml-4 scale-x-0 bg-black dark:bg-white md:ml-16" />
           </div>
@@ -342,12 +349,12 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-7">
               <h2 className="journey-heading opacity-0 font-serif text-2xl uppercase leading-tight md:text-4xl">
-                A Journey of Progression
+                {dict.about.journeyHeading}
               </h2>
             </div>
             <div className="md:col-span-5">
               <div className="journey-word-section opacity-0 space-y-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base">
-                {JOURNEY_PARAGRAPHS.map((para, pi) => (
+                {dict.about.journeyParagraphs.map((para, pi) => (
                   <p key={pi}>
                     <ScrollRevealText
                       text={para}
@@ -364,43 +371,64 @@ export default function AboutPage() {
         </section>
 
         <section className="tech-section border-t border-zinc-200 dark:border-zinc-800 px-6 py-20 md:px-16 md:py-28">
-          <p className="section-label opacity-0 mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
+          <p className="section-label tech-label opacity-0 mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
             /00-2
           </p>
 
           <h3 className="tech-heading opacity-0 mb-10 text-xl font-medium leading-snug md:text-2xl max-w-2xl">
-            In my development process, I try to achieve the best result without making it complex.
-            I selectively choose some technologies by analyzing what the website needs. In that case,
-            there are various technologies that I constantly use for my work.
+            {dict.about.techHeading}
           </h3>
 
           <div className="tech-accordion opacity-0">
-            {TECH_CATEGORIES.map((cat) => (
+            {dict.about.techCategories.map((cat) => (
               <AccordionItem key={cat.label} label={cat.label} items={cat.items} />
             ))}
           </div>
         </section>
 
-        {/* ══ PERSONAL INTEREST ═════════════════════════════════════════════════ */}
-        <section className="interest-section border-t border-zinc-200 dark:border-zinc-800 px-6 py-20 md:px-16 md:py-28">
-          <p className="section-label opacity-0 mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
+        {/* ══ ACTIVITIES ══════════════════════════════════════════════════════ */}
+        <section className="activities-section border-t border-zinc-200 dark:border-zinc-800 px-6 py-20 md:px-16 md:py-28">
+          <p className="section-label activities-label opacity-0 mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
             /00-3
           </p>
 
+          <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <h2 className="activities-heading opacity-0 font-serif text-2xl uppercase leading-tight md:text-4xl">
+                {dict.about.activitiesHeading}
+              </h2>
+              <p className="activities-sub opacity-0 mt-2 font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+                {dict.about.activitiesSub}
+              </p>
+            </div>
+            <span className="activities-badge opacity-0 font-mono text-[10px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+              {dict.about.activitiesBadge}
+            </span>
+          </div>
+
+          <div className="activities-gallery opacity-0">
+            <ExpandingCards items={ACTIVITIES} showHint={false} />
+          </div>
+        </section>
+
+        {/* ══ PERSONAL INTEREST ═════════════════════════════════════════════════ */}
+        <section className="interest-section relative z-20 bg-zinc-50 dark:bg-black border-t border-zinc-200 dark:border-zinc-800 px-6 py-20 md:px-16 md:py-28">
+          <p className="section-label interest-label opacity-0 mb-6 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
+            /00-4
+          </p>
+
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-16">
-            {/* Left: heading */}
             <div className="md:col-span-4">
               <h2 className="interest-heading opacity-0 text-2xl font-serif uppercase md:text-4xl lg:text-5xl leading-tight">
-                Personal Interest
+                {dict.about.interestHeading}
               </h2>
             </div>
 
-            {/* Right: content */}
             <div className="md:col-span-8 space-y-8">
               <div className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base max-w-xl text-justify">
                 <p>
                   <ScrollRevealText
-                    text={INTEREST_P1}
+                    text={dict.about.interestP1}
                     baseOpacity={0.1}
                     start={isMobile ? "top 90%" : "top 75%"}
                     end={isMobile ? "top 60%" : "top 55%"}
@@ -424,7 +452,7 @@ export default function AboutPage() {
               <div className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base max-w-xl md:ml-auto">
                 <p>
                   <ScrollRevealText
-                    text={INTEREST_P2}
+                    text={dict.about.interestP2}
                     baseOpacity={0.1}
                     start={isMobile ? "top 90%" : "top 85%"}
                     end={isMobile ? "top 60%" : "top 55%"}
@@ -437,11 +465,9 @@ export default function AboutPage() {
         </section>
 
         {/* ══ CTA + NAME ════════════════════════════════════════════════════════ */}
-        <section className="cta-section opacity-0 border-t border-zinc-200 dark:border-zinc-800 px-6 py-20 md:px-16 md:py-28">
+        <section className="cta-section border-t border-zinc-200 dark:border-zinc-800 px-6 py-20 md:px-16 md:py-28">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-16">
-
-            {/* Left: name + role — hidden on mobile */}
-            <div className="hidden md:col-span-7 md:flex items-center justify-around">
+            <div className="cta-meta opacity-0 hidden md:col-span-7 md:flex items-center justify-around">
               <div className="mb-10">
                 <span className="font-mono text-xs font-medium uppercase text-zinc-400 dark:text-zinc-600">
                   Ammar Abdul Malik
@@ -454,23 +480,22 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Right: CTA */}
             <div className="md:col-span-5">
-              <p className="section-label opacity-0 mb-4 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
-                /00-4
+              <p className="section-label cta-label opacity-0 mb-4 font-mono text-[10px] font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
+                /00-5
               </p>
-              <h2 className="mb-6 text-3xl font-medium uppercase leading-tight">
-                Your Next Software Dev Is Right Here.
+              <h2 className="cta-heading opacity-0 mb-6 text-3xl font-medium uppercase leading-tight">
+                {dict.about.ctaHeading}
               </h2>
               <a
                 href="mailto:ammarithm@gmail.com"
-                className="inline-flex items-center relative justify-center whitespace-nowrap font-mono font-medium py-2 uppercase text-sm
+                className="cta-button opacity-0 inline-flex items-center relative justify-center whitespace-nowrap font-mono font-medium py-2 uppercase text-sm
                   after:w-full after:pointer-events-none after:absolute after:bottom-0 after:h-px after:bg-current
                   after:transition-transform after:duration-500 after:ease-in-out
                   after:left-0 after:origin-bottom-right hover:after:origin-bottom-left
                   after:scale-x-0 hover:after:scale-x-100"
               >
-                → Contact Me
+                {dict.about.ctaBtn}
               </a>
             </div>
           </div>
@@ -481,3 +506,4 @@ export default function AboutPage() {
     </div>
   );
 }
+

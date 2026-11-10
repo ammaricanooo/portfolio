@@ -2,26 +2,18 @@
 
 import { useEffect, useRef, Fragment } from "react";
 import gsap from "gsap";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import WorkList from "./components/WorkList";
-import ScrollRevealText from "./components/ScrollRevealText";
-import { scramble } from "./lib/scramble";
-import { WORK_PROJECTS } from "./lib/data";
-import { useLoader } from "./lib/loaderContext";
-import { useClock } from "./lib/useClock";
-import { useGsapReady } from "./lib/useGsapReady";
-import { useIsMobile } from "./lib/useIsMobile";
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
-const HERO_TEXT =
-  "SOFTWARE ENGINEER DRIVEN BY CURIOSITY AND TECHNICAL PRECISION. OVER THREE YEARS OF DEDICATED LEARNING AND HANDS-ON EXPERIENCE IN MODERN DEVELOPMENT. FOCUSING ON BUILDING SEAMLESS DIGITAL SOLUTIONS WHILE CONTINUOUSLY REFINING THE ART OF CLEAN CODE. EVERY LINE MATTERS. THE JOURNEY STARTS HERE.";
-
-const ABOUT_TEXT =
-  "Hi, I'm Ammar. A Software Engineer based in Indonesia with a deep focus on building robust web systems from high-performance Next.js interfaces to complex Laravel backends. I thrive at the intersection of clean code and server infrastructure, ensuring every application I build is solid, secure, and scalable.";
-
-const MARQUEE_ROW1 = ["Full-Stack Web Development", "Backend Engineering", "System Administration", "Clean Architecture", "API Design"];
-const MARQUEE_ROW2 = ["Next.js", "Laravel", "Node.js", "Express.js", "TypeScript", "PostgreSQL", "Nginx", "Cloudflare Tunnels", "Docker"];
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import WorkList from "../components/WorkList";
+import ScrollRevealText from "../components/ScrollRevealText";
+import { scramble } from "../lib/scramble";
+import { WORK_PROJECTS } from "../lib/data";
+import { useLoader } from "../lib/loaderContext";
+import { useClock } from "../lib/useClock";
+import { useGsapReady } from "../lib/useGsapReady";
+import { useIsMobile } from "../lib/useIsMobile";
+import { useCurrentLang } from "../lib/useCurrentLang";
+import { getDictionary } from "../lib/dictionary";
 
 const TECH_LOGOS = [
   { src: "/nextjs.svg", alt: "Next.js" },
@@ -31,13 +23,14 @@ const TECH_LOGOS = [
   { src: "/expressjs.svg", alt: "Express.js" },
 ];
 
-// ─── Component ────────────────────────────────────────────────────────────────
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroNameRef = useRef<HTMLHeadingElement>(null);
   const isMobile = useIsMobile();
   const { ready } = useLoader();
   const time = useClock();
+  const lang = useCurrentLang();
+  const dict = getDictionary(lang);
   useGsapReady();
 
   // Initial scramble — wait for loader
@@ -52,25 +45,15 @@ export default function Home() {
     const ctx = gsap.context(() => {
       const isMobileDevice = window.innerWidth < 768;
 
-      // Responsive ScrollTrigger start positions tailored per device
       const START = {
-        circleLabel: isMobileDevice ? "top 85%" : "top 70%",
-        techLogo: isMobileDevice ? "top 90%" : "top 80%",
-        circlePathIn: isMobileDevice ? "top 70%" : "top 70%",
+        circlePathIn: isMobileDevice ? "top 75%" : "top 75%",
         circlePathOut: isMobileDevice ? "top 10%" : "top -10%",
-        blinkWord1: isMobileDevice ? "top 45%" : "top 30%",
-        blinkWord2: isMobileDevice ? "top 65%" : "top 40%",
-        blinkWord3: isMobileDevice ? "top 65%" : "top 45%",
-        workHeading: isMobileDevice ? "top 75%" : "top 50%",
-        workLabel: isMobileDevice ? "top 55%" : "top 30%",
-        workList: isMobileDevice ? "top 50%" : "top 30%",
-        contactHeading: isMobileDevice ? "top 75%" : "top 50%",
-        contactBody: isMobileDevice ? "top 55%" : "top 30%",
-        contactButton: isMobileDevice ? "top 65%" : "top 40%",
-        contactBottom: isMobileDevice ? "top 60%" : "top 34%",
+        circleBlink: isMobileDevice ? "top 55%" : "top 45%",
+        circleTech: isMobileDevice ? "top 82%" : "top 78%",
+        workSection: isMobileDevice ? "top 78%" : "top 72%",
+        contactSection: isMobileDevice ? "top 78%" : "top 72%",
       };
 
-      // Entrance animation delays adjusted for touch/desktop
       const DELAY = {
         revealBlock: isMobileDevice ? 0.3 : 0.5,
         heroWord: isMobileDevice ? 0.4 : 0.6,
@@ -119,7 +102,7 @@ export default function Home() {
 
       // Blink words
       gsap.to(".blink-word", {
-        scrollTrigger: { trigger: ".circle-section", start: START.blinkWord1, once: true },
+        scrollTrigger: { trigger: ".circle-section", start: START.circleBlink, once: true },
         keyframes: [
           { opacity: 1, duration: 0.1 },
           { opacity: 0.2, duration: 0.1 },
@@ -131,33 +114,28 @@ export default function Home() {
         ease: "none",
       });
       gsap.to(".blink-word-2", {
-        scrollTrigger: { trigger: ".work-section", start: START.blinkWord2, once: true },
+        scrollTrigger: { trigger: ".work-section", start: START.workSection, once: true },
         keyframes: [
           { opacity: 1, duration: 0.1 },
           { opacity: 0.2, duration: 0.1 },
           { opacity: 1, duration: 0.1 },
           { opacity: 0.2, duration: 0.1 },
-          { opacity: 1, duration: 0.1 },
-          { opacity: 0.5, duration: 0.1 },
           { opacity: 1, duration: 0.3 },
         ],
-        stagger: 0.25,
-        delay: 0.3,
+        delay: 0.1,
         ease: "none",
       });
       gsap.to(".blink-word-3", {
-        scrollTrigger: { trigger: ".contact-section", start: START.blinkWord3, once: true },
+        scrollTrigger: { trigger: ".contact-section", start: START.contactSection, once: true },
         keyframes: [
           { opacity: 1, duration: 0.1 },
           { opacity: 0.2, duration: 0.1 },
           { opacity: 1, duration: 0.1 },
           { opacity: 0.2, duration: 0.1 },
-          { opacity: 1, duration: 0.1 },
-          { opacity: 0.5, duration: 0.1 },
           { opacity: 1, duration: 0.3 },
         ],
-        stagger: 0.25,
-        delay: 0.3,
+        stagger: 0.2,
+        delay: 0.15,
         ease: "none",
       });
 
@@ -169,10 +147,10 @@ export default function Home() {
 
       // Circle section — label + logos
       gsap.fromTo(".circle-label",
-        { opacity: 0 },
+        { opacity: 0, y: 12 },
         {
-          opacity: 1, duration: 0.6, ease: "power3.out",
-          scrollTrigger: { trigger: ".circle-label", start: START.circleLabel, once: true },
+          opacity: 1, y: 0, duration: 0.6, ease: "power3.out",
+          scrollTrigger: { trigger: ".circle-label", start: START.circleTech, once: true },
         }
       );
       gsap.fromTo(
@@ -183,19 +161,20 @@ export default function Home() {
           opacity: 0.4,
           duration: 0.6,
           ease: "power3.out",
-          stagger: 0.1,
-          scrollTrigger: { trigger: ".circle-label", start: START.techLogo, once: true },
+          stagger: 0.08,
+          delay: 0.15,
+          scrollTrigger: { trigger: ".circle-label", start: START.circleTech, once: true },
         }
       );
 
-      // Work section
+      // Work section — sequential reveal
       gsap.fromTo(".work-heading",
-        { opacity: 0, y: 18, immediateRender: true },
+        { opacity: 0, y: 20, immediateRender: true },
         {
-          opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
+          opacity: 1, y: 0, duration: 0.8, ease: "power3.out",
           scrollTrigger: {
             trigger: ".work-section",
-            start: START.workHeading,
+            start: START.workSection,
             once: true,
             fastScrollEnd: true,
           },
@@ -204,10 +183,10 @@ export default function Home() {
       gsap.fromTo(".work-label",
         { opacity: 0, y: 12, immediateRender: true },
         {
-          opacity: 0.4, y: 0, duration: 0.9, ease: "power3.out",
+          opacity: 0.4, y: 0, duration: 0.8, ease: "power3.out", delay: 0.1,
           scrollTrigger: {
             trigger: ".work-section",
-            start: START.workLabel,
+            start: START.workSection,
             once: true,
             fastScrollEnd: true,
           },
@@ -216,43 +195,43 @@ export default function Home() {
       gsap.fromTo(".work-list",
         { opacity: 0, y: 20, immediateRender: true },
         {
-          opacity: 1, y: 0, duration: 1, ease: "power3.out",
+          opacity: 1, y: 0, duration: 0.9, ease: "power3.out", delay: 0.2,
           scrollTrigger: {
             trigger: ".work-section",
-            start: START.workList,
+            start: START.workSection,
             once: true,
             fastScrollEnd: true,
           },
         }
       );
 
-      // Contact section
+      // Contact section — sequential reveal
       gsap.fromTo(".contact-heading",
-        { opacity: 0, y: 18 },
+        { opacity: 0, y: 24 },
         {
-          opacity: 1, y: 0, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".contact-section", start: START.contactHeading, once: true },
+          opacity: 1, y: 0, duration: 0.8, ease: "power3.out",
+          scrollTrigger: { trigger: ".contact-section", start: START.contactSection, once: true },
         }
       );
       gsap.fromTo(".contact-body",
-        { opacity: 0, y: 22 },
+        { opacity: 0, y: 20 },
         {
-          opacity: 1, y: 0, duration: 1, ease: "power3.out", stagger: 0.12, delay: 0.25,
-          scrollTrigger: { trigger: ".contact-section", start: START.contactBody, once: true },
+          opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.1, delay: 0.2,
+          scrollTrigger: { trigger: ".contact-section", start: START.contactSection, once: true },
         }
       );
       gsap.fromTo(".contact-button",
         { opacity: 0, y: 16 },
         {
-          opacity: 1, y: 0, duration: 0.9, ease: "power3.out", delay: 0.35,
-          scrollTrigger: { trigger: ".contact-section", start: START.contactButton, once: true },
+          opacity: 1, y: 0, duration: 0.7, ease: "power3.out", delay: 0.35,
+          scrollTrigger: { trigger: ".contact-section", start: START.contactSection, once: true },
         }
       );
       gsap.fromTo(".contact-bottom",
         { opacity: 0, y: 12 },
         {
-          opacity: 0.3, y: 0, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: ".contact-section", start: START.contactBottom, once: true },
+          opacity: 0.3, y: 0, duration: 0.7, ease: "power3.out", delay: 0.45,
+          scrollTrigger: { trigger: ".contact-section", start: START.contactSection, once: true },
         }
       );
 
@@ -265,7 +244,7 @@ export default function Home() {
       ref={containerRef}
       className="min-h-screen bg-zinc-50 dark:bg-black text-black dark:text-white overflow-x-hidden selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black"
     >
-      <Header />
+      <Header activePage="home" />
 
       <main className="w-full">
 
@@ -277,13 +256,13 @@ export default function Home() {
           />
           <div className="relative mt-2 inline-block overflow-hidden w-fit">
             <h2 className="reveal-content opacity-0 pl-4 font-sans text-[clamp(1rem,6vw,3rem)] font-semibold uppercase md:pl-16">
-              Software Engineer
+              {dict.home.role}
             </h2>
             <div className="reveal-block absolute inset-0 ml-4 scale-x-0 bg-black dark:bg-white md:ml-16" />
           </div>
           <div className="mt-32 flex justify-end">
             <p className="max-w-xs text-justify text-sm leading-relaxed text-zinc-400 dark:text-zinc-500 md:max-w-md">
-              {HERO_TEXT.split(" ").map((word, i) => (
+              {dict.home.heroText.split(" ").map((word, i) => (
                 <Fragment key={i}>
                   <span className="hero-word inline-block opacity-0">{word}</span>{" "}
                 </Fragment>
@@ -306,7 +285,7 @@ export default function Home() {
           <div className="max-w-5xl w-full">
             <h2 className="text-xl font-semibold uppercase leading-snug md:text-4xl text-justify">
               <ScrollRevealText
-                text={ABOUT_TEXT}
+                text={dict.home.aboutText}
                 baseOpacity={0.05}
                 start={isMobile ? "top 90%" : "top 85%"}
                 end={isMobile ? "top 35%" : "top 30%"}
@@ -321,14 +300,14 @@ export default function Home() {
           <div className="-rotate-1 border-y border-zinc-200 py-3 dark:border-zinc-800 md:py-6">
             <div className="marquee-track-1 flex whitespace-nowrap font-serif text-5xl uppercase leading-none md:text-7xl">
               {[...Array(4)].map((_, i) => (
-                <span key={i} className="pr-12">{MARQUEE_ROW1.join(" — ")} —</span>
+                <span key={i} className="pr-12">{dict.home.marquee1.join(" — ")} —</span>
               ))}
             </div>
           </div>
           <div className="-rotate-1 border-y border-zinc-200 py-3 dark:border-zinc-800 md:py-6">
             <div className="marquee-track-2 flex whitespace-nowrap font-mono text-sm uppercase leading-none tracking-widest opacity-30 md:text-base">
               {[...Array(8)].map((_, i) => (
-                <span key={i} className="pr-12">{MARQUEE_ROW2.join(" · ")} ·</span>
+                <span key={i} className="pr-12">{dict.home.marquee2.join(" · ")} ·</span>
               ))}
             </div>
           </div>
@@ -345,7 +324,7 @@ export default function Home() {
               </svg>
               <div className="relative z-10 text-center">
                 <h2 className="text-2xl font-semibold uppercase leading-tight md:text-4xl">
-                  {["Always", "Growing, ", "One", "at", "a", "Time"].map((word, i) => (
+                  {dict.home.circleWords.map((word, i) => (
                     <Fragment key={i}>
                       <span className="blink-word mx-1 inline-block opacity-0">
                         {word}{i === 1 ? "" : i === 0 ? "" : " "}
@@ -358,7 +337,7 @@ export default function Home() {
             </div>
             <div className="mt-16 text-center">
               <p className="circle-label mb-8 font-mono text-[10px] font-semibold uppercase tracking-widest opacity-0">
-                Most Favorite Tech
+                {dict.home.techLabel}
               </p>
               <div className="group/logos flex flex-wrap items-center justify-center gap-10 md:gap-16">
                 {TECH_LOGOS.map((t) => (
@@ -379,10 +358,11 @@ export default function Home() {
         <section className="border-t border-zinc-200 px-6 py-20 dark:border-zinc-800 md:px-16 md:py-28 work-section">
           <div className="mb-10 flex items-end justify-between">
             <h2 className="font-serif text-2xl uppercase leading-none tracking-tighter md:text-4xl">
-              <span className="work-heading opacity-0">Selected</span> <em className="not-italic font-bold blink-word-2 opacity-0">Work</em>
+              <span className="work-heading opacity-0">{dict.home.workHeading}</span>{" "}
+              <em className="not-italic font-bold blink-word-2 opacity-0">{dict.home.workEmphasis}</em>
             </h2>
             <span className="work-label mb-1 font-mono text-[10px] uppercase tracking-widest opacity-0">
-              (Projects / &apos;23–&apos;26)
+              {dict.home.workLabel}
             </span>
           </div>
           <WorkList projects={WORK_PROJECTS} />
@@ -391,23 +371,22 @@ export default function Home() {
         {/* ══ CONTACT ══════════════════════════════════════════════════════════ */}
         <section className="border-t border-zinc-200 px-6 py-20 dark:border-zinc-800 md:px-16 md:py-28 contact-section">
           <h2 className="mb-6 font-sans text-4xl font-semibold uppercase leading-none tracking-tighter md:text-6xl">
-            <span className="font-serif italic contact-heading opacity-0">Let&apos;s Have</span> <span className="opacity-0 blink-word-3">a Chat</span>
+            <span className="font-serif italic contact-heading opacity-0">{dict.home.contactHeading}</span>{" "}
+            <span className="opacity-0 blink-word-3">{dict.home.contactEmphasis}</span>
           </h2>
           <p className="contact-body mb-10 max-w-xs font-mono text-sm uppercase leading-relaxed opacity-0">
-            Whether it&apos;s an idea or just a hello<br />— my inbox is open.
+            {dict.home.contactBody}
           </p>
           <a
             href="mailto:ammarithm@gmail.com"
             className="contact-button opacity-0 group relative isolate inline-flex items-center justify-center overflow-hidden rounded-full border border-black px-8 py-3 font-mono text-xs uppercase tracking-widest transition-all duration-700 dark:border-white"
           >
-            {/* backdrop lokal — pastikan blend selalu punya sesuatu untuk didiff */}
             <span className="absolute inset-0 -z-10 bg-zinc-50 dark:bg-black" />
-
             <span className="absolute inset-0 translate-y-full bg-black transition-transform duration-500 group-hover:translate-y-0" />
-            <span className="relative z-10 text-white mix-blend-difference">Get in Touch</span>
+            <span className="relative z-10 text-white mix-blend-difference">{dict.home.contactBtn}</span>
           </a>
           <div className="contact-bottom mt-20 flex flex-col items-end gap-1 font-mono text-[10px] uppercase tracking-widest opacity-0">
-            <span>Based in Indonesia</span>
+            <span>{dict.home.basedIn}</span>
             <span>{time || "00:00 AM"} (GMT +7)</span>
           </div>
         </section>
@@ -419,3 +398,4 @@ export default function Home() {
     </div>
   );
 }
+

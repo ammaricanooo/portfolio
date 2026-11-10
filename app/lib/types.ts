@@ -6,7 +6,28 @@ export interface Project {
   img: string;
   year: string;
   desc: string;
+  desc_id?: string;
+  desc_en?: string;
   order?: number;
+}
+
+export interface ActivityItem {
+  id: string;
+  title: string;
+  title_id?: string;
+  title_en?: string;
+  subtitle?: string;
+  subtitle_id?: string;
+  subtitle_en?: string;
+  location?: string;
+  year: string;
+  desc: string;
+  desc_id?: string;
+  desc_en?: string;
+  img: string;
+  category?: string;
+  category_id?: string;
+  category_en?: string;
 }
 
 export interface TechItem {
