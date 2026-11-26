@@ -84,12 +84,12 @@ export default function WorkList({ projects }: WorkListProps) {
       {/* Solid background — required so mix-blend-difference has a reference color */}
       <div className="absolute inset-0 bg-zinc-50 dark:bg-zinc-950" />
 
-      {/* Hover layer — black curtain + image, sits above bg but below text */}
+      {/* Hover layer — curtain (black in light mode, white in dark mode) + image, sits above bg but below text */}
       <div
         className="work-layer absolute inset-0 z-10 pointer-events-none flex items-center justify-end px-4"
         style={{ clipPath: "inset(100% 0% 0% 0%)" }}
       >
-        <div className="absolute inset-0 bg-black" />
+        <div className="absolute inset-0 bg-black dark:bg-white" />
         {p.img?.trim() ? (
           <div
             className="relative z-10 overflow-hidden hidden md:block"

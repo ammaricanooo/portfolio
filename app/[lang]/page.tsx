@@ -383,7 +383,7 @@ export default function Home() {
             className="contact-button opacity-0 group relative isolate inline-flex items-center justify-center gap-3 overflow-hidden rounded-full border border-black px-8 py-3 font-mono text-xs uppercase tracking-widest transition-all duration-700 dark:border-white"
           >
             <span className="absolute inset-0 -z-10 bg-zinc-50 dark:bg-black" />
-            <span className="absolute inset-0 translate-y-full bg-black transition-transform duration-500 group-hover:translate-y-0" />
+            <span className="absolute inset-0 translate-y-full bg-black dark:bg-white transition-transform duration-500 group-hover:translate-y-0" />
             <span className="relative z-10 text-white mix-blend-difference inline-flex items-center gap-2.5">
               <span>{dict.home.contactBtn}</span>
               <Arrow size="sm" direction="right" />

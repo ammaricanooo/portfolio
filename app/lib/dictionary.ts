@@ -125,9 +125,9 @@ export const DICTIONARY = {
       activitiesBadge: "(Activities / '24–'26)",
       interestHeading: "Personal Interest",
       interestP1:
-        "Outside the terminal and coding environments, I unwind with upbeat Pop tracks and playlist rhythms that keep my focus sharp during long engineering sessions. When I need a creative reset, you'll find me rewatching high-octane action-thriller films — the very genre that first sparked my curiosity in programming years ago.",
+        "Outside the terminal and coding environments, I unwind with upbeat Pop tracks and playlist rhythms that keep my focus sharp during long engineering sessions. When I need a creative reset, you'll find me rewatching high-octane action-thriller films the very genre that first sparked my curiosity in programming years ago.",
       interestP2:
-        "Staying active and balanced is just as essential. I love hitting the badminton court for a fast-paced rally with friends, reading modern software engineering trends, and exploring innovative digital products. Balancing physical activity, music, and quiet problem-solving keeps my mind grounded and creative.",
+        "Staying active and balanced is just as essential. I love hitting the badminton court for a fast-paced rally with friends, reading modern software engineering trends, and exploring innovative digital products. Balancing physical activity, music, and quiet problem solving keeps my mind grounded and creative.",
       ctaHeading: "From Clean Architecture to Scalable Web Systems — Let's Build Together.",
       ctaBtn: "Contact Me",
     },
@@ -191,7 +191,7 @@ export const DICTIONARY = {
       workEmphasis: "Terpilih",
       workLabel: "(Proyek / '23–'26)",
       contactHeading: "Mari",
-      contactEmphasis: "Berbincang",
+      contactEmphasis: " Berbincang",
       contactBody: "Ada ide proyek atau sekadar ingin menyapa — pintu surel saya selalu terbuka.",
       contactBtn: "Hubungi Saya",
       basedIn: "Berbasis di Indonesia",
